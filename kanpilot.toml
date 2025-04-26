@@ -1,0 +1,213 @@
+name = "project"
+skipFolders = [ "node_modules", ".vscode", "out", "dist", ".vscode-test" ]
+skipFiles = [ ".gitignore", "package.json" ]
+
+[[processes]]
+id = "process1"
+name = "To Do"
+
+  [[processes.tasks]]
+  id = "wszyaa4lhnxrvhyuaox1u77e"
+  title = "Jahr filtern"
+  description = "Zum Fehler vermeiden"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "x7nxnt9vzz2u00k3ithrdwf2"
+  title = "Holiday stripes counting eternally? Console"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "vzbzlhvuhqcpv809pymgzpoz"
+  title = "Mobile View nicht fertig"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "q33gt6d7987l1z6i1fy5kvvt"
+  title = "Schreibdienst Events in Mobile View anzeigen"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "ug8yb5prxxzdyy6h347vwc78"
+  title = "Freeze Mode - normal"
+  description = "<p>Desktop: Notes nicht editierbar<br>Mobile: Notes nicht editierbar</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process2"
+name = "In Progress"
+
+  [[processes.tasks]]
+  id = "task1"
+  title = "Kalender Einfrieren Funktion"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process3"
+name = "Done"
+
+  [[processes.tasks]]
+  id = "iprzxelpo30fpeixif5ral6p"
+  title = "Modal für Eintrag Dropdown "
+  description = "<p>Eventuell direkt Klick auf Einsatz</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "e780t0jnmfjwqa095geef1v2"
+  title = "Schreibdienst markieren"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "mcv2840ingdp3zwdof7rhj9l"
+  title = "Aktueller Tag markieren im Kalender"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "kypx4tkuhhqlc6dq503vwd81"
+  title = "Link zum verschicken"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "ov870d5xb3b1z16omqsuja5w"
+  title = "Detailed Card dragable machen"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "rwtkpoeakvj0qbxybw8w8l6e"
+  title = "Delete User modal fixen"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "k4yw7v8yqfknsgn7g5vzrnq3"
+  title = "Schreibdienst Detail Anzeige mobile"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qap3z4f7xgq3vogqhefiv0cg"
+  title = "User doesn't delete from DB"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "ei0zq1eegfysvaz68yxhs2e9"
+  title = "Neuer User erstellen Fehler"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "lvf4txkkl3fqpezft10f8ni8"
+  title = "Ferien eingeben, löschen"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "otjxn97qg199vgk6kgbc3gh8"
+  title = "ical-feed für synchronisation"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "pwr39k84dqdij2lwoszn5v5s"
+  title = "Freeze Mode - backoffice"
+  description = "<p>Desktop: √ <br>Mobile: √</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]

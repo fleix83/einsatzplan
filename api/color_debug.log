@@ -1,0 +1,676 @@
+[2025-04-24 16:25:40] Database connection established
+[2025-04-24 16:25:40] Processing GET request
+[2025-04-24 16:25:40] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:25:40] Retrieved 1 color settings
+[2025-04-24 16:25:40] Request completed
+[2025-04-24 16:25:43] Database connection established
+[2025-04-24 16:25:43] Processing GET request
+[2025-04-24 16:25:43] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:25:43] Retrieved 1 color settings
+[2025-04-24 16:25:43] Request completed
+[2025-04-24 16:26:04] Database connection established
+[2025-04-24 16:26:04] Processing GET request
+[2025-04-24 16:26:04] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:26:04] Retrieved 1 color settings
+[2025-04-24 16:26:04] Request completed
+[2025-04-24 16:26:54] Database connection established
+[2025-04-24 16:26:54] Processing POST request
+[2025-04-24 16:26:54] Received raw data: {"primaryColor":"#1760ff","background":"#e93c50","redShift":"#ff5252","orangeShift":"#eca7a7","greenShift":"#e93c50","starterShift":"#85ffda","schreibdienstSingle":"#64b5f6","schreibdienstFull":"#1976d2","hoverBg":"#f5f5f5","selectedBg":"#e3f2fd"}
+[2025-04-24 16:26:54] Processing 10 color settings
+[2025-04-24 16:26:54] Processing color: primaryColor = #1760ff
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'primaryColor'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('primaryColor', '#1760ff')
+[2025-04-24 16:26:54] Successfully saved setting: primaryColor
+[2025-04-24 16:26:54] Processing color: background = #e93c50
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'background'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('background', '#e93c50')
+[2025-04-24 16:26:54] Successfully saved setting: background
+[2025-04-24 16:26:54] Processing color: redShift = #ff5252
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'redShift'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('redShift', '#ff5252')
+[2025-04-24 16:26:54] Successfully saved setting: redShift
+[2025-04-24 16:26:54] Processing color: orangeShift = #eca7a7
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'orangeShift'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('orangeShift', '#eca7a7')
+[2025-04-24 16:26:54] Successfully saved setting: orangeShift
+[2025-04-24 16:26:54] Processing color: greenShift = #e93c50
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'greenShift'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('greenShift', '#e93c50')
+[2025-04-24 16:26:54] Successfully saved setting: greenShift
+[2025-04-24 16:26:54] Processing color: starterShift = #85ffda
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'starterShift'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('starterShift', '#85ffda')
+[2025-04-24 16:26:54] Successfully saved setting: starterShift
+[2025-04-24 16:26:54] Processing color: schreibdienstSingle = #64b5f6
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('schreibdienstSingle', '#64b5f6')
+[2025-04-24 16:26:54] Successfully saved setting: schreibdienstSingle
+[2025-04-24 16:26:54] Processing color: schreibdienstFull = #1976d2
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstFull'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('schreibdienstFull', '#1976d2')
+[2025-04-24 16:26:54] Successfully saved setting: schreibdienstFull
+[2025-04-24 16:26:54] Processing color: hoverBg = #f5f5f5
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'hoverBg'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('hoverBg', '#f5f5f5')
+[2025-04-24 16:26:54] Successfully saved setting: hoverBg
+[2025-04-24 16:26:54] Processing color: selectedBg = #e3f2fd
+[2025-04-24 16:26:54] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'selectedBg'
+[2025-04-24 16:26:54] Inserting setting: INSERT INTO color_settings (name, value) VALUES ('selectedBg', '#e3f2fd')
+[2025-04-24 16:26:54] Successfully saved setting: selectedBg
+[2025-04-24 16:26:54] All settings saved successfully
+[2025-04-24 16:26:54] Request completed
+[2025-04-24 16:27:06] Database connection established
+[2025-04-24 16:27:06] Processing GET request
+[2025-04-24 16:27:06] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:27:06] Retrieved 11 color settings
+[2025-04-24 16:27:06] Request completed
+[2025-04-24 16:27:36] Database connection established
+[2025-04-24 16:27:36] Processing GET request
+[2025-04-24 16:27:36] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:27:36] Retrieved 11 color settings
+[2025-04-24 16:27:36] Request completed
+[2025-04-24 16:30:48] Database connection established
+[2025-04-24 16:30:48] Processing GET request
+[2025-04-24 16:30:48] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:30:48] Retrieved 11 color settings
+[2025-04-24 16:30:48] Request completed
+[2025-04-24 16:31:43] Database connection established
+[2025-04-24 16:31:43] Processing POST request
+[2025-04-24 16:31:43] Received raw data: {"primaryColor":"#1760ff","background":"#e93c50","redShift":"#ff5252","orangeShift":"#eca7a7","greenShift":"#e93c50","starterShift":"#85ffda","schreibdienstSingle":"#64b5f6","schreibdienstFull":"#1976d2","hoverBg":"#ffe95c","selectedBg":"#e3f2fd"}
+[2025-04-24 16:31:43] Processing 10 color settings
+[2025-04-24 16:31:43] Processing color: primaryColor = #1760ff
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'primaryColor'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#1760ff' WHERE name = 'primaryColor'
+[2025-04-24 16:31:43] Successfully saved setting: primaryColor
+[2025-04-24 16:31:43] Processing color: background = #e93c50
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'background'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'background'
+[2025-04-24 16:31:43] Successfully saved setting: background
+[2025-04-24 16:31:43] Processing color: redShift = #ff5252
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'redShift'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#ff5252' WHERE name = 'redShift'
+[2025-04-24 16:31:43] Successfully saved setting: redShift
+[2025-04-24 16:31:43] Processing color: orangeShift = #eca7a7
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'orangeShift'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#eca7a7' WHERE name = 'orangeShift'
+[2025-04-24 16:31:43] Successfully saved setting: orangeShift
+[2025-04-24 16:31:43] Processing color: greenShift = #e93c50
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'greenShift'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'greenShift'
+[2025-04-24 16:31:43] Successfully saved setting: greenShift
+[2025-04-24 16:31:43] Processing color: starterShift = #85ffda
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'starterShift'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#85ffda' WHERE name = 'starterShift'
+[2025-04-24 16:31:43] Successfully saved setting: starterShift
+[2025-04-24 16:31:43] Processing color: schreibdienstSingle = #64b5f6
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#64b5f6' WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:31:43] Successfully saved setting: schreibdienstSingle
+[2025-04-24 16:31:43] Processing color: schreibdienstFull = #1976d2
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstFull'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#1976d2' WHERE name = 'schreibdienstFull'
+[2025-04-24 16:31:43] Successfully saved setting: schreibdienstFull
+[2025-04-24 16:31:43] Processing color: hoverBg = #ffe95c
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'hoverBg'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#ffe95c' WHERE name = 'hoverBg'
+[2025-04-24 16:31:43] Successfully saved setting: hoverBg
+[2025-04-24 16:31:43] Processing color: selectedBg = #e3f2fd
+[2025-04-24 16:31:43] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'selectedBg'
+[2025-04-24 16:31:43] Updating setting: UPDATE color_settings SET value = '#e3f2fd' WHERE name = 'selectedBg'
+[2025-04-24 16:31:43] Successfully saved setting: selectedBg
+[2025-04-24 16:31:43] All settings saved successfully
+[2025-04-24 16:31:43] Request completed
+[2025-04-24 16:32:11] Database connection established
+[2025-04-24 16:32:11] Processing GET request
+[2025-04-24 16:32:11] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:32:11] Retrieved 11 color settings
+[2025-04-24 16:32:11] Request completed
+[2025-04-24 16:32:19] Database connection established
+[2025-04-24 16:32:19] Processing POST request
+[2025-04-24 16:32:19] Received raw data: {"primaryColor":"#1760ff","background":"#e93c50","redShift":"#ffffff","orangeShift":"#eca7a7","greenShift":"#e93c50","starterShift":"#85ffda","schreibdienstSingle":"#64b5f6","schreibdienstFull":"#1976d2","hoverBg":"#ffe95c","selectedBg":"#e3f2fd"}
+[2025-04-24 16:32:19] Processing 10 color settings
+[2025-04-24 16:32:19] Processing color: primaryColor = #1760ff
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'primaryColor'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#1760ff' WHERE name = 'primaryColor'
+[2025-04-24 16:32:19] Successfully saved setting: primaryColor
+[2025-04-24 16:32:19] Processing color: background = #e93c50
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'background'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'background'
+[2025-04-24 16:32:19] Successfully saved setting: background
+[2025-04-24 16:32:19] Processing color: redShift = #ffffff
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'redShift'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#ffffff' WHERE name = 'redShift'
+[2025-04-24 16:32:19] Successfully saved setting: redShift
+[2025-04-24 16:32:19] Processing color: orangeShift = #eca7a7
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'orangeShift'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#eca7a7' WHERE name = 'orangeShift'
+[2025-04-24 16:32:19] Successfully saved setting: orangeShift
+[2025-04-24 16:32:19] Processing color: greenShift = #e93c50
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'greenShift'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'greenShift'
+[2025-04-24 16:32:19] Successfully saved setting: greenShift
+[2025-04-24 16:32:19] Processing color: starterShift = #85ffda
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'starterShift'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#85ffda' WHERE name = 'starterShift'
+[2025-04-24 16:32:19] Successfully saved setting: starterShift
+[2025-04-24 16:32:19] Processing color: schreibdienstSingle = #64b5f6
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#64b5f6' WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:32:19] Successfully saved setting: schreibdienstSingle
+[2025-04-24 16:32:19] Processing color: schreibdienstFull = #1976d2
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstFull'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#1976d2' WHERE name = 'schreibdienstFull'
+[2025-04-24 16:32:19] Successfully saved setting: schreibdienstFull
+[2025-04-24 16:32:19] Processing color: hoverBg = #ffe95c
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'hoverBg'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#ffe95c' WHERE name = 'hoverBg'
+[2025-04-24 16:32:19] Successfully saved setting: hoverBg
+[2025-04-24 16:32:19] Processing color: selectedBg = #e3f2fd
+[2025-04-24 16:32:19] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'selectedBg'
+[2025-04-24 16:32:19] Updating setting: UPDATE color_settings SET value = '#e3f2fd' WHERE name = 'selectedBg'
+[2025-04-24 16:32:19] Successfully saved setting: selectedBg
+[2025-04-24 16:32:19] All settings saved successfully
+[2025-04-24 16:32:19] Request completed
+[2025-04-24 16:32:31] Database connection established
+[2025-04-24 16:32:31] Processing GET request
+[2025-04-24 16:32:31] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:32:31] Retrieved 11 color settings
+[2025-04-24 16:32:31] Request completed
+[2025-04-24 16:32:48] Database connection established
+[2025-04-24 16:32:48] Processing GET request
+[2025-04-24 16:32:48] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:32:48] Retrieved 11 color settings
+[2025-04-24 16:32:48] Request completed
+[2025-04-24 16:33:27] Database connection established
+[2025-04-24 16:33:27] Processing POST request
+[2025-04-24 16:33:27] Received raw data: {"primaryColor":"#1760ff","background":"#e93c50","redShift":"#ffffff","orangeShift":"#eca7a7","greenShift":"#e93c50","starterShift":"#85ffda","schreibdienstSingle":"#64b5f6","schreibdienstFull":"#1976d2","hoverBg":"#ffe95c","selectedBg":"#ff645c"}
+[2025-04-24 16:33:27] Processing 10 color settings
+[2025-04-24 16:33:27] Processing color: primaryColor = #1760ff
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'primaryColor'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#1760ff' WHERE name = 'primaryColor'
+[2025-04-24 16:33:27] Successfully saved setting: primaryColor
+[2025-04-24 16:33:27] Processing color: background = #e93c50
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'background'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'background'
+[2025-04-24 16:33:27] Successfully saved setting: background
+[2025-04-24 16:33:27] Processing color: redShift = #ffffff
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'redShift'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#ffffff' WHERE name = 'redShift'
+[2025-04-24 16:33:27] Successfully saved setting: redShift
+[2025-04-24 16:33:27] Processing color: orangeShift = #eca7a7
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'orangeShift'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#eca7a7' WHERE name = 'orangeShift'
+[2025-04-24 16:33:27] Successfully saved setting: orangeShift
+[2025-04-24 16:33:27] Processing color: greenShift = #e93c50
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'greenShift'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'greenShift'
+[2025-04-24 16:33:27] Successfully saved setting: greenShift
+[2025-04-24 16:33:27] Processing color: starterShift = #85ffda
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'starterShift'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#85ffda' WHERE name = 'starterShift'
+[2025-04-24 16:33:27] Successfully saved setting: starterShift
+[2025-04-24 16:33:27] Processing color: schreibdienstSingle = #64b5f6
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#64b5f6' WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:33:27] Successfully saved setting: schreibdienstSingle
+[2025-04-24 16:33:27] Processing color: schreibdienstFull = #1976d2
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstFull'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#1976d2' WHERE name = 'schreibdienstFull'
+[2025-04-24 16:33:27] Successfully saved setting: schreibdienstFull
+[2025-04-24 16:33:27] Processing color: hoverBg = #ffe95c
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'hoverBg'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#ffe95c' WHERE name = 'hoverBg'
+[2025-04-24 16:33:27] Successfully saved setting: hoverBg
+[2025-04-24 16:33:27] Processing color: selectedBg = #ff645c
+[2025-04-24 16:33:27] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'selectedBg'
+[2025-04-24 16:33:27] Updating setting: UPDATE color_settings SET value = '#ff645c' WHERE name = 'selectedBg'
+[2025-04-24 16:33:27] Successfully saved setting: selectedBg
+[2025-04-24 16:33:27] All settings saved successfully
+[2025-04-24 16:33:27] Request completed
+[2025-04-24 16:34:36] Database connection established
+[2025-04-24 16:34:36] Processing GET request
+[2025-04-24 16:34:36] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:34:36] Retrieved 11 color settings
+[2025-04-24 16:34:36] Request completed
+[2025-04-24 16:35:52] Database connection established
+[2025-04-24 16:35:52] Processing GET request
+[2025-04-24 16:35:52] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:35:52] Retrieved 11 color settings
+[2025-04-24 16:35:52] Request completed
+[2025-04-24 16:35:56] Database connection established
+[2025-04-24 16:35:56] Processing GET request
+[2025-04-24 16:35:56] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:35:56] Retrieved 11 color settings
+[2025-04-24 16:35:56] Request completed
+[2025-04-24 16:36:27] Database connection established
+[2025-04-24 16:36:27] Processing GET request
+[2025-04-24 16:36:27] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:36:27] Retrieved 11 color settings
+[2025-04-24 16:36:27] Request completed
+[2025-04-24 16:38:00] Database connection established
+[2025-04-24 16:38:00] Processing GET request
+[2025-04-24 16:38:00] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:38:00] Retrieved 11 color settings
+[2025-04-24 16:38:00] Request completed
+[2025-04-24 16:38:04] Database connection established
+[2025-04-24 16:38:04] Processing GET request
+[2025-04-24 16:38:04] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:38:04] Retrieved 11 color settings
+[2025-04-24 16:38:04] Request completed
+[2025-04-24 16:42:58] Database connection established
+[2025-04-24 16:42:58] Processing GET request
+[2025-04-24 16:42:58] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:42:58] Retrieved 11 color settings
+[2025-04-24 16:42:58] Request completed
+[2025-04-24 16:43:01] Database connection established
+[2025-04-24 16:43:01] Processing GET request
+[2025-04-24 16:43:01] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:43:01] Retrieved 11 color settings
+[2025-04-24 16:43:01] Request completed
+[2025-04-24 16:43:10] Database connection established
+[2025-04-24 16:43:10] Processing GET request
+[2025-04-24 16:43:10] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:43:10] Retrieved 11 color settings
+[2025-04-24 16:43:10] Request completed
+[2025-04-24 16:43:13] Database connection established
+[2025-04-24 16:43:13] Processing GET request
+[2025-04-24 16:43:13] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:43:13] Retrieved 11 color settings
+[2025-04-24 16:43:13] Request completed
+[2025-04-24 16:43:23] Database connection established
+[2025-04-24 16:43:23] Processing GET request
+[2025-04-24 16:43:23] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:43:23] Retrieved 11 color settings
+[2025-04-24 16:43:23] Request completed
+[2025-04-24 16:43:25] Database connection established
+[2025-04-24 16:43:25] Processing GET request
+[2025-04-24 16:43:25] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:43:25] Retrieved 11 color settings
+[2025-04-24 16:43:25] Request completed
+[2025-04-24 16:43:36] Database connection established
+[2025-04-24 16:43:36] Processing GET request
+[2025-04-24 16:43:36] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:43:36] Retrieved 11 color settings
+[2025-04-24 16:43:36] Request completed
+[2025-04-24 16:43:38] Database connection established
+[2025-04-24 16:43:38] Processing GET request
+[2025-04-24 16:43:38] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:43:38] Retrieved 11 color settings
+[2025-04-24 16:43:38] Request completed
+[2025-04-24 16:44:06] Database connection established
+[2025-04-24 16:44:06] Processing GET request
+[2025-04-24 16:44:06] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:44:06] Retrieved 11 color settings
+[2025-04-24 16:44:06] Request completed
+[2025-04-24 16:44:07] Database connection established
+[2025-04-24 16:44:07] Processing GET request
+[2025-04-24 16:44:07] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:44:07] Retrieved 11 color settings
+[2025-04-24 16:44:07] Request completed
+[2025-04-24 16:44:21] Database connection established
+[2025-04-24 16:44:21] Processing GET request
+[2025-04-24 16:44:21] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:44:21] Retrieved 11 color settings
+[2025-04-24 16:44:21] Request completed
+[2025-04-24 16:44:23] Database connection established
+[2025-04-24 16:44:23] Processing GET request
+[2025-04-24 16:44:23] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:44:23] Retrieved 11 color settings
+[2025-04-24 16:44:23] Request completed
+[2025-04-24 16:45:11] Database connection established
+[2025-04-24 16:45:11] Processing GET request
+[2025-04-24 16:45:11] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:45:11] Retrieved 11 color settings
+[2025-04-24 16:45:11] Request completed
+[2025-04-24 16:45:16] Database connection established
+[2025-04-24 16:45:16] Processing GET request
+[2025-04-24 16:45:16] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:45:16] Retrieved 11 color settings
+[2025-04-24 16:45:16] Request completed
+[2025-04-24 16:45:20] Database connection established
+[2025-04-24 16:45:20] Processing GET request
+[2025-04-24 16:45:20] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:45:20] Retrieved 11 color settings
+[2025-04-24 16:45:20] Request completed
+[2025-04-24 16:45:29] Database connection established
+[2025-04-24 16:45:29] Processing POST request
+[2025-04-24 16:45:29] Received raw data: {"primaryColor":"#1760ff","background":"#e93c50","redShift":"#ffffff","orangeShift":"#eca7a7","greenShift":"#e93c50","starterShift":"#85ffda","schreibdienstSingle":"#64b5f6","schreibdienstFull":"#1976d2","hoverBg":"#ffe95c","selectedBg":"#ff645c"}
+[2025-04-24 16:45:29] Processing 10 color settings
+[2025-04-24 16:45:29] Processing color: primaryColor = #1760ff
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'primaryColor'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#1760ff' WHERE name = 'primaryColor'
+[2025-04-24 16:45:29] Successfully saved setting: primaryColor
+[2025-04-24 16:45:29] Processing color: background = #e93c50
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'background'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'background'
+[2025-04-24 16:45:29] Successfully saved setting: background
+[2025-04-24 16:45:29] Processing color: redShift = #ffffff
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'redShift'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#ffffff' WHERE name = 'redShift'
+[2025-04-24 16:45:29] Successfully saved setting: redShift
+[2025-04-24 16:45:29] Processing color: orangeShift = #eca7a7
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'orangeShift'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#eca7a7' WHERE name = 'orangeShift'
+[2025-04-24 16:45:29] Successfully saved setting: orangeShift
+[2025-04-24 16:45:29] Processing color: greenShift = #e93c50
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'greenShift'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'greenShift'
+[2025-04-24 16:45:29] Successfully saved setting: greenShift
+[2025-04-24 16:45:29] Processing color: starterShift = #85ffda
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'starterShift'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#85ffda' WHERE name = 'starterShift'
+[2025-04-24 16:45:29] Successfully saved setting: starterShift
+[2025-04-24 16:45:29] Processing color: schreibdienstSingle = #64b5f6
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#64b5f6' WHERE name = 'schreibdienstSingle'
+[2025-04-24 16:45:29] Successfully saved setting: schreibdienstSingle
+[2025-04-24 16:45:29] Processing color: schreibdienstFull = #1976d2
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstFull'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#1976d2' WHERE name = 'schreibdienstFull'
+[2025-04-24 16:45:29] Successfully saved setting: schreibdienstFull
+[2025-04-24 16:45:29] Processing color: hoverBg = #ffe95c
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'hoverBg'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#ffe95c' WHERE name = 'hoverBg'
+[2025-04-24 16:45:29] Successfully saved setting: hoverBg
+[2025-04-24 16:45:29] Processing color: selectedBg = #ff645c
+[2025-04-24 16:45:29] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'selectedBg'
+[2025-04-24 16:45:29] Updating setting: UPDATE color_settings SET value = '#ff645c' WHERE name = 'selectedBg'
+[2025-04-24 16:45:29] Successfully saved setting: selectedBg
+[2025-04-24 16:45:29] All settings saved successfully
+[2025-04-24 16:45:29] Request completed
+[2025-04-24 16:46:47] Database connection established
+[2025-04-24 16:46:47] Processing GET request
+[2025-04-24 16:46:47] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:46:47] Retrieved 11 color settings
+[2025-04-24 16:46:47] Request completed
+[2025-04-24 16:47:22] Database connection established
+[2025-04-24 16:47:22] Processing GET request
+[2025-04-24 16:47:22] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:47:22] Retrieved 11 color settings
+[2025-04-24 16:47:22] Request completed
+[2025-04-24 16:47:29] Database connection established
+[2025-04-24 16:47:29] Processing GET request
+[2025-04-24 16:47:29] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:47:29] Retrieved 11 color settings
+[2025-04-24 16:47:29] Request completed
+[2025-04-24 16:47:30] Database connection established
+[2025-04-24 16:47:30] Processing GET request
+[2025-04-24 16:47:30] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:47:30] Retrieved 11 color settings
+[2025-04-24 16:47:30] Request completed
+[2025-04-24 16:47:36] Database connection established
+[2025-04-24 16:47:36] Processing GET request
+[2025-04-24 16:47:36] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:47:36] Retrieved 11 color settings
+[2025-04-24 16:47:36] Request completed
+[2025-04-24 16:48:40] Database connection established
+[2025-04-24 16:48:40] Processing GET request
+[2025-04-24 16:48:40] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:48:40] Retrieved 11 color settings
+[2025-04-24 16:48:40] Request completed
+[2025-04-24 16:48:59] Database connection established
+[2025-04-24 16:48:59] Processing GET request
+[2025-04-24 16:48:59] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:48:59] Retrieved 11 color settings
+[2025-04-24 16:48:59] Request completed
+[2025-04-24 16:50:01] Database connection established
+[2025-04-24 16:50:01] Processing GET request
+[2025-04-24 16:50:01] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:50:01] Retrieved 11 color settings
+[2025-04-24 16:50:01] Request completed
+[2025-04-24 16:50:35] Database connection established
+[2025-04-24 16:50:35] Processing GET request
+[2025-04-24 16:50:35] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:50:35] Retrieved 11 color settings
+[2025-04-24 16:50:35] Request completed
+[2025-04-24 16:50:44] Database connection established
+[2025-04-24 16:50:44] Processing GET request
+[2025-04-24 16:50:44] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:50:44] Retrieved 11 color settings
+[2025-04-24 16:50:44] Request completed
+[2025-04-24 16:51:45] Database connection established
+[2025-04-24 16:51:45] Processing GET request
+[2025-04-24 16:51:45] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:51:45] Retrieved 11 color settings
+[2025-04-24 16:51:45] Request completed
+[2025-04-24 16:52:55] Database connection established
+[2025-04-24 16:52:55] Processing GET request
+[2025-04-24 16:52:55] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:52:55] Retrieved 11 color settings
+[2025-04-24 16:52:55] Request completed
+[2025-04-24 16:54:18] Database connection established
+[2025-04-24 16:54:18] Processing GET request
+[2025-04-24 16:54:18] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 16:54:18] Retrieved 11 color settings
+[2025-04-24 16:54:18] Request completed
+[2025-04-24 17:01:54] Database connection established
+[2025-04-24 17:01:54] Processing GET request
+[2025-04-24 17:01:54] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:01:54] Retrieved 11 color settings
+[2025-04-24 17:01:54] Request completed
+[2025-04-24 17:02:21] Database connection established
+[2025-04-24 17:02:21] Processing GET request
+[2025-04-24 17:02:21] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:02:21] Retrieved 11 color settings
+[2025-04-24 17:02:21] Request completed
+[2025-04-24 17:02:42] Database connection established
+[2025-04-24 17:02:42] Processing GET request
+[2025-04-24 17:02:42] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:02:42] Retrieved 11 color settings
+[2025-04-24 17:02:42] Request completed
+[2025-04-24 17:09:47] Database connection established
+[2025-04-24 17:09:47] Processing GET request
+[2025-04-24 17:09:47] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:09:47] Retrieved 11 color settings
+[2025-04-24 17:09:47] Request completed
+[2025-04-24 17:09:55] Database connection established
+[2025-04-24 17:09:55] Processing GET request
+[2025-04-24 17:09:55] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:09:55] Retrieved 11 color settings
+[2025-04-24 17:09:55] Request completed
+[2025-04-24 17:09:59] Database connection established
+[2025-04-24 17:09:59] Processing GET request
+[2025-04-24 17:09:59] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:09:59] Retrieved 11 color settings
+[2025-04-24 17:09:59] Request completed
+[2025-04-24 17:10:12] Database connection established
+[2025-04-24 17:10:12] Processing GET request
+[2025-04-24 17:10:12] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:10:12] Retrieved 11 color settings
+[2025-04-24 17:10:12] Request completed
+[2025-04-24 17:10:13] Database connection established
+[2025-04-24 17:10:13] Processing GET request
+[2025-04-24 17:10:13] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 17:10:13] Retrieved 11 color settings
+[2025-04-24 17:10:13] Request completed
+[2025-04-24 19:52:59] Database connection established
+[2025-04-24 19:52:59] Processing GET request
+[2025-04-24 19:52:59] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 19:52:59] Retrieved 11 color settings
+[2025-04-24 19:52:59] Request completed
+[2025-04-24 19:58:38] Database connection established
+[2025-04-24 19:58:38] Processing GET request
+[2025-04-24 19:58:38] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 19:58:38] Retrieved 11 color settings
+[2025-04-24 19:58:38] Request completed
+[2025-04-24 19:59:20] Database connection established
+[2025-04-24 19:59:20] Processing GET request
+[2025-04-24 19:59:20] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 19:59:20] Retrieved 11 color settings
+[2025-04-24 19:59:20] Request completed
+[2025-04-24 19:59:24] Database connection established
+[2025-04-24 19:59:24] Processing GET request
+[2025-04-24 19:59:24] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 19:59:24] Retrieved 11 color settings
+[2025-04-24 19:59:24] Request completed
+[2025-04-24 19:59:26] Database connection established
+[2025-04-24 19:59:26] Processing GET request
+[2025-04-24 19:59:26] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 19:59:26] Retrieved 11 color settings
+[2025-04-24 19:59:26] Request completed
+[2025-04-24 19:59:33] Database connection established
+[2025-04-24 19:59:33] Processing GET request
+[2025-04-24 19:59:33] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 19:59:33] Retrieved 11 color settings
+[2025-04-24 19:59:33] Request completed
+[2025-04-24 20:00:00] Database connection established
+[2025-04-24 20:00:00] Processing GET request
+[2025-04-24 20:00:00] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:00:00] Retrieved 11 color settings
+[2025-04-24 20:00:00] Request completed
+[2025-04-24 20:00:21] Database connection established
+[2025-04-24 20:00:21] Processing GET request
+[2025-04-24 20:00:21] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:00:21] Retrieved 11 color settings
+[2025-04-24 20:00:21] Request completed
+[2025-04-24 20:00:38] Database connection established
+[2025-04-24 20:00:38] Processing GET request
+[2025-04-24 20:00:38] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:00:38] Retrieved 11 color settings
+[2025-04-24 20:00:38] Request completed
+[2025-04-24 20:01:39] Database connection established
+[2025-04-24 20:01:39] Processing GET request
+[2025-04-24 20:01:39] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:01:39] Retrieved 11 color settings
+[2025-04-24 20:01:39] Request completed
+[2025-04-24 20:02:35] Database connection established
+[2025-04-24 20:02:35] Processing GET request
+[2025-04-24 20:02:35] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:02:35] Retrieved 11 color settings
+[2025-04-24 20:02:35] Request completed
+[2025-04-24 20:03:38] Database connection established
+[2025-04-24 20:03:38] Processing GET request
+[2025-04-24 20:03:38] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:03:38] Retrieved 11 color settings
+[2025-04-24 20:03:38] Request completed
+[2025-04-24 20:04:33] Database connection established
+[2025-04-24 20:04:33] Processing GET request
+[2025-04-24 20:04:33] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:04:33] Retrieved 11 color settings
+[2025-04-24 20:04:33] Request completed
+[2025-04-24 20:05:18] Database connection established
+[2025-04-24 20:05:18] Processing GET request
+[2025-04-24 20:05:18] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:05:18] Retrieved 11 color settings
+[2025-04-24 20:05:18] Request completed
+[2025-04-24 20:07:08] Database connection established
+[2025-04-24 20:07:08] Processing GET request
+[2025-04-24 20:07:08] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:07:08] Retrieved 11 color settings
+[2025-04-24 20:07:08] Request completed
+[2025-04-24 20:08:14] Database connection established
+[2025-04-24 20:08:14] Processing GET request
+[2025-04-24 20:08:14] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:08:14] Retrieved 11 color settings
+[2025-04-24 20:08:14] Request completed
+[2025-04-24 20:18:09] Database connection established
+[2025-04-24 20:18:09] Processing GET request
+[2025-04-24 20:18:09] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:18:09] Retrieved 11 color settings
+[2025-04-24 20:18:09] Request completed
+[2025-04-24 20:21:28] Database connection established
+[2025-04-24 20:21:28] Processing GET request
+[2025-04-24 20:21:28] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:21:28] Retrieved 11 color settings
+[2025-04-24 20:21:28] Request completed
+[2025-04-24 20:21:45] Database connection established
+[2025-04-24 20:21:45] Processing GET request
+[2025-04-24 20:21:45] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:21:45] Retrieved 11 color settings
+[2025-04-24 20:21:45] Request completed
+[2025-04-24 20:22:05] Database connection established
+[2025-04-24 20:22:05] Processing GET request
+[2025-04-24 20:22:05] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:22:05] Retrieved 11 color settings
+[2025-04-24 20:22:05] Request completed
+[2025-04-24 20:22:23] Database connection established
+[2025-04-24 20:22:23] Processing GET request
+[2025-04-24 20:22:23] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:22:23] Retrieved 11 color settings
+[2025-04-24 20:22:23] Request completed
+[2025-04-24 20:22:40] Database connection established
+[2025-04-24 20:22:40] Processing GET request
+[2025-04-24 20:22:40] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:22:40] Retrieved 11 color settings
+[2025-04-24 20:22:40] Request completed
+[2025-04-24 20:23:04] Database connection established
+[2025-04-24 20:23:04] Processing GET request
+[2025-04-24 20:23:04] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:23:04] Retrieved 11 color settings
+[2025-04-24 20:23:04] Request completed
+[2025-04-24 20:29:31] Database connection established
+[2025-04-24 20:29:31] Processing GET request
+[2025-04-24 20:29:31] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:29:31] Retrieved 11 color settings
+[2025-04-24 20:29:31] Request completed
+[2025-04-24 20:29:38] Database connection established
+[2025-04-24 20:29:38] Processing GET request
+[2025-04-24 20:29:38] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:29:38] Retrieved 11 color settings
+[2025-04-24 20:29:38] Request completed
+[2025-04-24 20:33:48] Database connection established
+[2025-04-24 20:33:48] Processing GET request
+[2025-04-24 20:33:48] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:33:48] Retrieved 11 color settings
+[2025-04-24 20:33:48] Request completed
+[2025-04-24 20:33:55] Database connection established
+[2025-04-24 20:33:55] Processing GET request
+[2025-04-24 20:33:55] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:33:55] Retrieved 11 color settings
+[2025-04-24 20:33:55] Request completed
+[2025-04-24 20:36:33] Database connection established
+[2025-04-24 20:36:33] Processing POST request
+[2025-04-24 20:36:33] Received raw data: {"primaryColor":"#1760ff","background":"#e93c50","redShift":"#ffffff","orangeShift":"#eca7a7","greenShift":"#e93c50","starterShift":"#72a277","schreibdienstSingle":"#64b5f6","schreibdienstFull":"#1976d2","hoverBg":"#ffe95c","selectedBg":"#ff645c"}
+[2025-04-24 20:36:33] Processing 10 color settings
+[2025-04-24 20:36:33] Processing color: primaryColor = #1760ff
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'primaryColor'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#1760ff' WHERE name = 'primaryColor'
+[2025-04-24 20:36:33] Successfully saved setting: primaryColor
+[2025-04-24 20:36:33] Processing color: background = #e93c50
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'background'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'background'
+[2025-04-24 20:36:33] Successfully saved setting: background
+[2025-04-24 20:36:33] Processing color: redShift = #ffffff
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'redShift'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#ffffff' WHERE name = 'redShift'
+[2025-04-24 20:36:33] Successfully saved setting: redShift
+[2025-04-24 20:36:33] Processing color: orangeShift = #eca7a7
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'orangeShift'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#eca7a7' WHERE name = 'orangeShift'
+[2025-04-24 20:36:33] Successfully saved setting: orangeShift
+[2025-04-24 20:36:33] Processing color: greenShift = #e93c50
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'greenShift'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#e93c50' WHERE name = 'greenShift'
+[2025-04-24 20:36:33] Successfully saved setting: greenShift
+[2025-04-24 20:36:33] Processing color: starterShift = #72a277
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'starterShift'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#72a277' WHERE name = 'starterShift'
+[2025-04-24 20:36:33] Successfully saved setting: starterShift
+[2025-04-24 20:36:33] Processing color: schreibdienstSingle = #64b5f6
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstSingle'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#64b5f6' WHERE name = 'schreibdienstSingle'
+[2025-04-24 20:36:33] Successfully saved setting: schreibdienstSingle
+[2025-04-24 20:36:33] Processing color: schreibdienstFull = #1976d2
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'schreibdienstFull'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#1976d2' WHERE name = 'schreibdienstFull'
+[2025-04-24 20:36:33] Successfully saved setting: schreibdienstFull
+[2025-04-24 20:36:33] Processing color: hoverBg = #ffe95c
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'hoverBg'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#ffe95c' WHERE name = 'hoverBg'
+[2025-04-24 20:36:33] Successfully saved setting: hoverBg
+[2025-04-24 20:36:33] Processing color: selectedBg = #ff645c
+[2025-04-24 20:36:33] Checking if setting exists: SELECT id FROM color_settings WHERE name = 'selectedBg'
+[2025-04-24 20:36:33] Updating setting: UPDATE color_settings SET value = '#ff645c' WHERE name = 'selectedBg'
+[2025-04-24 20:36:33] Successfully saved setting: selectedBg
+[2025-04-24 20:36:33] All settings saved successfully
+[2025-04-24 20:36:33] Request completed
+[2025-04-24 20:36:36] Database connection established
+[2025-04-24 20:36:36] Processing GET request
+[2025-04-24 20:36:36] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:36:36] Retrieved 11 color settings
+[2025-04-24 20:36:36] Request completed
+[2025-04-24 20:44:04] Database connection established
+[2025-04-24 20:44:04] Processing GET request
+[2025-04-24 20:44:04] Executing query: SELECT name, value FROM color_settings
+[2025-04-24 20:44:04] Retrieved 11 color settings
+[2025-04-24 20:44:04] Request completed
