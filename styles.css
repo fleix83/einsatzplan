@@ -4830,7 +4830,7 @@ body {
 
 /* Footer Styles */
 .site-footer {
-    background-color: lightgrey;
+    background-color: rgb(168, 146, 146);
     color: white;
     padding: 30px 0;
     margin-top: 40px;
