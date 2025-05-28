@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Einsatzplan Kalender</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="dateUtility.js"></script>
+</head>
+<body>
+
+
+ <!-- Header -->
+<div class="header">
+        <!-- Logo  -->
+        <div class="logo-container">
+            <img src="logo.svg" alt="Logo" class="panel-logo">
+        </div>
+        <div id="announcementText" class="announcement-text-container">
+            <!-- Content will be loaded by JavaScript -->
+        </div>
+    </div>
+    <div class="titel">EINSATZPLAN</div>
+
+<!-- New Navbar -->
+<!-- <div class="top-navbar">
+            <div class="navbar-container">
+                    <div class="navbar-controls">
+            <select id="yearSelect" class="year"></select>
+            <select id="monthSelect"></select>
+            <button class="button button-export" id="exportCalendar">
+                <span class="button-icon">📅</span>
+            </button>
+            <button class="button button-secondary" id="manageUsers"><span class="button-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+            </svg></span></button>
+        </div>
+        <div class="navbar-auth">
+            <span id="userInfo" class="user-info"></span>
+            <button id="authButton" class="auth-button">Anmelden</button>
+        </div>
+    </div>
+</div> -->
+
+<button class="mobile-menu-button" id="mobileMenuButton">
+    <span class="button-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+      </svg>
+    </span>
+  </button>
+     <div class="app-container">
+        <!-- User List Panel -->
+        <div class="user-list-panel">
+            <button class="close-sidebar" id="closeSidebar">×</button>
+            
+            <!-- Mobile Menu Header -->
+            <div class="mobile-menu-header">
+              <div class="auth-container">
+                <span id="mobileUserInfo" class="user-info"></span>
+                <button id="mobileAuthButton" class="auth-button">Anmelden</button>
+              </div>
+              
+              <!-- Mobile Menu Buttons -->
+              <div class="mobile-menu-buttons">
+                <button class="button button-secondary" id="mobileManageUsers">
+                  <span class="button-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                    </svg>
+                  </span>
+                </button>
+                <button class="button button-export" id="mobileExportCalendar">
+                  <span class="button-icon">📅</span>
+                </button>
+                <button class="button button-color-customize" id="mobileColorCustomizeBtn">
+                    <span class="button-icon">🎨</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="user-list-title">Benutzer</div>
+            <div class="user-list" id="userList">
+              <!-- Users will be populated by JavaScript -->
+            </div>
+          </div>
+
+        <!-- Main Content -->
+        <div class="main-content" style="position: relative;">
+            <div class="month-title" id="monthTitle"></div>
+            <div class="current-day-display">
+                <div class="current-day-number" id="dayNumber"></div>
+                <div class="current-day-name" id="dayName"></div>
+            </div>
+
+            <div class="top-navbar">
+                <div class="navbar-container">
+                        <div class="navbar-controls">
+                <select id="yearSelect" class="year"></select>
+                <select id="monthSelect"></select>
+                <button class="button button-export" id="exportCalendar">
+                    <span class="button-icon">📅</span>
+                </button>
+                <button class="button button-secondary" id="manageUsers"><span class="button-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                </svg></span></button>
+                <button id="editAnnouncementBtn" class="button-announcement-edit" style="display: none;">
+                    <span class="button-icon">✏️</span>
+                </button>
+            </div>
+            <div class="navbar-auth">
+                <span id="userInfo" class="user-info"></span>
+                <button id="authButton" class="auth-button">Anmelden</button>
+            </div>
+        </div>
+    </div>
+
+             <!-- Hover Info Panel -->
+             <div class="hover-info-container">
+                <div class="hover-info-panel" id="hoverInfoPanel">
+                    <div class="hover-info-content">
+                        
+                        <div class="hover-info-shifts">
+                            <div class="hover-info-shift">
+                                <div class="shift-title">E1</div>
+                                <div class="shift-users" data-shift="E1"></div>
+                            </div>
+                            <div class="hover-info-shift">
+                                <div class="shift-title">E2</div>
+                                <div class="shift-users" data-shift="E2"></div>
+                            </div>
+                            <div class="hover-info-date" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar" id="calendar"></div>
+            
+            <!-- <div class="hover-info-panel" id="hoverInfoPanel">
+                <div class="hover-info-content">
+                    <div class="hover-info-date"></div>
+                    <div class="hover-info-shifts">
+                        <div class="hover-info-shift">
+                            <div class="shift-title">E1</div>
+                            <div class="shift-users" data-shift="E1"></div>
+                        </div>
+                        <div class="hover-info-shift">
+                            <div class="shift-title">E2</div>
+                            <div class="shift-users" data-shift="E2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+           
+             <!-- Detailed card -->
+            <!-- <div class="detailed-card" id="detailedCard">
+                <table>
+                    <tr>
+
+                        <td>E1</td>
+                        <td>
+                            <select class="user-select" data-shift="E1" data-position="1">
+                                <option value="">Select user</option>
+                            </select>
+                            <input type="text" class="shift-note" data-shift="E1" data-position="1" placeholder="Add note...">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E1</td>
+                        <td>
+                            <select class="user-select" data-shift="E1" data-position="2">
+                                <option value="">Select user</option>
+                            </select>
+                            <input type="text" class="shift-note" data-shift="E1" data-position="2" placeholder="Add note...">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E2</td>
+                        <td>
+                            <select class="user-select" data-shift="E2" data-position="1">
+                                <option value="">Select user</option>
+                            </select>
+                            <input type="text" class="shift-note" data-shift="E2" data-position="1" placeholder="Add note...">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E2</td>
+                        <td>
+                            <select class="user-select" data-shift="E2" data-position="2">
+                                <option value="">Select user</option>
+                            </select>
+                            <input type="text" class="shift-note" data-shift="E2" data-position="2" placeholder="Add note...">
+                        </td>
+                    </tr>
+                </table>
+            </div> -->
+
+    <!-- User Management Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Benutzer verwalten</h2>
+                <button class="modal-close-button" id="closeModal">×</button>
+            </div>
+            
+            <div class="user-add-section">
+                <div class="user-form">
+                    <input type="text" id="newUserName" placeholder="Name eingeben..." autocomplete="off">
+                    <!-- Add role selection -->
+                    <select id="newUserRole">
+                        <option value="Freiwillige">Freiwillige</option>
+                        <option value="Backoffice">Backoffice</option>
+                    </select>
+                    
+                    <!-- Conditional fields for Backoffice users (initially hidden) -->
+                    <div id="backofficeFields" style="display: none;">
+                        <input type="email" id="newUserEmail" placeholder="Email eingeben..." autocomplete="off">
+                        <input type="password" id="newUserPassword" placeholder="Passwort eingeben..." autocomplete="off">
+                        <input type="password" id="newUserPasswordConfirm" placeholder="Passwort bestätigen..." autocomplete="off">
+                    </div>
+                    
+                    <button class="button button-primary" id="addUser">
+                        <span class="button-icon">+</span>
+                        <span class="button-text">Hinzufügen</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="user-table-container">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th class="name-column">Name</th>
+                            <th class="role-column">Role</th>
+                            <th class="flags-column">Eigenschaften</th>
+                            <th class="actions-column">Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Users will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="userDeleteConfirmation" class="user-delete-confirmation" style="display: none;">
+                <div class="delete-confirmation-backdrop"></div>
+                <div class="delete-confirmation-dialog">
+                    <div class="delete-confirmation-header">
+                        <h3>Löschen bestätigen</h3>
+                    </div>
+                    <div class="delete-confirmation-body">
+                        Sind Sie sicher, dass Sie <strong id="deleteUserName"></strong> löschen möchten?<br>
+                        Diese Aktion kann nicht rückgängig gemacht werden.
+                    </div>
+                    <div class="delete-confirmation-actions">
+                        <button class="button button-secondary" id="cancelDeleteBtn">Abbrechen</button>
+                        <button class="button button-delete" id="confirmDeleteBtn">Löschen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip container -->
+    <div id="userTooltip" class="user-tooltip"></div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Custom Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/holiday.js"></script>
+    <script src="js/schreibdienst.js"></script>
+    <script src="js/colorCustomization.js"></script>
+    <script src="js/announcement.js"></script>
+    <script src="js/customEvents.js"></script>
+
+</div>
+
+ <!-- Mobile shift info Modal  -->
+ <div class="mobile-modal-overlay" id="mobileModalOverlay"></div>
+ <div class="mobile-shift-modal" id="mobileShiftModal">
+
+     <div class="mobile-shift-modal-content">
+         <div class="mobile-shift-info" id="mobileShiftInfo"></div>
+         <div class="mobile-shift-detail" id="mobileShiftDetail"></div>
+     </div>
+ </div>
+
+ <div class="shift-modal-overlay" id="shiftModalOverlay"></div>
+ <div class="shift-detail-modal" id="shiftDetailModal">
+     <div class="shift-detail-header">
+         <div class="shift-detail-title"></div>
+         <button class="shift-detail-close">&times;</button>
+     </div>
+     <div class="shift-user-section">
+         <div class="shift-user-row">
+             <select class="user-select" data-position="1">
+                 <option value="">Benutzer auswählen</option>
+             </select>
+         </div>
+         <div class="shift-user-row">
+             <select class="user-select" data-position="2">
+                 <option value="">Benutzer auswählen</option>
+             </select>
+         </div>
+     </div>
+     <div class="shift-notes-section">
+         <input type="text" class="shift-note-input" data-position="1" placeholder="Notiz für Benutzer 1...">
+         <input type="text" class="shift-note-input" data-position="2" placeholder="Notiz für Benutzer 2...">
+     </div>
+ </div>
+
+ 
+ </div>
+
+
+
+ <!-- Footer 
+ <footer class="site-footer">
+    <div class="footer-container">
+
+        <div class="footer-logo">
+            <img src="logo.svg" alt="GGG Wegweiser Logo">
+        </div>
+        
+ 
+        <div class="footer-address">
+            <p><strong>GGG Wegweiser<br>Im Schmiedenhof 10<br>4001 Basel</strong></p>
+            <p><strong>Mo-Fr: 11.00–18.00 Uhr</strong></p>
+        </div>
+      
+        <div class="footer-disclaimer">
+            <p><strong>Der GGG Wegweiser ist eine Organisation der GGG Basel<br>www.ggg-basel.ch</strong></p>
+        </div>
+    </div>
+</footer> -->
+
+<!-- Announcement Edit Modal -->
+<div id="announcementModal" class="modal">
+    <div class="modal-content announcement-modal-content">
+        <div class="modal-header">
+            <h2>Edit Announcement</h2>
+            <button class="modal-close-button" id="closeAnnouncementModal">×</button>
+        </div>
+        <div class="announcement-edit-container">
+            <div class="announcement-form-group">
+                <div class="announcement-toolbar">
+                    <button type="button" class="format-button" data-command="bold" title="Bold">B</button>
+                    <button type="button" class="format-button" data-command="italic" title="Italic"><i>I</i></button>
+                    <button type="button" class="format-button" data-command="underline" title="Underline"><u>U</u></button>
+                    <div class="color-dropdown">
+                        <button type="button" class="format-button color-button" title="Text Color">
+                            <span class="color-indicator"></span>
+                        </button>
+                        <div class="color-palette">
+                            <div class="color-option" data-color="var(--primary-color)" style="background-color: var(--primary-color);"></div>
+                            <div class="color-option" data-color="#FF5252" style="background-color: #FF5252;"></div>
+                            <div class="color-option" data-color="#4CAF50" style="background-color: #4CAF50;"></div>
+                            <div class="color-option" data-color="#FFC107" style="background-color: #FFC107;"></div>
+                            <div class="color-option" data-color="#2196F3" style="background-color: #2196F3;"></div>
+                            <div class="color-option" data-color="#9C27B0" style="background-color: #9C27B0;"></div>
+                            <div class="color-option" data-color="#000000" style="background-color: #000000;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="announcementContent" class="announcement-content-editor" contenteditable="true"></div>
+                <div class="character-counter">
+                    <span id="characterCount">0</span> characters (approx. 4 lines max)
+                </div>
+            </div>
+            <div class="announcement-actions">
+                <button id="saveAnnouncementBtn" class="button-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

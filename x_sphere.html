@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scent Product Overview</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React and ReactDOM -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+    
+    // Sample product data
+    const scentProducts = [
+      { id: 1, brand: 'Chanel', name: 'No. 5', price: '$120.00', unit: '50ml' },
+      { id: 2, brand: 'Dior', name: 'J\'adore', price: '$135.00', unit: '100ml' },
+      { id: 3, brand: 'Gucci', name: 'Bloom', price: '$95.00', unit: '30ml' },
+      { id: 4, brand: 'Tom Ford', name: 'Black Orchid', price: '$180.00', unit: '50ml' },
+      { id: 5, brand: 'Jo Malone', name: 'English Pear & Freesia', price: '$142.00', unit: '100ml' },
+      { id: 6, brand: 'Byredo', name: 'Gypsy Water', price: '$190.00', unit: '50ml' },
+      { id: 7, brand: 'Maison Margiela', name: 'Replica Jazz Club', price: '$135.00', unit: '100ml' },
+      { id: 8, brand: 'Yves Saint Laurent', name: 'Libre', price: '$110.00', unit: '50ml' }
+    ];
+
+    const ScentProductOverview = () => {
+      const [favorites, setFavorites] = useState([]);
+      const [sets, setSets] = useState([]);
+      
+      const toggleFavorite = (id) => {
+        if (favorites.includes(id)) {
+          setFavorites(favorites.filter(favId => favId !== id));
+        } else {
+          setFavorites([...favorites, id]);
+        }
+      };
+      
+      const toggleSet = (id) => {
+        if (sets.includes(id)) {
+          setSets(sets.filter(setId => setId !== id));
+        } else {
+          setSets([...sets, id]);
+        }
+      };
+      
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 to-rose-50">
+          {/* Navbar */}
+          <nav className="bg-white shadow-sm border-b border-amber-100">
+            <div className="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+              <div className="text-lg font-light text-gray-700">ScentSphere</div>
+              <div className="flex space-x-6">
+                <a href="#" className="text-sm text-gray-600 hover:text-amber-500 transition-colors">Home</a>
+                <a href="#" className="text-sm text-gray-600 hover:text-amber-500 transition-colors">Collections</a>
+                <a href="#" className="text-sm text-gray-600 hover:text-amber-500 transition-colors">Brands</a>
+                <a href="#" className="text-sm text-amber-500 border-b border-amber-300">Products</a>
+                <a href="#" className="text-sm text-gray-600 hover:text-amber-500 transition-colors">About</a>
+              </div>
+            </div>
+          </nav>
+          
+          {/* Title Section */}
+          <div className="max-w-5xl mx-auto px-4 py-8">
+            <h1 className="text-3xl font-extralight text-gray-800 mb-1">Discover Scents</h1>
+            <p className="text-sm text-gray-500 font-light">Explore our collection of exquisite fragrances from around the world</p>
+          </div>
+          
+          {/* Product List */}
+          <div className="max-w-5xl mx-auto px-4 pb-16">
+            <div className="space-y-3">
+              {/* Product Cards */}
+              {scentProducts.map(product => (
+                <div 
+                  key={product.id} 
+                  className="grid grid-cols-5 px-6 py-3 items-center rounded-xl bg-white bg-opacity-80 shadow-sm border border-amber-50 hover:bg-opacity-90 transition-all text-sm"
+                  style={{ height: '48px' }}
+                >
+                  <div className="font-medium text-amber-900">{product.brand}</div>
+                  <div className="text-gray-600">{product.name}</div>
+                  <div className="text-gray-500 font-light">{product.price} / {product.unit}</div>
+                  <div className="flex justify-center">
+                    <button 
+                      onClick={() => toggleFavorite(product.id)}
+                      className={`w-5 h-5 rounded-full transition-all ${
+                        favorites.includes(product.id) 
+                          ? 'bg-red-500' 
+                          : 'bg-red-400 hover:bg-red-500'
+                      }`}
+                    >
+                    </button>
+                  </div>
+                  <div className="flex justify-center">
+                    <button 
+                      onClick={() => toggleSet(product.id)}
+                      className={`w-5 h-5 rounded-full transition-all ${
+                        sets.includes(product.id) 
+                          ? 'bg-amber-500' 
+                          : 'bg-amber-400 hover:bg-amber-500'
+                      }`}
+                    >
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+    
+    // Render the app
+    ReactDOM.render(<ScentProductOverview />, document.getElementById('root'));
+  </script>
+</body>
+</html>
