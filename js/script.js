@@ -2214,10 +2214,11 @@ function showShiftDetailModal(shiftElement, day, shiftType) {
     });
     
     // Show modal and overlay
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
     modal.classList.add('active');
     overlay.classList.add('active');
     
-  
     // Disable background scrolling
     document.body.classList.add('modal-open');
 }
@@ -2806,6 +2807,10 @@ function hideShiftDetailModal() {
   
     modal.classList.remove('active');
     overlay.classList.remove('active');
+    
+    // Explicitly hide the modal to prevent z-index issues
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
   
     // Re-enable background scrolling
     document.body.classList.remove('modal-open');
