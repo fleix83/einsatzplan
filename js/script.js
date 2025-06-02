@@ -656,19 +656,27 @@ function initializeUserForm() {
         });
     }
     
-    // Add validation for the user form
+    // Add validation for the user form (remove any existing listeners first)
     const addUserButton = document.getElementById('addUser');
     if (addUserButton) {
-        addUserButton.addEventListener('click', function() {
-            // Previous code would be replaced with this new function
+        // Remove any existing event listeners by cloning the element
+        const newButton = addUserButton.cloneNode(true);
+        addUserButton.parentNode.replaceChild(newButton, addUserButton);
+        
+        // Add the event listener to the new element
+        newButton.addEventListener('click', function() {
             validateAndAddUser();
         });
     }
     
-    // Add Enter key handler for the form
+    // Add Enter key handler for the form (remove existing listeners first)
     const formInputs = document.querySelectorAll('#newUserName, #newUserEmail, #newUserPassword, #newUserPasswordConfirm');
     formInputs.forEach(input => {
-        input.addEventListener('keydown', function(e) {
+        // Clone to remove existing event listeners
+        const newInput = input.cloneNode(true);
+        input.parentNode.replaceChild(newInput, input);
+        
+        newInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 validateAndAddUser();
             }
@@ -2026,8 +2034,7 @@ function setupEventListeners() {
         document.getElementById('userModal').style.display = 'none';
     });
 
-    // Add user button
-    document.getElementById('addUser').addEventListener('click', validateAndAddUser);
+    // Add user button (handled in initializeUserForm function)
 
     // Add mobile color customize button handler
     const mobileColorCustomizeBtn = document.getElementById('mobileColorCustomizeBtn');
@@ -2046,12 +2053,7 @@ function setupEventListeners() {
         });
     }
 
-    // Add new user with Enter key
-    document.getElementById('newUserName').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            validateAndAddUser();
-        }
-    });
+    // Add new user with Enter key (handled in initializeUserForm function)
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
