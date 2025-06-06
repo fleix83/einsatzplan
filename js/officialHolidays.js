@@ -18,18 +18,19 @@ const OfficialHolidaysFeature = (function() {
         const styleEl = document.createElement('style');
         styleEl.id = 'official-holidays-styles';
         styleEl.innerHTML = `
-            /* Official Holiday Styles */
-            .official-holiday-shift {
+            /* Official Holiday Styles - Maximum specificity to override all backgrounds */
+            .day-card .shift-left.official-holiday-shift,
+            .day-card .shift-right.official-holiday-shift,
+            .day-card .shift-left-red.official-holiday-shift,
+            .day-card .shift-right-red.official-holiday-shift,
+            .day-card .official-holiday-shift {
                 background-color: #faf4dd !important;
                 position: relative;
             }
             
-            /* Higher specificity to override red shift backgrounds */
-            .shift-left.official-holiday-shift,
-            .shift-right.official-holiday-shift,
-            .shift-left-red.official-holiday-shift,
-            .shift-right-red.official-holiday-shift {
-                background-color: #faf4dd !important;
+            /* Hide shift labels on official holiday shifts */
+            .official-holiday-shift .shift-label {
+                opacity: 0 !important;
             }
             
             .official-holiday-label {
@@ -144,7 +145,7 @@ const OfficialHolidaysFeature = (function() {
             
             .official-holiday-label {
                display: block;
-                margin-bottom: 5px;
+                margin-bottom: 11px;
                 font-weight: 600;
                 font-size: 0.8rem;
                 color: #333;

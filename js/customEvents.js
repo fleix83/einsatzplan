@@ -80,18 +80,68 @@ const CustomEventsFeature = (function() {
             .custom-event-indicator {
                 position: absolute;
                 bottom: 0;
-                right: 0;
-                width: 100%;
-                height: 4px;
-                background: repeating-linear-gradient(
-                    -45deg,
-                    var(--primary-color, #1760ff),
-                    var(--primary-color, #1760ff) 3px,
-                    #ffffff 3px,
-                    #ffffff 6px
-                );
+                // right: 0;
+                width: 90%;
                 border-radius: 0 0 4px 4px;
                 z-index: 5;
+                padding: 0;
+            }
+            
+            .custom-event-item {
+                display: flex;
+                justfify-content: flex-start;
+                background-color: #ffffff;
+                align-items: center;
+                gap: 4px;
+                padding: 3px;
+                margin-bottom: 1px;
+            }
+
+            @media screen and (max-width: 768px) {
+
+                .custom-event-item {
+                overflow: visible;
+                }
+
+            }      
+            
+            .custom-event-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background-color: var(--primary-color, #1760ff);
+                margin-right: 3px;
+                flex-shrink: 0;
+            }
+            
+            .custom-event-text {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1px;
+                min-width: 0;
+                flex: 1;
+            }
+            
+            .custom-event-name {
+                font-weight: bold;
+                font-size: 0.6rem;
+                color: #333;
+                line-height: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+            }
+            
+            .custom-event-time {
+                font-size: 0.6rem;
+                color: #666;
+                line-height: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
             }
             
             /* Custom event modal styles */
@@ -200,9 +250,9 @@ const CustomEventsFeature = (function() {
             
             .custom-event-item {
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 align-items: center;
-                padding: 10px;
+                padding: 3px;
                 background-color: #f9f9f9;
                 border-radius: 4px;
                 margin-bottom: 10px;
@@ -424,6 +474,29 @@ const CustomEventsFeature = (function() {
                         shiftRight.appendChild(indicator);
                     }
                 }
+                
+                // Update indicator content with event details
+                const events = staticData.customEvents[year][month][day];
+                indicator.innerHTML = '';
+                
+                events.forEach(event => {
+                    const eventItem = document.createElement('div');
+                    eventItem.className = 'custom-event-item';
+                    
+                    // Format time to German format (17.15h) - only hours and minutes
+                    const timeParts = event.time.split(':');
+                    const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
+                    
+                    eventItem.innerHTML = `
+                        <div class="custom-event-dot"></div>
+                        <div class="custom-event-text">
+                            <div class="custom-event-name">${event.title}</div>
+                            <div class="custom-event-time">${formattedTime}</div>
+                        </div>
+                    `;
+                    
+                    indicator.appendChild(eventItem);
+                });
             } else if (indicator) {
                 // Remove indicator if no events
                 indicator.remove();
