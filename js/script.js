@@ -1493,6 +1493,11 @@ async function initializeApp() {
             await CustomEventsFeature.init();
         }
         
+        // Initialize official holidays feature if it exists
+        if (typeof OfficialHolidaysFeature !== 'undefined') {
+            await OfficialHolidaysFeature.init();
+        }
+        
         // Update URL to match current view
         updateUrlParams();
     } catch (error) {
