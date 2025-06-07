@@ -3311,6 +3311,42 @@ function updateHoverInfo(day, show = true) {
             '<div class="shift-user">No users assigned</div>';
     }
 
+    // Add custom events display
+    const customEvents = staticData.customEvents?.[currentYear]?.[currentMonth]?.[day] || [];
+    if (customEvents.length > 0) {
+        // Check if custom events section already exists
+        let customEventsSection = hoverPanel.querySelector('.hover-info-custom-events');
+        if (!customEventsSection) {
+            // Create custom events section
+            customEventsSection = document.createElement('div');
+            customEventsSection.className = 'hover-info-custom-events';
+            hoverPanel.querySelector('.hover-info-content').appendChild(customEventsSection);
+        }
+
+        // Update custom events content
+        customEventsSection.innerHTML = `
+            <div class="custom-events-title">Veranstaltungen</div>
+            <div class="custom-events-list">
+                ${customEvents.map(event => {
+                    const timeParts = event.time.split(':');
+                    const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
+                    return `
+                        <div class="hover-custom-event-item">
+                            <div class="hover-custom-event-time">${formattedTime}</div>
+                            <div class="hover-custom-event-title">${event.title}</div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    } else {
+        // Remove custom events section if no events
+        const customEventsSection = hoverPanel.querySelector('.hover-info-custom-events');
+        if (customEventsSection) {
+            customEventsSection.remove();
+        }
+    }
+
     // Show the panel with the fade-in effect
     hoverPanel.classList.add('visible');
 
@@ -3462,6 +3498,29 @@ function showMobileModal(day, shiftType, shiftElement) {
             </div>
         </div>
     `;
+
+    // Add custom events section
+    const customEvents = staticData.customEvents?.[currentYear]?.[currentMonth]?.[day] || [];
+    if (customEvents.length > 0) {
+        const customEventsSection = `
+            <div class="mobile-custom-events">
+                <div class="mobile-custom-events-title">Veranstaltungen</div>
+                <div class="mobile-custom-events-list">
+                    ${customEvents.map(event => {
+                        const timeParts = event.time.split(':');
+                        const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
+                        return `
+                            <div class="mobile-custom-event-item">
+                                <div class="mobile-custom-event-time">${formattedTime}</div>
+                                <div class="mobile-custom-event-title">${event.title}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+        infoContainer.innerHTML += customEventsSection;
+    }
 
     // Add notes section if any notes exist
     const e1Notes = dayData.notes?.E1 || ['', ''];

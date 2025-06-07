@@ -831,6 +831,92 @@ body {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 37px;
 }
 
+/* Custom Events in Hover Info Panel */
+.hover-info-custom-events {
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px solid #eee;
+    min-width: 200px;
+}
+
+.custom-events-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.custom-events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hover-custom-event-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px;
+    background: var(--bg-white);
+    border-radius: 4px;
+    box-shadow: rgba(149, 157, 165, 0.15) 0px 2px 8px;
+}
+
+.hover-custom-event-time {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.hover-custom-event-title {
+    font-size: 13px;
+    color: #333;
+}
+
+/* Mobile Custom Events */
+.mobile-custom-events {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.mobile-custom-events-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.mobile-custom-events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mobile-custom-event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.mobile-custom-event-time {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color);
+    min-width: 60px;
+}
+
+.mobile-custom-event-title {
+    font-size: 14px;
+    color: #333;
+    flex: 1;
+    margin-left: 10px;
+}
 
 .user-item {
     display: flex;
