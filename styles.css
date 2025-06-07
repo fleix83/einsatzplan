@@ -5131,9 +5131,21 @@ body {
         display: flex !important;
     }
     
-    /* Ensure mobile menu buttons are visible for backoffice users */
+    /* Hide backoffice-only buttons for non-backoffice users */
+    .mobile-menu-buttons #mobileManageUsers,
     .mobile-menu-buttons #mobileCustomEventBtn,
-    .mobile-menu-buttons #mobileOfficialHolidayBtn {
+    .mobile-menu-buttons #mobileOfficialHolidayBtn,
+    .mobile-menu-buttons #mobileExportCalendar,
+    .mobile-menu-buttons #mobileColorCustomizeBtn {
+        display: none !important;
+    }
+    
+    /* Show mobile menu buttons only for backoffice users */
+    .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileManageUsers,
+    .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileCustomEventBtn,
+    .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileOfficialHolidayBtn,
+    .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileExportCalendar,
+    .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileColorCustomizeBtn {
         display: flex !important;
     }
     
