@@ -106,11 +106,11 @@ const CustomEventsFeature = (function() {
             }      
             
             .custom-event-dot {
-                width: 7px;
-                height: 7px;
-                border-radius: 50%;
+                width: 2px;
+                height: 20px;
+                /* border-radius: 50%; */
                 background-color: var(--primary-color, #1760ff);
-                margin-right: 3px;
+                margin-right: 1px;
                 flex-shrink: 0;
             }
             
@@ -889,6 +889,39 @@ function updateCustomEventList() {
         } else {
             console.log('[DEBUG] Not adding custom event button - user is not backoffice');
         }
+        
+        // Also set up the mobile button
+        setupMobileCustomEventButton();
+    }
+    
+    // Set up mobile custom event button
+    function setupMobileCustomEventButton() {
+        const mobileBtn = document.getElementById('mobileCustomEventBtn');
+        if (!mobileBtn) {
+            console.log('[DEBUG] Mobile custom event button not found');
+            return;
+        }
+        
+        // Add click handler if not already added
+        if (!mobileBtn.hasAttribute('data-handler-added')) {
+            mobileBtn.addEventListener('click', () => {
+                // Get current year and month from global variables or fallback to UI elements
+                const year = window.currentYear || parseInt(document.getElementById('yearSelect').value);
+                const month = window.currentMonth || parseInt(document.getElementById('monthSelect').value);
+                const day = 1;
+                
+                console.log(`[DEBUG] Mobile button click with year=${year}, month=${month}, day=${day}`);
+                openCustomEventModal(day, month, year);
+            });
+            mobileBtn.setAttribute('data-handler-added', 'true');
+        }
+        
+        // Show/hide based on user role
+        if (isBackofficeUser()) {
+            mobileBtn.style.display = 'flex';
+        } else {
+            mobileBtn.style.display = 'none';
+        }
     }
     
     // Update button visibility based on user role
@@ -906,6 +939,9 @@ function updateCustomEventList() {
         } else {
             eventBtn.style.display = 'none';
         }
+        
+        // Also update mobile button
+        setupMobileCustomEventButton();
     }
     
     // Check if current user is a backoffice user

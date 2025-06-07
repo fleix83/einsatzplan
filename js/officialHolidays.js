@@ -634,6 +634,37 @@ const OfficialHolidaysFeature = (function() {
         }
         
         console.log('Official holiday button added to navbar');
+        
+        // Also set up the mobile button
+        setupMobileOfficialHolidayButton();
+    }
+    
+    // Set up mobile official holiday button
+    function setupMobileOfficialHolidayButton() {
+        const mobileBtn = document.getElementById('mobileOfficialHolidayBtn');
+        if (!mobileBtn) {
+            console.log('Mobile official holiday button not found');
+            return;
+        }
+        
+        // Add click handler if not already added
+        if (!mobileBtn.hasAttribute('data-handler-added')) {
+            mobileBtn.addEventListener('click', openOfficialHolidayModal);
+            mobileBtn.setAttribute('data-handler-added', 'true');
+        }
+        
+        // Show/hide based on user role
+        if (isBackofficeUser()) {
+            mobileBtn.style.display = 'flex';
+        } else {
+            mobileBtn.style.display = 'none';
+        }
+    }
+    
+    // Check if current user is a backoffice user
+    function isBackofficeUser() {
+        const currentUser = AuthManager.getCurrentUser();
+        return currentUser && currentUser.role === 'Backoffice';
     }
     
     // Set up mutation observer to handle dynamic DOM updates
