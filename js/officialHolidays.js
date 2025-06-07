@@ -360,10 +360,16 @@ const OfficialHolidaysFeature = (function() {
                 if (existingLabel) existingLabel.remove();
             }
             
-            // Add holiday styling if needed
+            // Add holiday styling and lock shifts if needed
             if (isHoliday) {
+                // Mark card as official holiday for CSS styling
+                card.classList.add('official-holiday-day');
+                
                 if (shiftLeft) {
                     shiftLeft.classList.add('official-holiday-shift');
+                    // Disable clicking on holiday shifts
+                    shiftLeft.style.pointerEvents = 'none';
+                    shiftLeft.style.cursor = 'not-allowed';
                     const label = document.createElement('div');
                     label.className = 'official-holiday-label';
                     label.textContent = 'Ferien';
@@ -372,10 +378,26 @@ const OfficialHolidaysFeature = (function() {
                 
                 if (shiftRight) {
                     shiftRight.classList.add('official-holiday-shift');
+                    // Disable clicking on holiday shifts
+                    shiftRight.style.pointerEvents = 'none';
+                    shiftRight.style.cursor = 'not-allowed';
                     const label = document.createElement('div');
                     label.className = 'official-holiday-label';
                     label.textContent = 'Ferien';
                     shiftRight.appendChild(label);
+                }
+            } else {
+                // Remove holiday day class and restore interactivity
+                card.classList.remove('official-holiday-day');
+                
+                if (shiftLeft) {
+                    shiftLeft.style.pointerEvents = '';
+                    shiftLeft.style.cursor = '';
+                }
+                
+                if (shiftRight) {
+                    shiftRight.style.pointerEvents = '';
+                    shiftRight.style.cursor = '';
                 }
             }
         });
