@@ -168,6 +168,49 @@ const CustomEventsFeature = (function() {
                 position: relative;
             }
             
+            /* Mobile full-screen modal */
+            @media screen and (max-width: 768px) {
+                .custom-event-modal-content {
+                    width: 100% !important;
+                    height: 100% !important;
+                    margin: 0 !important;
+                    border-radius: 0 !important;
+                    border: none !important;
+                    max-width: none !important;
+                    padding: 80px 20px 20px 20px !important;
+                    overflow-y: auto !important;
+                }
+                
+                .custom-event-modal-header {
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    right: 0 !important;
+                    padding: 20px !important;
+                    margin-bottom: 0 !important;
+                    background-color: #fefefe !important;
+                    border-bottom: 1px solid #eee !important;
+                    z-index: 1000 !important;
+                }
+                
+                .custom-event-form {
+                    margin-top: 20px !important;
+                    position: relative !important;
+                    z-index: 1 !important;
+                }
+                
+                .custom-event-form-group {
+                    margin-bottom: 20px !important;
+                }
+                
+                .custom-event-label {
+                    position: static !important;
+                    display: block !important;
+                    margin-bottom: 8px !important;
+                    z-index: auto !important;
+                }
+            }
+            
             .custom-event-modal-header {
                 display: flex;
                 justify-content: space-between;

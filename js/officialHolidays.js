@@ -24,25 +24,17 @@ const OfficialHolidaysFeature = (function() {
             .day-card .shift-left-red.official-holiday-shift,
             .day-card .shift-right-red.official-holiday-shift,
             .day-card .official-holiday-shift {
-                background-color: #faf4dd !important;
+               
+                background-color: #ffffff !important;
+                opacity: 0.8 !important;
+                background-size: 10px 10px !important;
+                background-image: repeating-linear-gradient(-45deg, #386aff 0, #386aff 1px, #ffffff 0, #ffffff 50%) !important;
                 position: relative;
             }
             
             /* Hide shift labels on official holiday shifts */
             .official-holiday-shift .shift-label {
                 opacity: 0 !important;
-            }
-            
-            .official-holiday-label {
-                position: absolute;
-                bottom: 2px;
-                left: 0px;
-                font-size: 10px;
-                font-weight: bold;
-                color: #d4a017;
-                text-shadow: 0 0 2px rgba(255,255,255,0.8);
-                pointer-events: none;
-                z-index: 10;
             }
             
             /* Button styles */
@@ -94,6 +86,49 @@ const OfficialHolidaysFeature = (function() {
                 position: relative;
             }
             
+            /* Mobile full-screen modal */
+            @media screen and (max-width: 768px) {
+                .official-holiday-modal-content {
+                    width: 100% !important;
+                    height: 100% !important;
+                    margin: 0 !important;
+                    border-radius: 0 !important;
+                    border: none !important;
+                    max-width: none !important;
+                    padding: 80px 20px 20px 20px !important;
+                    overflow-y: auto !important;
+                }
+                
+                .official-holiday-modal-header {
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    right: 0 !important;
+                    padding: 20px !important;
+                    margin-bottom: 0 !important;
+                    background-color: #fefefe !important;
+                    border-bottom: 1px solid #eee !important;
+                    z-index: 1000 !important;
+                }
+                
+                .official-holiday-form {
+                    margin-top: 20px !important;
+                    position: relative !important;
+                    z-index: 1 !important;
+                }
+                
+                .official-holiday-form-row {
+                    margin-bottom: 20px !important;
+                }
+                
+                .official-holiday-label {
+                    position: static !important;
+                    display: block !important;
+                    margin-bottom: 8px !important;
+                    z-index: auto !important;
+                }
+            }
+            
             .official-holiday-modal-header {
                 display: flex;
                 justify-content: space-between;
@@ -124,7 +159,7 @@ const OfficialHolidaysFeature = (function() {
             }
             
             .official-holiday-form {
-                margin-bottom: 20px;
+                margin: 20px 0 20px 0;
             }
             
             .official-holiday-form-row {
@@ -145,7 +180,7 @@ const OfficialHolidaysFeature = (function() {
             
             .official-holiday-label {
                display: block;
-                margin-bottom: 11px;
+                margin-bottom: -24px;
                 font-weight: 600;
                 font-size: 0.8rem;
                 color: #333;
@@ -358,7 +393,7 @@ const OfficialHolidaysFeature = (function() {
             <div id="officialHolidayModal">
                 <div class="official-holiday-modal-content">
                     <div class="official-holiday-modal-header">
-                        <h2 class="official-holiday-modal-title">Offizielle Ferien verwalten</h2>
+                        <h2 class="official-holiday-modal-title">Betriebsferien verwalten</h2>
                         <button class="official-holiday-modal-close">&times;</button>
                     </div>
                     
@@ -378,13 +413,13 @@ const OfficialHolidaysFeature = (function() {
                                 <label class="official-holiday-label" for="holiday-title">Bezeichnung</label>
                                 <input type="text" id="holiday-title" class="official-holiday-input" placeholder="z.B. Sommerferien">
                             </div>
-                        </div>
-                        <div class="official-holiday-form-row">
+                        </div> 
+                        <!-- <div class="official-holiday-form-row">
                             <div class="official-holiday-form-group full-width">
                                 <label class="official-holiday-label" for="holiday-description">Beschreibung (optional)</label>
                                 <textarea id="holiday-description" class="official-holiday-textarea" placeholder="Zusätzliche Informationen..."></textarea>
                             </div>
-                        </div>
+                        </div> -->
                         <button class="official-holiday-add-btn">Ferien hinzufügen</button>
                     </div>
                     
