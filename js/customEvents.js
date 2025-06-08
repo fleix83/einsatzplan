@@ -502,51 +502,24 @@ const CustomEventsFeature = (function() {
             // Get or create indicator
             let indicator = card.querySelector('.custom-event-indicator');
             
-            // If this day has custom events, show the indicator
-            if (hasCustomEvents) {
-                eventCount++;
-                if (!indicator) {
-                    // Create indicator if it doesn't exist
-                    indicator = document.createElement('div');
-                    indicator.className = 'custom-event-indicator';
-                    
-                    // Find the right shift element (E2) and append the indicator
-                    const shiftRight = card.querySelector('.shift-right');
-                    if (shiftRight) {
-                        shiftRight.style.position = 'relative';
-                        shiftRight.appendChild(indicator);
-                    }
-                }
-                
-                // Update indicator content with event details
-                const events = staticData.customEvents[year][month][day];
-                indicator.innerHTML = '';
-                
-                events.forEach(event => {
-                    const eventItem = document.createElement('div');
-                    eventItem.className = 'custom-event-item';
-                    
-                    // Format time to German format (17.15h) - only hours and minutes
-                    const timeParts = event.time.split(':');
-                    const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
-                    
-                    eventItem.innerHTML = `
-                        <div class="custom-event-dot"></div>
-                        <div class="custom-event-text">
-                            <div class="custom-event-name">${event.title}</div>
-                            <div class="custom-event-time">${formattedTime}</div>
-                        </div>
-                    `;
-                    
-                    indicator.appendChild(eventItem);
-                });
-            } else if (indicator) {
-                // Remove indicator if no events
+            // Remove old custom event indicators since we now show events in shifts
+            if (indicator) {
                 indicator.remove();
             }
         });
         
         console.log(`[DEBUG] Updated indicators: ${eventCount} days with events`);
+        
+        // Also update day cards to show custom events in shifts
+        if (typeof updateDayCard === 'function') {
+            dayCards.forEach(card => {
+                const day = parseInt(card.dataset.day);
+                if (!isNaN(day)) {
+                    // Update the day card to refresh custom events in shifts
+                    updateDayCard(day);
+                }
+            });
+        }
     }
     
     // Add a custom event

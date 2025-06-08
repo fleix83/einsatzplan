@@ -2895,6 +2895,46 @@ function updateDayCard(day) {
         shiftRight.style.display = '';
     }
     
+    // Add custom events to appropriate shifts based on time
+    const customEvents = staticData.customEvents?.[currentYear]?.[currentMonth]?.[day] || [];
+    
+    // Clear any existing custom event elements
+    const existingE1Events = shiftLeft?.querySelectorAll('.shift-custom-event');
+    const existingE2Events = shiftRight?.querySelectorAll('.shift-custom-event');
+    existingE1Events?.forEach(el => el.remove());
+    existingE2Events?.forEach(el => el.remove());
+    
+    if (customEvents.length > 0) {
+        customEvents.forEach(event => {
+            // Parse time and determine if it's before 14:30
+            const timeParts = event.time.split(':');
+            const hour = parseInt(timeParts[0]);
+            const minute = parseInt(timeParts[1]);
+            const totalMinutes = hour * 60 + minute;
+            const cutoffMinutes = 14 * 60 + 30; // 14:30 in minutes
+            
+            // Format time for display
+            const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
+            
+            // Create event element
+            const eventElement = document.createElement('div');
+            eventElement.className = 'shift-custom-event';
+            eventElement.innerHTML = `
+                 <div class="shift-custom-event-title">${event.title}</div>
+                <div class="shift-custom-event-time">${formattedTime}</div>
+            `;
+            
+            // Add to appropriate shift based on time
+            if (totalMinutes < cutoffMinutes && shiftLeft) {
+                // Event before 14:30 - add to E1 (shift-left)
+                shiftLeft.appendChild(eventElement);
+            } else if (shiftRight) {
+                // Event after 14:30 - add to E2 (shift-right)
+                shiftRight.appendChild(eventElement);
+            }
+        });
+    }
+    
     // Restore "today" class if it was present
     if (wasToday) {
         dayCard.classList.add('today');
