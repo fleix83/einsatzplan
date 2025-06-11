@@ -4,9 +4,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Roboto+Slab:wght@100..900&display=swap');
 @font-face {
     font-family: "DIN Next Rounded LT W01 Regular";
-    src: url('./fonts/ab596f21664c5582567537d241e2a53e.woff2') format('woff2'),
-         url('./fonts/ab596f21664c5582567537d241e2a53e.woff') format('woff'),
-         url('./fonts/ab596f21664c5582567537d241e2a53e.ttf') format('truetype');
+    src: url('./fonts/din-next-rounded-lt-w01-regular.woff2') format('woff2'),
+         url('./fonts/din-next-rounded-lt-w01-regular.woff') format('woff'),
+         url('./fonts/din-next-rounded-lt-w01-regular.tff') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
