@@ -2,7 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Roboto+Slab:wght@100..900&display=swap');
-@import url(https://db.onlinewebfonts.com/c/ab596f21664c5582567537d241e2a53e?family=DIN+Next+Rounded+LT+W01+Regular);
+@font-face {
+    font-family: "DIN Next Rounded LT W01 Regular";
+    src: url('./fonts/ab596f21664c5582567537d241e2a53e.woff2') format('woff2'),
+         url('./fonts/ab596f21664c5582567537d241e2a53e.woff') format('woff'),
+         url('./fonts/ab596f21664c5582567537d241e2a53e.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 * {
     margin: 0;
@@ -145,21 +153,22 @@ body.frozen-state {
 
 /* Export button in navbar */
 .navbar-controls .button-export {
-   background-color:#fedc4a; /* Consider making this a variable */
+   background-color: #A0AF84; /* New color scheme */
    color: white;
    padding: 11px 10px;
-   /* margin: 0 20px; */
-   border-radius: 10px;
+   border-radius: 12px; /* Standardized border radius */
    cursor: pointer;
    display: flex;
    align-items: center;
    gap: 5px;
    width: 34px;
    height: 34px;
+   border: none;
+   transition: background-color 0.2s ease;
 }
 
 .navbar-controls .button-export:hover {
-    background-color:  #caaf3d; /* Consider making this a variable */
+    background-color: #8b9972; /* Darker shade for hover */
 }
 
 /* Adjust body padding to account for fixed navbar */
@@ -771,9 +780,21 @@ body {
 
 .button-secondary {
     color: white;
-    background: #1560ff; /* Could use var(--primary-color) or a secondary variant */
-    border-radius: 50%;
-    padding: 11px 13px;
+    background: #466365; /* New color scheme */
+    border-radius: 12px; /* Standardized border radius */
+    padding: 11px 10px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.button-secondary:hover {
+    background: #3a5456; /* Darker shade for hover */
 }
 
 /* Hover Info Panel */

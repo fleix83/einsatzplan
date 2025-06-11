@@ -61,10 +61,10 @@ const CustomEventsFeature = (function() {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                background-color: var(--primary-color, #1760ff);
+                width: 34px;
+                height: 34px;
+                border-radius: 12px; /* Standardized border radius */
+                background-color: #FFBDBD; /* New color scheme */
                 color: white;
                 border: none;
                 cursor: pointer;
@@ -73,7 +73,7 @@ const CustomEventsFeature = (function() {
             }
             
             .button-custom-event:hover {
-                background-color: #0045e6;
+                background-color: #ffaaaa; /* Darker shade for hover */
             }
             
             /* Custom event indicator styles */
@@ -876,8 +876,8 @@ function updateCustomEventList() {
         const eventBtn = document.createElement('button');
         eventBtn.id = 'customEventBtn';
         eventBtn.className = 'button-custom-event';
-        eventBtn.innerHTML = '<span class="button-icon">📅</span>';
-        eventBtn.title = 'Add Custom Event';
+        eventBtn.innerHTML = '<span class="button-icon">📝</span>';
+        eventBtn.title = 'Events';
         
         // Add click handler
         eventBtn.addEventListener('click', () => {

@@ -1739,6 +1739,7 @@ function addFreezeButton() {
     freezeBtn.className = 'button-freeze'; 
     // Only include the icon span, no button-text span
     freezeBtn.innerHTML = '<span class="button-icon">🔓</span>';
+    freezeBtn.title = 'Kalender sperren';
     freezeBtn.addEventListener('click', toggleCalendarFrozen);
     
     // Add to navbar

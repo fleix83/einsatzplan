@@ -39,7 +39,7 @@ const OfficialHolidaysFeature = (function() {
             
             /* Button styles */
             .button-official-holiday {
-                background: #d4a017;
+                background: #9DF7E5; /* New color scheme */
                 border: none;
                 color: white;
                 cursor: pointer;
@@ -50,12 +50,12 @@ const OfficialHolidaysFeature = (function() {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 36px;
-                height: 36px;
+                width: 34px;
+                height: 34px;
             }
             
             .button-official-holiday:hover {
-                background: #b8901a;
+                background: #8ae8d4; /* Darker shade for hover */
             }
             
             .button-official-holiday .button-icon {
@@ -673,7 +673,7 @@ const OfficialHolidaysFeature = (function() {
         holidayBtn.id = 'officialHolidayBtn';
         holidayBtn.className = 'button-official-holiday';
         holidayBtn.innerHTML = '<span class="button-icon">🏖️</span>';
-        holidayBtn.title = 'Offizielle Ferien verwalten';
+        holidayBtn.title = 'Betriebsferien';
         holidayBtn.addEventListener('click', openOfficialHolidayModal);
         
         // Insert before the color customize button if it exists

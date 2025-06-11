@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 12. Mai 2025 um 11:16
+-- Erstellungszeit: 11. Jun 2025 um 11:23
 -- Server-Version: 10.4.28-MariaDB
 -- PHP-Version: 8.2.4
 
@@ -61,9 +61,10 @@ CREATE TABLE `calendar_states` (
 --
 
 INSERT INTO `calendar_states` (`id`, `year`, `month`, `is_frozen`, `frozen_at`, `frozen_by`) VALUES
-(1, 2025, 3, 0, NULL, NULL),
+(1, 2025, 3, 1, '2025-06-02 15:52:00', NULL),
 (2, 2025, 4, 0, NULL, NULL),
-(3, 2025, 5, 1, '2025-05-07 19:28:39', 8);
+(3, 2025, 5, 0, NULL, NULL),
+(4, 2025, 6, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -119,16 +120,9 @@ CREATE TABLE `custom_events` (
 
 INSERT INTO `custom_events` (`id`, `date`, `title`, `time`, `created_by`, `created_at`) VALUES
 (1, '2025-03-01', 'ydgsdgfs', '04:34:00', 8, '2025-05-07 15:42:41'),
-(2, '2025-06-03', 'Teamsitzung', '17:00:00', 8, '2025-05-07 15:51:59'),
-(3, '2025-06-01', 'asdfasdf', '16:03:00', 8, '2025-05-07 16:01:19'),
-(4, '2025-06-01', 'sdfgsdfg', '12:00:00', 8, '2025-05-07 16:05:32'),
 (5, '2025-05-02', 'asdfa', '13:06:00', 8, '2025-05-07 16:06:25'),
-(6, '2025-06-06', 'sdfgsd', '10:00:00', 8, '2025-05-07 16:10:51'),
-(7, '2025-06-04', 'D', '12:23:00', 8, '2025-05-07 16:11:19'),
-(8, '2025-06-08', 'asd', '03:22:00', 8, '2025-05-07 16:13:50'),
-(9, '2025-06-05', 'asdfadsf', '22:12:00', 8, '2025-05-07 16:14:23'),
-(10, '2025-06-16', 'dfgsdg', '18:00:00', 8, '2025-05-07 19:07:29'),
-(11, '2025-06-01', 'asds', '12:12:00', 8, '2025-05-07 19:08:21');
+(16, '2025-06-02', 'Apero', '11:30:00', 8, '2025-06-07 22:19:20'),
+(17, '2025-06-04', 'Sitzung', '16:30:00', 8, '2025-06-07 23:04:47');
 
 -- --------------------------------------------------------
 
@@ -158,7 +152,32 @@ INSERT INTO `holidays` (`id`, `user_id`, `start_date`, `end_date`, `approved`, `
 (37, 3, '2025-04-21', '2025-04-25', 1, '2025-04-06 17:01:34'),
 (38, 3, '2025-03-25', '2025-03-28', 1, '2025-04-10 18:33:09'),
 (39, 2, '2025-03-25', '2025-03-28', 1, '2025-04-10 18:33:41'),
-(40, 3, '2025-04-15', '2025-04-22', 1, '2025-04-15 13:39:08');
+(40, 3, '2025-04-15', '2025-04-22', 1, '2025-04-15 13:39:08'),
+(41, 1, '2025-06-02', '2025-06-09', 1, '2025-06-02 15:51:29');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `official_holidays`
+--
+
+CREATE TABLE `official_holidays` (
+  `id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `official_holidays`
+--
+
+INSERT INTO `official_holidays` (`id`, `start_date`, `end_date`, `title`, `description`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, '2025-06-06', '2025-06-13', 'Sommerferien', '', 8, '2025-06-06 16:03:28', '2025-06-06 16:03:28');
 
 -- --------------------------------------------------------
 
@@ -220,7 +239,15 @@ INSERT INTO `sessions` (`id`, `user_id`, `token`, `expires_at`, `created_at`) VA
 (77, 8, '244981622a01efaee938c63731c3747861deb98ec3c77353c5aa0c074e60ed24', '2025-05-07 03:47:49', '2025-05-06 15:47:49'),
 (82, 8, 'fc17d1dd38a9c31415eb7043f085fa5cff7b0d1ee232dd188eedc589f1656332', '2025-05-07 23:00:34', '2025-05-07 11:00:34'),
 (83, 8, '539e2e89b8d3ba6b4c3d9c10d895c33fe4ada5742b09ef215e89341b85660409', '2025-05-08 01:47:22', '2025-05-07 13:47:22'),
-(84, 8, '09fd1a0264f5fc4eca4f2f83acda827a9b7ec2e570fd645911ac3f7efe07836a', '2025-05-08 02:25:25', '2025-05-07 14:25:25');
+(84, 8, '09fd1a0264f5fc4eca4f2f83acda827a9b7ec2e570fd645911ac3f7efe07836a', '2025-05-08 02:25:25', '2025-05-07 14:25:25'),
+(86, 8, '6d631fe61822597d5dd5ecbe0d1638aa58445dea96797a549bec6d5a5bbcec35', '2025-05-19 22:28:20', '2025-05-19 10:28:20'),
+(90, 8, '4f8b950cd3207923ca88dd9f2e44d14000bd9605ad6ef5bb40834eab85c958cb', '2025-06-07 02:54:22', '2025-06-06 14:54:22'),
+(93, 8, '060fb4eaa116116101c756df5a06a72d843788c71b2c7f48ca5b9bf9e44940bb', '2025-06-07 07:22:53', '2025-06-06 19:22:53'),
+(94, 8, 'd3f5edd49e361a3a33f9e26167b6a7bd6f65bc9985452d7457b403886dff6557', '2025-06-07 22:59:12', '2025-06-07 10:59:12'),
+(95, 8, '28ca6dc8fa74f12080da553c3d78066f1857c6954cf97f7740f91a619389b65a', '2025-06-07 23:11:32', '2025-06-07 11:11:32'),
+(98, 8, 'fb363302722e369609db76586499c852d173274d2ea1d9d017faa537a2da393e', '2025-06-08 04:35:40', '2025-06-07 16:35:40'),
+(100, 21, '0320796fd21ea2b2dbf420ae13f8cbb9b4691455ba838155e5cb160b119feea4', '2025-06-11 05:53:49', '2025-06-10 17:53:49'),
+(101, 21, '3cf71cb02a1d8f6b2f3ab04ef0f4df71a0efd1d838a92de62de66322cb58d3df', '2025-06-11 06:22:06', '2025-06-10 18:22:06');
 
 -- --------------------------------------------------------
 
@@ -283,7 +310,7 @@ INSERT INTO `shifts` (`id`, `date`, `shift_type`, `user1_id`, `user2_id`, `note1
 (16, '2025-03-14', 'E2', 8, 12, '', ''),
 (17, '2025-03-10', 'E1', 1, 8, '', ''),
 (18, '2025-03-12', 'E1', 8, NULL, '', NULL),
-(19, '2025-03-24', 'E2', 1, NULL, '', NULL),
+(19, '2025-03-24', 'E2', 1, 19, '', ''),
 (20, '2025-03-24', 'E1', NULL, 3, NULL, ''),
 (21, '2025-03-25', 'E1', 8, NULL, '', ''),
 (22, '2025-03-25', 'E2', 1, NULL, '', NULL),
@@ -312,7 +339,19 @@ INSERT INTO `shifts` (`id`, `date`, `shift_type`, `user1_id`, `user2_id`, `note1
 (45, '2025-04-09', 'E1', 1, 2, '', ''),
 (46, '2025-05-01', 'E1', 1, 3, '', ''),
 (47, '2025-06-03', 'E2', 3, 8, '', ''),
-(48, '2025-06-03', 'E1', 8, 19, '', '');
+(48, '2025-06-03', 'E1', 8, 19, 'Buch mitbringen', ''),
+(49, '2025-05-05', 'E1', 1, NULL, '', NULL),
+(50, '2025-05-05', 'E2', 19, NULL, '', NULL),
+(51, '2025-05-06', 'E2', 2, 3, '', ''),
+(52, '2025-05-14', 'E1', 21, NULL, '', NULL),
+(53, '2025-06-17', 'E1', NULL, NULL, 'Notiz an alle', NULL),
+(54, '2025-06-04', 'E1', 31, NULL, '', NULL),
+(55, '2025-06-02', 'E1', 19, 3, '', ''),
+(56, '2025-06-02', 'E2', NULL, 2, NULL, ''),
+(57, '2025-06-05', 'E1', 3, 2, '', ''),
+(58, '2025-06-05', 'E2', 1, NULL, '', NULL),
+(59, '2025-06-04', 'E2', 1, 28, '', ''),
+(60, '2025-06-11', 'E1', 31, NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -360,7 +399,14 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `is_starter`, `i
 (21, 'Backoffice', 'backoffice@ggg-wegweiser.ch', '$2y$10$htUVzOy15Lre9aDKBGrxWebZo72NkAUefaHOZ1D3rL7SEkecW5YLG', 'Backoffice', 0, 0, 1, 5, '2025-05-07 10:31:16', '2025-05-07 10:31:16'),
 (22, 'Backoffice', 'backoffice@ggg-wegweiser.ch', '$2y$10$EIiOBuSA0mEfbiJeqv/kv.9U.mnW1LeUYOPxwinrwZxHZ83Kljb2.', 'Backoffice', 0, 0, 0, 5, '2025-05-07 10:31:16', '2025-05-07 10:31:47'),
 (23, 'Backoffice', 'backoffice@ggg-wegweiser.ch', '$2y$10$H4XRIG.lNChwSuhfgmQhKOzVUcA3RNqeBhD1OVvoz0qN8Wnu5giAu', 'Backoffice', 0, 0, 0, 5, '2025-05-07 10:31:16', '2025-05-07 10:31:39'),
-(24, 'Backoffice', 'backoffice@ggg-wegweiser.ch', '$2y$10$UgpcJrDa9laFa.eIJARe1erLyiFoJUzPBJywCO09q6sEFV06888m.', 'Backoffice', 0, 0, 0, 5, '2025-05-07 10:31:16', '2025-05-07 10:31:35');
+(24, 'Backoffice', 'backoffice@ggg-wegweiser.ch', '$2y$10$UgpcJrDa9laFa.eIJARe1erLyiFoJUzPBJywCO09q6sEFV06888m.', 'Backoffice', 0, 0, 0, 5, '2025-05-07 10:31:16', '2025-05-07 10:31:35'),
+(25, 'Kathrin', NULL, NULL, 'Freiwillige', 0, 0, 0, 5, '2025-06-02 15:54:30', '2025-06-02 16:04:17'),
+(26, 'Kathrin', NULL, NULL, 'Freiwillige', 0, 0, 0, 5, '2025-06-02 15:54:31', '2025-06-02 16:04:14'),
+(27, 'Kathrin', NULL, NULL, 'Freiwillige', 0, 0, 0, 5, '2025-06-02 15:54:31', '2025-06-02 16:04:11'),
+(28, 'Yves', NULL, NULL, 'Freiwillige', 0, 0, 1, 5, '2025-06-02 15:56:27', '2025-06-02 15:56:27'),
+(29, 'Yves', NULL, NULL, 'Freiwillige', 0, 0, 0, 5, '2025-06-02 15:56:27', '2025-06-02 16:16:50'),
+(30, 'Yves', NULL, NULL, 'Freiwillige', 0, 0, 0, 5, '2025-06-02 15:56:27', '2025-06-02 16:16:46'),
+(31, 'Kathrin', NULL, NULL, 'Freiwillige', 0, 0, 1, 5, '2025-06-02 16:04:29', '2025-06-02 16:04:29');
 
 --
 -- Indizes der exportierten Tabellen
@@ -402,6 +448,15 @@ ALTER TABLE `custom_events`
 ALTER TABLE `holidays`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indizes für die Tabelle `official_holidays`
+--
+ALTER TABLE `official_holidays`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `start_date` (`start_date`),
+  ADD KEY `end_date` (`end_date`),
+  ADD KEY `created_by` (`created_by`);
 
 --
 -- Indizes für die Tabelle `schreibdienst_events`
@@ -454,7 +509,7 @@ ALTER TABLE `announcement_text`
 -- AUTO_INCREMENT für Tabelle `calendar_states`
 --
 ALTER TABLE `calendar_states`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT für Tabelle `color_settings`
@@ -466,13 +521,19 @@ ALTER TABLE `color_settings`
 -- AUTO_INCREMENT für Tabelle `custom_events`
 --
 ALTER TABLE `custom_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT für Tabelle `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT für Tabelle `official_holidays`
+--
+ALTER TABLE `official_holidays`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `schreibdienst_events`
@@ -484,7 +545,7 @@ ALTER TABLE `schreibdienst_events`
 -- AUTO_INCREMENT für Tabelle `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT für Tabelle `settings`
@@ -496,13 +557,13 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT für Tabelle `shifts`
 --
 ALTER TABLE `shifts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints der exportierten Tabellen
@@ -525,6 +586,12 @@ ALTER TABLE `color_settings`
 --
 ALTER TABLE `holidays`
   ADD CONSTRAINT `holidays_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints der Tabelle `official_holidays`
+--
+ALTER TABLE `official_holidays`
+  ADD CONSTRAINT `official_holidays_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints der Tabelle `schreibdienst_events`
