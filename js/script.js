@@ -831,7 +831,10 @@ async function addUser(name, role, email, password) {
 // Function to delete a user (after confirmation)
 async function performUserDeletion(userId) {
     try {
-        console.log(`Benutzer mit ID löschen: ${userId}`);
+        console.log(`DEBUG: Starting user deletion for ID: ${userId}`);
+        console.log(`DEBUG: Current auth status:`, AuthManager.isAuthenticated());
+        console.log(`DEBUG: Current user:`, AuthManager.getCurrentUser());
+        console.log(`DEBUG: Current token:`, AuthManager.getToken());
         
         // First, call the API to delete the user from the database
         const response = await AuthManager.fetchWithAuth(`api/users.php?id=${userId}`, {
@@ -841,9 +844,13 @@ async function performUserDeletion(userId) {
             }
         });
         
+        console.log(`DEBUG: Response status: ${response.status}`);
+        console.log(`DEBUG: Response headers:`, response.headers);
+        
         // Check if the API call was successful
         if (!response.ok) {
             const errorData = await response.json();
+            console.error(`DEBUG: Delete failed with error:`, errorData);
             throw new Error(errorData.error || `Fehler beim Löschen des Benutzers (${response.status})`);
         }
         

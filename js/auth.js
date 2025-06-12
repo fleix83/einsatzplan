@@ -70,6 +70,10 @@ const AuthManager = {
     
     // Add auth token to fetch requests if available, but don't require it
     fetchWithAuth: async function(url, options = {}, requireAuth = false) {
+        console.log(`DEBUG: fetchWithAuth called for ${url}`);
+        console.log(`DEBUG: requireAuth: ${requireAuth}`);
+        console.log(`DEBUG: isAuthenticated: ${this.isAuthenticated()}`);
+        
         // If authentication is required but we're not authenticated
         if (requireAuth && !this.isAuthenticated()) {
             // Show login dialog
@@ -84,8 +88,14 @@ const AuthManager = {
         
         // Add Authorization header with token if authenticated
         if (this.isAuthenticated()) {
-            options.headers['Authorization'] = `Bearer ${this.getToken()}`;
+            const token = this.getToken();
+            options.headers['Authorization'] = `Bearer ${token}`;
+            console.log(`DEBUG: Added Authorization header with token: ${token}`);
+        } else {
+            console.log(`DEBUG: No authentication, not adding Authorization header`);
         }
+        
+        console.log(`DEBUG: Final request options:`, options);
         
         // Make the request
         try {
