@@ -28,7 +28,7 @@ const OfficialHolidaysFeature = (function() {
                 background-color: #ffffff !important;
                 opacity: 0.8 !important;
                 background-size: 10px 10px !important;
-                background-image: repeating-linear-gradient(-45deg, #386aff 0, #386aff 1px, #ffffff 0, #ffffff 50%) !important;
+                background-image: repeating-linear-gradient(-45deg, #ff392b 0, #ff392b 1px, #ffffff 0, #ffffff 50%) !important;
                 position: relative;
             }
             
@@ -183,7 +183,7 @@ const OfficialHolidaysFeature = (function() {
                 margin-bottom: -24px;
                 font-weight: 600;
                 font-size: 0.8rem;
-                color: #333;
+                color: #ff392b;
                 background-color: #ffffff;
                 width: 100%;
                 padding-left: 4px;
@@ -362,6 +362,10 @@ const OfficialHolidaysFeature = (function() {
             
             // Add holiday styling and lock shifts if needed
             if (isHoliday) {
+                // Get the holiday info to display the custom title
+                const holidayInfo = getHolidayForDate(year, month, day);
+                const holidayTitle = holidayInfo ? holidayInfo.title : 'Ferien';
+                
                 // Mark card as official holiday for CSS styling
                 card.classList.add('official-holiday-day');
                 
@@ -372,7 +376,7 @@ const OfficialHolidaysFeature = (function() {
                     shiftLeft.style.cursor = 'not-allowed';
                     const label = document.createElement('div');
                     label.className = 'official-holiday-label';
-                    label.textContent = 'Ferien';
+                    label.textContent = holidayTitle;
                     shiftLeft.appendChild(label);
                 }
                 
@@ -383,7 +387,7 @@ const OfficialHolidaysFeature = (function() {
                     shiftRight.style.cursor = 'not-allowed';
                     const label = document.createElement('div');
                     label.className = 'official-holiday-label';
-                    label.textContent = 'Ferien';
+                    label.textContent = holidayTitle;
                     shiftRight.appendChild(label);
                 }
             } else {
@@ -422,21 +426,21 @@ const OfficialHolidaysFeature = (function() {
                     <div class="official-holiday-form">
                         <div class="official-holiday-form-row">
                             <div class="official-holiday-form-group">
-                                <label class="official-holiday-label" for="holiday-start">Startdatum</label>
-                                <input type="date" id="holiday-start" class="official-holiday-input">
+                                <label class="official-holiday-label" for="official-holiday-start">Startdatum</label>
+                                <input type="date" id="official-holiday-start" class="official-holiday-input">
                             </div>
                             <div class="official-holiday-form-group">
-                                <label class="official-holiday-label" for="holiday-end">Enddatum</label>
-                                <input type="date" id="holiday-end" class="official-holiday-input">
+                                <label class="official-holiday-label" for="official-holiday-end">Enddatum</label>
+                                <input type="date" id="official-holiday-end" class="official-holiday-input">
                             </div>
                         </div>
                         <div class="official-holiday-form-row">
                             <div class="official-holiday-form-group full-width">
-                                <label class="official-holiday-label" for="holiday-title">Bezeichnung</label>
-                                <input type="text" id="holiday-title" class="official-holiday-input" placeholder="z.B. Sommerferien">
+                                <label class="official-holiday-label" for="official-holiday-title">Bezeichnung</label>
+                                <input type="text" id="official-holiday-title" class="official-holiday-input" placeholder="z.B. Sommerferien">
                             </div>
                         </div> 
-                        <!-- <div class="official-holiday-form-row">
+                       <!-- <div class="official-holiday-form-row">
                             <div class="official-holiday-form-group full-width">
                                 <label class="official-holiday-label" for="holiday-description">Beschreibung (optional)</label>
                                 <textarea id="holiday-description" class="official-holiday-textarea" placeholder="Zusätzliche Informationen..."></textarea>
@@ -524,15 +528,15 @@ const OfficialHolidaysFeature = (function() {
     
     // Add a new official holiday
     async function addOfficialHoliday() {
-        const startInput = document.getElementById('holiday-start');
-        const endInput = document.getElementById('holiday-end');
-        const titleInput = document.getElementById('holiday-title');
-        const descriptionInput = document.getElementById('holiday-description');
+        const startInput = document.getElementById('official-holiday-start');
+        const endInput = document.getElementById('official-holiday-end');
+        const titleInput = document.getElementById('official-holiday-title');
+        const descriptionInput = document.getElementById('official-holiday-description');
         
         const start = startInput.value;
         const end = endInput.value;
         const title = titleInput.value.trim();
-        const description = descriptionInput.value.trim();
+        const description = descriptionInput ? descriptionInput.value.trim() : '';
         
         if (!start || !end || !title) {
             alert('Bitte füllen Sie alle Pflichtfelder aus.');
@@ -579,7 +583,7 @@ const OfficialHolidaysFeature = (function() {
             startInput.value = '';
             endInput.value = '';
             titleInput.value = '';
-            descriptionInput.value = '';
+            if (descriptionInput) descriptionInput.value = '';
             
             // Show success notification
             if (typeof NotificationSystem !== 'undefined') {
@@ -641,8 +645,8 @@ const OfficialHolidaysFeature = (function() {
         updateHolidayList();
         
         // Set default dates (today to a week from now)
-        const startInput = document.getElementById('holiday-start');
-        const endInput = document.getElementById('holiday-end');
+        const startInput = document.getElementById('official-holiday-start');
+        const endInput = document.getElementById('official-holiday-end');
         
         if (startInput && endInput) {
             const today = new Date();

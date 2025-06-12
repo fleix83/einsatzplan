@@ -55,6 +55,39 @@ const HolidayFeature = (function() {
                 background-color: #FF4500; /* Red for 5+ users */
             }
             
+            /* Backoffice holiday stripe styles */
+            .backoffice-holiday-stripe {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 20px;
+                border-radius: 0 0 4px 4px;
+                z-index: 6;
+                background-color: #ffffff;
+                background-size: 10px 10px;
+                background-image: repeating-linear-gradient(-45deg, #386aff 0, #386aff 1px, #ffffff 0, #ffffff 50%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                font-weight: 600;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            
+            /* White background for the text inside backoffice holiday stripes */
+            .backoffice-holiday-text {
+             background-color: #2d9dff;
+            color: white;
+            padding: 4px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            text-shadow: none;
+            width: 100%;
+            }
+            
             /* Holiday modal styles */
             #holiday-modal {
                 display: none;
@@ -253,24 +286,27 @@ async function loadHolidays() {
                 return;
             }
             
-            // Count holidays for this day
-            const count = countHolidaysOnDay(year, month, day);
+            // Count Freiwillige holidays for this day (top stripes)
+            const freiwilligeCount = countHolidaysOnDay(year, month, day);
+            
+            // Get backoffice holidays for this day (bottom stripes)
+            const backofficeHolidays = countBackofficeHolidaysOnDay(year, month, day);
             
             // Get shift elements for this day
             const shiftLeft = card.querySelector('.shift-left');
             const shiftRight = card.querySelector('.shift-right');
             
             // Remove existing stripes from shifts
-            const existingStripes = card.querySelectorAll('.holiday-stripe');
+            const existingStripes = card.querySelectorAll('.holiday-stripe, .backoffice-holiday-stripe');
             existingStripes.forEach(stripe => stripe.remove());
             
-            // Add stripes to shifts if needed
-            if (count > 0) {
+            // Add Freiwillige stripes to top if needed
+            if (freiwilligeCount > 0) {
                 // Determine level based on count
                 let levelClass = 'level-1'; // Yellow
-                if (count > 4) {
+                if (freiwilligeCount > 4) {
                     levelClass = 'level-3'; // Red
-                } else if (count > 2) {
+                } else if (freiwilligeCount > 2) {
                     levelClass = 'level-2'; // Orange
                 }
                 
@@ -288,14 +324,50 @@ async function loadHolidays() {
                     shiftRight.appendChild(stripeRight);
                 }
             }
+            
+            // Add backoffice stripes to bottom if needed
+            if (backofficeHolidays.length > 0) {
+                // Create text for all backoffice users on holiday
+                const holidayText = backofficeHolidays.map(bh => `Ferien ${bh.userName}`).join(', ');
+                
+                // Add stripe to left shift
+                if (shiftLeft) {
+                    const backofficeStripeLeft = document.createElement('div');
+                    backofficeStripeLeft.className = 'backoffice-holiday-stripe left-backoffice-stripe';
+                    backofficeStripeLeft.title = holidayText; // Tooltip for overflow
+                    
+                    // Create span with white background for the text
+                    const textSpan = document.createElement('span');
+                    textSpan.className = 'backoffice-holiday-text';
+                    textSpan.textContent = holidayText;
+                    backofficeStripeLeft.appendChild(textSpan);
+                    
+                    shiftLeft.appendChild(backofficeStripeLeft);
+                }
+                
+                // Add stripe to right shift
+                if (shiftRight) {
+                    const backofficeStripeRight = document.createElement('div');
+                    backofficeStripeRight.className = 'backoffice-holiday-stripe right-backoffice-stripe';
+                    backofficeStripeRight.title = holidayText; // Tooltip for overflow
+                    
+                    // Create span with white background for the text
+                    const textSpan = document.createElement('span');
+                    textSpan.className = 'backoffice-holiday-text';
+                    textSpan.textContent = holidayText;
+                    backofficeStripeRight.appendChild(textSpan);
+                    
+                    shiftRight.appendChild(backofficeStripeRight);
+                }
+            }
         });
         
         console.log('Holiday stripes updated on shifts');
     }
     
-    // Count holidays for a specific day
+    // Count holidays for a specific day (Freiwillige users only)
     function countHolidaysOnDay(year, month, day) {
-        if (!staticData || !staticData.holidays) {
+        if (!staticData || !staticData.holidays || !staticData.users) {
             return 0;
         }
         
@@ -305,6 +377,17 @@ async function loadHolidays() {
         
         Object.keys(staticData.holidays).forEach(userId => {
             if (!staticData.holidays[userId]) return;
+            
+            // Find the user to check their role
+            const user = staticData.users.find(u => u.id === parseInt(userId));
+            if (!user) {
+                return;
+            }
+            
+            // Skip backoffice users for top stripe count
+            if (user.role === 'Backoffice') {
+                return;
+            }
             
             for (const holiday of staticData.holidays[userId]) {
                 // Compare as strings in YYYY-MM-DD format for exact matching
@@ -316,6 +399,46 @@ async function loadHolidays() {
         });
         
         return count;
+    }
+    
+    // Count backoffice holidays for a specific day
+    function countBackofficeHolidaysOnDay(year, month, day) {
+        if (!staticData || !staticData.holidays || !staticData.users) {
+            return [];
+        }
+        
+        // Format the target date as YYYY-MM-DD for string comparison
+        const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const backofficeHolidays = [];
+        
+        Object.keys(staticData.holidays).forEach(userId => {
+            if (!staticData.holidays[userId]) return;
+            
+            // Find the user to check their role
+            const user = staticData.users.find(u => u.id === parseInt(userId));
+            if (!user) {
+                return;
+            }
+            
+            // Only process backoffice users
+            if (user.role !== 'Backoffice') {
+                return;
+            }
+            
+            for (const holiday of staticData.holidays[userId]) {
+                // Compare as strings in YYYY-MM-DD format for exact matching
+                if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
+                    backofficeHolidays.push({
+                        userId: userId,
+                        userName: user.name,
+                        holiday: holiday
+                    });
+                    break; // Count each user only once
+                }
+            }
+        });
+        
+        return backofficeHolidays;
     }
     
     // Create the holiday modal
