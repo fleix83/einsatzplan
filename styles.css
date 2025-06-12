@@ -563,7 +563,7 @@ body {
 .shift-left.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="true"].dimmed,
 .shift-right.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="true"].dimmed {
     opacity: 0.9 !important; /* Added !important to override inline styles */
-    background: linear-gradient(to bottom, #d9dadc 0%, #d9dadc 50%, #cbcccd 50%, #cbcccd 100%) !important;
+    background-image: repeating-linear-gradient(90deg, #f08790 0, #f08790 1px, #ffffff 0, #ffffff 50%) !important;
     border: 1px solid grey !important;
     z-index: 1000;
 }
@@ -580,7 +580,7 @@ body {
 {
     background-color: #ffffff !important;
     opacity: 1.0 !important;
-    background-image: linear-gradient(to right, #f08790, #f08790 5px, #ffffff 5px, #ffffff ) !important;
+    background-image: repeating-linear-gradient(90deg, #f08790 0, #f08790 1px, #ffffff 0, #ffffff 50%) !important;
     background-size: 10px 100% !important;
     border: 0px solid grey;
     z-index: 1000;
@@ -1018,7 +1018,7 @@ body {
 .starter-indicator {
     width: 10px;
     height: 10px;
-    background-color: #ffd000;
+    background-color: var(--color-starter);
     border-radius: 50%;
     display: inline-block;
     margin-right: 8px;
