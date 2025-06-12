@@ -592,7 +592,12 @@ const CustomEventsFeature = (function() {
             const token = AuthManager.getToken();
             
             // Send API request with token in URL for server compatibility
-            const url = AuthManager.addTokenToUrl('api/custom_events.php');
+            const baseUrl = 'api/custom_events.php';
+            const url = AuthManager.addTokenToUrl(baseUrl);
+            console.log(`[DEBUG] Base URL: ${baseUrl}`);
+            console.log(`[DEBUG] URL with token: ${url}`);
+            console.log(`[DEBUG] Auth token: ${AuthManager.getToken()}`);
+            
             const response = await AuthManager.fetchWithAuth(url, {
                 method: 'POST',
                 headers: {
@@ -674,7 +679,12 @@ const CustomEventsFeature = (function() {
             
             // Send API request
             // Use AuthManager.fetchWithAuth with token in URL for server compatibility  
-            const url = AuthManager.addTokenToUrl(`api/custom_events.php?id=${id}`);
+            const baseUrl = `api/custom_events.php?id=${id}`;
+            const url = AuthManager.addTokenToUrl(baseUrl);
+            console.log(`[DEBUG] Delete - Base URL: ${baseUrl}`);
+            console.log(`[DEBUG] Delete - URL with token: ${url}`);
+            console.log(`[DEBUG] Delete - Auth token: ${AuthManager.getToken()}`);
+            
             const response = await AuthManager.fetchWithAuth(url, {
                 method: 'DELETE'
             });
