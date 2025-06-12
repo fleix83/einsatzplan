@@ -10,6 +10,23 @@ function validateToken() {
         // Debug: Log environment info
         error_log("DEBUG: validateToken called");
         
+        // Create debug file for troubleshooting
+        $debugInfo = [
+            'timestamp' => date('Y-m-d H:i:s'),
+            'method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
+            'server_vars' => [
+                'HTTP_AUTHORIZATION' => $_SERVER['HTTP_AUTHORIZATION'] ?? 'not set',
+                'REDIRECT_HTTP_AUTHORIZATION' => $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? 'not set',
+            ],
+            'getallheaders_exists' => function_exists('getallheaders'),
+        ];
+        
+        if (function_exists('getallheaders')) {
+            $debugInfo['all_headers'] = getallheaders();
+        }
+        
+        file_put_contents(__DIR__ . '/../auth_debug.log', json_encode($debugInfo, JSON_PRETTY_PRINT) . "\n", FILE_APPEND);
+        
         // Try multiple methods to get Authorization header (server compatibility)
         $authHeader = '';
         
