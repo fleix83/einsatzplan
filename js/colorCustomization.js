@@ -764,17 +764,13 @@ const ColorCustomization = {
         console.log("Saving colors to API:", colors);
 
         try {
-            // Get auth token if available
-            const token = AuthManager.getToken();
-            const headers = { 'Content-Type': 'application/json' };
-            if (token) { 
-                headers['Authorization'] = `Bearer ${token}`; 
-            }
-
-            // Send to API
-            const response = await fetch('api/colors.php', {
+            // Use server-compatible authentication with token in URL
+            const url = AuthManager.addTokenToUrl('api/colors.php');
+            const response = await AuthManager.fetchWithAuth(url, {
                 method: 'POST',
-                headers: headers,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(colors)
             });
 
@@ -814,13 +810,6 @@ const ColorCustomization = {
         console.log("Resetting colors to defaults via API");
 
         try {
-            // Get auth token if available
-            const token = AuthManager.getToken();
-            const headers = { 'Content-Type': 'application/json' };
-            if (token) { 
-                headers['Authorization'] = `Bearer ${token}`; 
-            }
-
             // Send DELETE request to API with token in URL for server compatibility
             const url = AuthManager.addTokenToUrl('api/colors.php');
             const response = await AuthManager.fetchWithAuth(url, { 

@@ -765,14 +765,15 @@ async function addUser(name, role, email, password) {
             userData.password = password;
         }
         
-        // Send API request to create user
-        const response = await AuthManager.fetchWithAuth('api/users.php', {
+        // Send API request to create user - use URL token for server compatibility
+        const url = AuthManager.addTokenToUrl('api/users.php');
+        const response = await AuthManager.fetchWithAuth(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(userData)
-        }, true); // Set requireAuth to true
+        });
         
         if (!response.ok) {
             const errorData = await response.json();
@@ -939,12 +940,12 @@ async function updateUserProperty(userId, property, value) {
         // Get the auth token
         const token = AuthManager.getToken();
         
-        // Send API request to update user - using regular fetch with Authorization header
-        const response = await fetch(`api/users.php?id=${userId}`, {
+        // Send API request to update user - use URL token for server compatibility
+        const url = AuthManager.addTokenToUrl(`api/users.php?id=${userId}`);
+        const response = await AuthManager.fetchWithAuth(url, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(updateData)
         });
@@ -1121,21 +1122,13 @@ async function updateShift(day, shift, position, userId, note) {
             note: note || ''
         };
         
-        // Get auth token
-        const token = AuthManager.getToken();
-        const headers = {
-            'Content-Type': 'application/json'
-        };
-        
-        // Add Authorization header if token exists
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
-        }
-        
-        // Use fetch with explicit Authorization header
-        const response = await fetch('api/shifts.php', {
+        // Use server-compatible authentication with token in URL
+        const url = AuthManager.addTokenToUrl('api/shifts.php');
+        const response = await AuthManager.fetchWithAuth(url, {
             method: 'POST',
-            headers: headers,
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(shiftData)
         });
         
@@ -1576,11 +1569,11 @@ async function toggleCalendarFrozen() {
         // Toggle the frozen state
         const newState = !isCalendarFrozen;
         
-        const response = await fetch('api/calendar_state.php', {
+        const url = AuthManager.addTokenToUrl('api/calendar_state.php');
+        const response = await AuthManager.fetchWithAuth(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${AuthManager.getToken()}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 year: currentYear,
