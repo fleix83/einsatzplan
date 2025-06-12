@@ -61,23 +61,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
         
     case 'POST':
-        // Add a new user
-        // First check if the user is authenticated as backoffice
-        $headers = getallheaders();
-        $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
-        
-        // Check authentication but don't require it for GET requests
-        if (!empty($authHeader)) {
-            // There is an auth header, check if valid
-            $userData = validateToken();
+        // Add a new user - requires backoffice role
+        try {
+            // Verify authentication using the new requireAuth function
+            $currentUser = requireAuth();
             
-            if (!$userData || $userData['role'] !== 'Backoffice') {
+            // Check if user has backoffice role
+            if ($currentUser['role'] !== 'Backoffice') {
                 http_response_code(403);
                 echo json_encode(['error' => 'Only Backoffice users can add new users']);
                 exit;
             }
-        } else {
-            // No auth header, deny access
+        } catch (Exception $e) {
             http_response_code(403);
             echo json_encode(['error' => 'Authentication required']);
             exit;
@@ -174,23 +169,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
         
     case 'PUT':
-        // Update a user
-        // First check if the user is authenticated as backoffice
-        $headers = getallheaders();
-        $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
-        
-        // Check authentication
-        if (!empty($authHeader)) {
-            // There is an auth header, check if valid
-            $userData = validateToken();
+        // Update a user - requires backoffice role
+        try {
+            // Verify authentication using the new requireAuth function
+            $currentUser = requireAuth();
             
-            if (!$userData || $userData['role'] !== 'Backoffice') {
+            // Check if user has backoffice role
+            if ($currentUser['role'] !== 'Backoffice') {
                 http_response_code(403);
                 echo json_encode(['error' => 'Only Backoffice users can update users']);
                 exit;
             }
-        } else {
-            // No auth header, deny access
+        } catch (Exception $e) {
             http_response_code(403);
             echo json_encode(['error' => 'Authentication required']);
             exit;
