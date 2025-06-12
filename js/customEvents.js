@@ -379,6 +379,7 @@ const CustomEventsFeature = (function() {
         });
         
         addBtn.addEventListener('click', () => {
+            console.log('[DEBUG] Add custom event button clicked');
             addCustomEvent();
         });
         
@@ -524,6 +525,8 @@ const CustomEventsFeature = (function() {
     
     // Add a custom event
     async function addCustomEvent() {
+        console.log('[DEBUG] addCustomEvent function called');
+        
         const dateInput = document.getElementById('eventDate');
         const titleInput = document.getElementById('eventTitle');
         const timeInput = document.getElementById('eventTime');
@@ -538,17 +541,32 @@ const CustomEventsFeature = (function() {
         const time = timeInput.value;
         
         if (!selectedDate) {
-            NotificationSystem.warning('Please select a date');
+            console.log('[DEBUG] No date selected');
+            if (typeof NotificationSystem !== 'undefined') {
+                NotificationSystem.warning('Please select a date');
+            } else {
+                alert('Please select a date');
+            }
             return;
         }
         
         if (!title) {
-            NotificationSystem.warning('Please enter an event title');
+            console.log('[DEBUG] No title entered');
+            if (typeof NotificationSystem !== 'undefined') {
+                NotificationSystem.warning('Please enter an event title');
+            } else {
+                alert('Please enter an event title');
+            }
             return;
         }
         
         if (!time) {
-            NotificationSystem.warning('Please enter an event time');
+            console.log('[DEBUG] No time entered');
+            if (typeof NotificationSystem !== 'undefined') {
+                NotificationSystem.warning('Please enter an event time');
+            } else {
+                alert('Please enter an event time');
+            }
             return;
         }
         
@@ -627,7 +645,11 @@ const CustomEventsFeature = (function() {
             console.log('[DEBUG] Custom event added successfully:', createdEvent);
         } catch (error) {
             console.error('Error adding custom event:', error);
-            NotificationSystem.error(`Failed to add custom event: ${error.message}`);
+            if (typeof NotificationSystem !== 'undefined') {
+                NotificationSystem.error(`Failed to add custom event: ${error.message}`);
+            } else {
+                alert(`Failed to add custom event: ${error.message}`);
+            }
         }
     }
     
@@ -810,10 +832,17 @@ function updateCustomEventList() {
     // Open custom event modal for a specific day
     function openCustomEventModal(day, month, year) {
         console.log(`[DEBUG] Opening custom event modal for ${year}-${month}-${day}`);
+        console.log(`[DEBUG] AuthManager authenticated:`, AuthManager.isAuthenticated());
+        console.log(`[DEBUG] Current user:`, AuthManager.getCurrentUser());
         
         // Check if user is authorized
         if (!AuthManager.isAuthenticated() || AuthManager.getCurrentUser().role !== 'Backoffice') {
-            NotificationSystem.warning('Only backoffice users can manage custom events');
+            console.log('[DEBUG] User not authorized for custom events');
+            if (typeof NotificationSystem !== 'undefined') {
+                NotificationSystem.warning('Only backoffice users can manage custom events');
+            } else {
+                alert('Only backoffice users can manage custom events');
+            }
             return;
         }
         
