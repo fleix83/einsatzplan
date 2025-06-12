@@ -1798,7 +1798,8 @@ function updateFreezeButton() {
 
 // Function to export calendar to iCal
 function exportToIcal(userId = null) {
-    let url = `einsatzplan/api/ical.php?year=${currentYear}&month=${currentMonth}`;
+    // Korrigiert: Entferne den doppelten "einsatzplan" Pfad
+    let url = `api/ical.php?year=${currentYear}&month=${currentMonth}`;
     
     // Add user ID if specified
     if (userId) {
@@ -1811,7 +1812,8 @@ function exportToIcal(userId = null) {
 
 // Function to generate an iCal feed URL
 function getIcalFeedUrl(userId = null) {
-    let url = `${window.location.origin}/einsatzplan/api/ical.php?year=${currentYear}&month=${currentMonth}&feed=true`;
+    // Korrigiert: Verwende relative URL ohne doppelten Pfad
+    let url = `${window.location.origin}${window.location.pathname.replace('index.html', '')}api/ical.php?year=${currentYear}&month=${currentMonth}&feed=true`;
     
     // Add user ID if specified
     if (userId) {
