@@ -514,10 +514,10 @@ body {
 /* Custom Events within Shifts */
 .shift-custom-event {
     position: absolute;
-    bottom: 2px;
+    bottom: 3px;
     /* top: 25px; */
-    left: 5px;
-    right: 5px;
+    left: 3px;
+    right: 3px;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 3px;
     padding: 3px 5px;

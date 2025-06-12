@@ -61,12 +61,11 @@ const HolidayFeature = (function() {
                 bottom: 0;
                 left: 0;
                 right: 0;
-                height: 20px;
+                height: 19px;
                 border-radius: 0 0 4px 4px;
                 z-index: 6;
-                background-color: #ffffff;
                 background-size: 10px 10px;
-                background-image: repeating-linear-gradient(-45deg, #386aff 0, #386aff 1px, #ffffff 0, #ffffff 50%);
+                /* background-image: repeating-linear-gradient(-45deg, #386aff 0, #386aff 1px, #ffffff 0, #ffffff 50%); */
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -86,6 +85,13 @@ const HolidayFeature = (function() {
             font-weight: 600;
             text-shadow: none;
             width: 100%;
+            }
+
+            @media screen and (max-width: 768px) {
+
+            .backoffice-holiday-text {
+                 font-size: 9px
+                }
             }
             
             /* Holiday modal styles */

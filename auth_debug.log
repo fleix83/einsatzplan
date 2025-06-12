@@ -1,0 +1,178 @@
+{
+    "timestamp": "2025-06-12 15:25:08",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "121",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 572c9620ff0873c33dc4e812c646dfaafccaa13f788801137d125352c09a5a98",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=83roitro4kvc4qkip5h1fc4svh",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-12 15:29:29",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 572c9620ff0873c33dc4e812c646dfaafccaa13f788801137d125352c09a5a98",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=83roitro4kvc4qkip5h1fc4svh",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-12 15:29:34",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 572c9620ff0873c33dc4e812c646dfaafccaa13f788801137d125352c09a5a98",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=83roitro4kvc4qkip5h1fc4svh",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-12 15:29:43",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "76",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 572c9620ff0873c33dc4e812c646dfaafccaa13f788801137d125352c09a5a98",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=83roitro4kvc4qkip5h1fc4svh",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-12 15:39:30",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "91",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 572c9620ff0873c33dc4e812c646dfaafccaa13f788801137d125352c09a5a98",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=83roitro4kvc4qkip5h1fc4svh",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-12 15:39:49",
+    "method": "DELETE",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 572c9620ff0873c33dc4e812c646dfaafccaa13f788801137d125352c09a5a98",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=83roitro4kvc4qkip5h1fc4svh",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}

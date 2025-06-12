@@ -179,7 +179,10 @@ const OfficialHolidaysFeature = (function() {
             }
             
             .official-holiday-label {
-               display: block;
+                display: block;
+                word-break: break-word; 
+                overflow-wrap: break-word; 
+                white-space: normal; 
                 margin-bottom: -24px;
                 font-weight: 600;
                 font-size: 0.8rem;
