@@ -52,6 +52,22 @@ const AuthManager = {
         }
     },
     
+    // Helper function to add token to URL for server compatibility
+    addTokenToUrl: function(url) {
+        if (!this.isAuthenticated()) {
+            return url;
+        }
+        
+        const token = this.getToken();
+        if (!token) {
+            return url;
+        }
+        
+        // Check if URL already has query parameters
+        const separator = url.includes('?') ? '&' : '?';
+        return `${url}${separator}token=${token}`;
+    },
+    
     // Logout user
     logout: async function() {
         const authData = JSON.parse(localStorage.getItem('authData'));

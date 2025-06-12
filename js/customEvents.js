@@ -573,12 +573,12 @@ const CustomEventsFeature = (function() {
             // Get the auth token
             const token = AuthManager.getToken();
             
-            // Send API request
-            const response = await fetch('api/custom_events.php', {
+            // Send API request with token in URL for server compatibility
+            const url = AuthManager.addTokenToUrl('api/custom_events.php');
+            const response = await AuthManager.fetchWithAuth(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     date: formattedDate,
@@ -651,11 +651,10 @@ const CustomEventsFeature = (function() {
             const token = AuthManager.getToken();
             
             // Send API request
-            const response = await fetch(`api/custom_events.php?id=${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            // Use AuthManager.fetchWithAuth with token in URL for server compatibility  
+            const url = AuthManager.addTokenToUrl(`api/custom_events.php?id=${id}`);
+            const response = await AuthManager.fetchWithAuth(url, {
+                method: 'DELETE'
             });
             
             if (!response.ok) {

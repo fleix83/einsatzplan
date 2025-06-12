@@ -551,11 +551,12 @@ const OfficialHolidaysFeature = (function() {
         try {
             console.log(`Adding official holiday: ${title} from ${start} to ${end}`);
             
-            const response = await fetch('api/official_holidays.php', {
+            // Use AuthManager.fetchWithAuth with token in URL for server compatibility
+            const url = AuthManager.addTokenToUrl('api/official_holidays.php');
+            const response = await AuthManager.fetchWithAuth(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${AuthManager.getToken()}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     start_date: start,
@@ -600,11 +601,10 @@ const OfficialHolidaysFeature = (function() {
     // Delete an official holiday
     async function deleteOfficialHoliday(holidayId) {
         try {
-            const response = await fetch(`api/official_holidays.php?id=${holidayId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${AuthManager.getToken()}`
-                }
+            // Use AuthManager.fetchWithAuth with token in URL for server compatibility
+            const url = AuthManager.addTokenToUrl(`api/official_holidays.php?id=${holidayId}`);
+            const response = await AuthManager.fetchWithAuth(url, {
+                method: 'DELETE'
             });
             
             if (!response.ok) {

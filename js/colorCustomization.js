@@ -821,10 +821,10 @@ const ColorCustomization = {
                 headers['Authorization'] = `Bearer ${token}`; 
             }
 
-            // Send DELETE request to API
-            const response = await fetch('api/colors.php', { 
-                method: 'DELETE', 
-                headers: headers 
+            // Send DELETE request to API with token in URL for server compatibility
+            const url = AuthManager.addTokenToUrl('api/colors.php');
+            const response = await AuthManager.fetchWithAuth(url, { 
+                method: 'DELETE'
             });
             
             console.log(`Reset colors API response status: ${response.status}`);

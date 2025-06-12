@@ -837,7 +837,10 @@ async function performUserDeletion(userId) {
         console.log(`DEBUG: Current token:`, AuthManager.getToken());
         
         // First, call the API to delete the user from the database
-        const response = await AuthManager.fetchWithAuth(`api/users.php?id=${userId}`, {
+        // Add token to URL for server compatibility
+        const url = AuthManager.addTokenToUrl(`api/users.php?id=${userId}`);
+        
+        const response = await AuthManager.fetchWithAuth(url, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

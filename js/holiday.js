@@ -597,8 +597,9 @@ async function loadHolidays() {
         try {
             console.log(`Adding holiday: ${start} to ${end}`);
             
-            // Use regular fetch instead of AuthManager.fetchWithAuth
-            const response = await fetch('api/holidays.php', {
+            // Use AuthManager.fetchWithAuth with token in URL for server compatibility
+            const url = AuthManager.addTokenToUrl('api/holidays.php');
+            const response = await AuthManager.fetchWithAuth(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -661,8 +662,9 @@ async function loadHolidays() {
         }
         
         try {
-            // Use regular fetch instead of AuthManager.fetchWithAuth
-            const response = await fetch(`api/holidays.php?id=${holiday.id}`, {
+            // Use AuthManager.fetchWithAuth with token in URL for server compatibility
+            const url = AuthManager.addTokenToUrl(`api/holidays.php?id=${holiday.id}`);
+            const response = await AuthManager.fetchWithAuth(url, {
                 method: 'DELETE'
             });
             
