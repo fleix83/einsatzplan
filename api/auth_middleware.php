@@ -10,7 +10,7 @@ function validateToken() {
         // Debug: Log environment info
         error_log("DEBUG: validateToken called");
         
-        // Create debug file for troubleshooting
+        // Create debug file for troubleshooting - try multiple locations
         $debugInfo = [
             'timestamp' => date('Y-m-d H:i:s'),
             'method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
@@ -25,7 +25,18 @@ function validateToken() {
             $debugInfo['all_headers'] = getallheaders();
         }
         
-        file_put_contents(__DIR__ . '/../auth_debug.log', json_encode($debugInfo, JSON_PRETTY_PRINT) . "\n", FILE_APPEND);
+        // Try multiple locations for debug file
+        $debugPaths = [
+            __DIR__ . '/../auth_debug.log',
+            __DIR__ . '/auth_debug.log',
+            '/tmp/auth_debug.log'
+        ];
+        
+        foreach ($debugPaths as $path) {
+            if (@file_put_contents($path, json_encode($debugInfo, JSON_PRETTY_PRINT) . "\n", FILE_APPEND)) {
+                break;
+            }
+        }
         
         // Try multiple methods to get Authorization header (server compatibility)
         $authHeader = '';

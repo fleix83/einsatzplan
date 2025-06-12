@@ -39,6 +39,19 @@ const AuthManager = {
         return authData.token;
     },
     
+    // Debug function to test headers
+    debugHeaders: async function() {
+        try {
+            const response = await this.fetchWithAuth('api/debug_headers.php');
+            const data = await response.json();
+            console.log('DEBUG HEADERS RESPONSE:', data);
+            return data;
+        } catch (error) {
+            console.error('DEBUG HEADERS ERROR:', error);
+            return null;
+        }
+    },
+    
     // Logout user
     logout: async function() {
         const authData = JSON.parse(localStorage.getItem('authData'));
