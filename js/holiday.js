@@ -76,15 +76,21 @@ const HolidayFeature = (function() {
             }
             
             /* White background for the text inside backoffice holiday stripes */
-            .backoffice-holiday-text {
-             background-color: #2d9dff;
-            color: white;
-            padding: 4px 6px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: 600;
-            text-shadow: none;
-            width: 100%;
+            span.backoffice-holiday-text {
+                background-color: #2d9dff;
+                color: white;
+                padding: 4px 6px;
+                border-radius: 3px;
+                font-size: 12px;
+                font-weight: 600;
+                text-shadow: none;
+                width: 100%;
+                -webkit-line-clamp: 2; 
+                -webkit-box-orient: vertical;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;  
+                line-clamp: 2;  
             }
 
             @media screen and (max-width: 768px) {
