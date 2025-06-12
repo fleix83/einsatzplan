@@ -67,15 +67,16 @@ function validateToken() {
         
         error_log("DEBUG: Final authHeader: '$authHeader'");
         
-        // If no Authorization header, check for token in query string (for GET requests)
-        if (empty($authHeader) && isset($_GET['token'])) {
+        // Determine token from various sources
+        $token = '';
+        
+        // Method 1: From query string (most compatible)
+        if (isset($_GET['token'])) {
             $token = $_GET['token'];
             error_log("DEBUG: Using token from query string: '$token'");
-        } else if (empty($authHeader)) {
-            // No Authorization header or token found
-            error_log("DEBUG: No authorization header or token found");
-            return null;
-        } else {
+        }
+        // Method 2: From Authorization header
+        else if (!empty($authHeader)) {
             // Extract token from Bearer format
             $parts = explode(' ', $authHeader, 2);
             if (count($parts) < 2) {
@@ -83,15 +84,21 @@ function validateToken() {
                 return null;
             }
             
-            list($bearer, $token) = $parts;
+            list($bearer, $tokenFromHeader) = $parts;
             
             // Verify it's a Bearer token
-            if (strtolower($bearer) !== 'bearer' || empty($token)) {
-                error_log("DEBUG: Not a Bearer token or token is empty. Bearer: '$bearer', Token: '$token'");
+            if (strtolower($bearer) !== 'bearer' || empty($tokenFromHeader)) {
+                error_log("DEBUG: Not a Bearer token or token is empty. Bearer: '$bearer', Token: '$tokenFromHeader'");
                 return null;
             }
             
-            error_log("DEBUG: Extracted token: '$token'");
+            $token = $tokenFromHeader;
+            error_log("DEBUG: Extracted token from header: '$token'");
+        }
+        // Method 3: No token found
+        else {
+            error_log("DEBUG: No authorization header or token found");
+            return null;
         }
         
         // If we got here, we have a token to validate
