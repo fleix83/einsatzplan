@@ -151,6 +151,45 @@ function getUrlParams() {
     };
 }
 
+// Function to refresh UI button states
+function refreshButtonStates() {
+    console.log('refreshButtonStates: Forcing button visibility refresh');
+    const isAuthenticated = AuthManager.isAuthenticated();
+    const currentUser = AuthManager.getCurrentUser();
+    const isBackoffice = isAuthenticated && currentUser && currentUser.role === 'Backoffice';
+    
+    const manageUsersButton = document.getElementById('manageUsers');
+    const mobileManageUsersButton = document.getElementById('mobileManageUsers');
+    
+    if (manageUsersButton) {
+        if (isBackoffice) {
+            manageUsersButton.style.display = 'block';
+            manageUsersButton.style.visibility = 'visible';
+        } else {
+            manageUsersButton.style.display = 'none';
+            manageUsersButton.style.visibility = 'hidden';
+        }
+    }
+    
+    if (mobileManageUsersButton) {
+        if (isBackoffice) {
+            mobileManageUsersButton.style.display = 'block';
+            mobileManageUsersButton.style.visibility = 'visible';
+        } else {
+            mobileManageUsersButton.style.display = 'none';
+            mobileManageUsersButton.style.visibility = 'hidden';
+        }
+    }
+    
+    console.log('refreshButtonStates: Completed', {
+        isAuthenticated,
+        currentUser: currentUser ? currentUser.name : 'none',
+        role: currentUser ? currentUser.role : 'none',
+        isBackoffice,
+        manageUsersVisible: manageUsersButton ? manageUsersButton.style.display : 'not found'
+    });
+}
+
 // In script.js
 function setupUI() {
     // Get authentication status
@@ -203,20 +242,18 @@ function setupUI() {
     const authLink = document.getElementById('authLink');
     if (authLink) {
         if (isAuthenticated && currentUser) {
-            // Show user info and logout option
-            authLink.innerHTML = `
-                <span class="auth-link-icon">🔒</span>
-                <span class="auth-link-text">${currentUser.name} (Logout)</span>
-            `;
-            authLink.classList.add('logged-in');
-            
-            // Add role indicator for backoffice users
+            // Show user info and logout option - no icons for backoffice users
             if (currentUser.role === 'Backoffice') {
                 authLink.innerHTML = `
-                    <span class="auth-link-icon">👑</span>
+                    <span class="auth-link-text">${currentUser.name} (Logout)</span>
+                `;
+            } else {
+                authLink.innerHTML = `
+                    <span class="auth-link-icon">🔒</span>
                     <span class="auth-link-text">${currentUser.name} (Logout)</span>
                 `;
             }
+            authLink.classList.add('logged-in');
         } else {
             // Show login option
             authLink.innerHTML = `
@@ -259,10 +296,22 @@ function setupUI() {
     // Show/hide the User Manager button based on authentication and role
     if (manageUsersButton) {
       // Only show to authenticated Backoffice users
+      // Hide for all other cases (unauthenticated, Freiwillige, etc.)
+      console.log('setupUI: Managing user button visibility', {
+        isAuthenticated,
+        currentUser: currentUser ? currentUser.name : 'none',
+        role: currentUser ? currentUser.role : 'none',
+        isBackoffice
+      });
+      
       if (isBackoffice) {
         manageUsersButton.style.display = 'block';
+        manageUsersButton.style.visibility = 'visible';
+        console.log('setupUI: Showing manage users button for backoffice user');
       } else {
         manageUsersButton.style.display = 'none';
+        manageUsersButton.style.visibility = 'hidden';
+        console.log('setupUI: Hiding manage users button for non-backoffice user');
       }
     }
     
@@ -272,6 +321,15 @@ function setupUI() {
         mobileManageUsersButton.style.display = 'block';
       } else {
         mobileManageUsersButton.style.display = 'none';
+      }
+    }
+    
+    // Ensure export button is visible for non-backoffice users
+    if (exportButton) {
+      if (isBackoffice) {
+        exportButton.style.display = 'block'; // Backoffice can also export
+      } else {
+        exportButton.style.display = 'block'; // Show for everyone else
       }
     }
     
@@ -309,9 +367,9 @@ function setupUI() {
           mobileUserInfoElement.textContent = currentUser.name;
           mobileUserInfoElement.style.display = 'block';
           
-          // Add role indicator for backoffice users
+          // No icons for backoffice users
           if (currentUser.role === 'Backoffice') {
-            mobileUserInfoElement.innerHTML = `<span class="admin-badge">👑</span> ${currentUser.name}`;
+            mobileUserInfoElement.textContent = currentUser.name;
           }
         }
       } else {
@@ -1486,6 +1544,16 @@ async function initializeApp() {
         if (typeof HolidayFeature !== 'undefined') {
             await HolidayFeature.init();
         }
+        
+        // Force another setupUI call to ensure button visibility is correct
+        console.log('initializeApp: Calling setupUI again to ensure proper button visibility');
+        setupUI();
+        
+        // Also call refreshButtonStates to be absolutely sure
+        refreshButtonStates();
+        
+        // Make refreshButtonStates available globally for debugging
+        window.refreshButtonStates = refreshButtonStates;
         
         if (typeof SchreibdienstFeature !== 'undefined') {
             await SchreibdienstFeature.init();
