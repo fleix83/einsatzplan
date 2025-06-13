@@ -195,13 +195,13 @@ const AnnouncementManager = {
                 modal.style.display = 'none';
                 
                 // Show success notification
-                NotificationSystem.success('Announcement updated successfully');
+                NotificationSystem.success('Ankündigung erfolgreich aktualisiert');
             } catch (error) {
-                NotificationSystem.error(`Failed to save announcement: ${error.message}`);
+                NotificationSystem.error(`Fehler beim Speichern der Ankündigung: ${error.message}`);
             } finally {
                 // Reset button
                 saveBtn.disabled = false;
-                saveBtn.textContent = 'Save Changes';
+                saveBtn.textContent = 'Änderungen speichern';
             }
         });
     },

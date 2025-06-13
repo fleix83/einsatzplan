@@ -268,12 +268,12 @@ function setupUI() {
             // Show user info and logout option - no icons for backoffice users
             if (currentUser.role === 'Backoffice') {
                 authLink.innerHTML = `
-                    <span class="auth-link-text">${currentUser.name} (Logout)</span>
+                    <span class="auth-link-text">${currentUser.name} (Abmelden)</span>
                 `;
             } else {
                 authLink.innerHTML = `
                     <span class="auth-link-icon">🔒</span>
-                    <span class="auth-link-text">${currentUser.name} (Logout)</span>
+                    <span class="auth-link-text">${currentUser.name} (Abmelden)</span>
                 `;
             }
             authLink.classList.add('logged-in');
@@ -281,7 +281,7 @@ function setupUI() {
             // Show login option
             authLink.innerHTML = `
                 <span class="auth-link-icon">🔑</span>
-                <span class="auth-link-text">Login</span>
+                <span class="auth-link-text">Anmelden</span>
             `;
             authLink.classList.remove('logged-in');
         }
@@ -435,7 +435,7 @@ function setupUI() {
         eventBtn.id = 'customEventBtn';
         eventBtn.className = 'button-nav button-custom-event';
         eventBtn.innerHTML = '<span class="button-icon">📅</span>';
-        eventBtn.title = 'Add Custom Event';
+        eventBtn.title = 'Event hinzufügen';
         
         // Click handler
         eventBtn.addEventListener('click', async () => {
@@ -452,15 +452,15 @@ function setupUI() {
                         CustomEventsFeature.openCustomEventModal(1, currentMonth, currentYear);
                     } else {
                         console.error('CustomEventsFeature.openCustomEventModal is not available');
-                        NotificationSystem.warning('Loading feature components... Please try again in a moment.');
+                        NotificationSystem.warning('Komponenten werden geladen... Bitte versuchen Sie es in einem Moment erneut.');
                     }
                 } else {
                     console.error('CustomEventsFeature is undefined');
-                    NotificationSystem.error('Custom event feature is not available. Please refresh the page.');
+                    NotificationSystem.error('Event-Funktion ist nicht verfügbar. Bitte laden Sie die Seite neu.');
                 }
             } catch (error) {
                 console.error('Error handling custom event button click:', error);
-                NotificationSystem.error('An error occurred. Please try again.');
+                NotificationSystem.error('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
             }
         });
         
@@ -1221,7 +1221,7 @@ async function updateShift(day, shift, position, userId, note) {
         
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to update shift');
+            throw new Error(errorData.error || 'Fehler beim Aktualisieren der Schicht');
         }
         
         // Update local data
@@ -1238,7 +1238,7 @@ async function updateShift(day, shift, position, userId, note) {
     } catch (error) {
         console.error('Error updating shift:', error);
         // Show error to user
-        NotificationSystem.error(`Failed to update shift: ${error.message}`);
+        NotificationSystem.error(`Fehler beim Aktualisieren der Schicht: ${error.message}`);
     }
 }
 
@@ -1318,7 +1318,7 @@ async function updateCalendar() {
     }
     
     // Show loading indicator
-    calendar.innerHTML = '<div class="loading-indicator">Loading calendar data...</div>';
+    calendar.innerHTML = '<div class="loading-indicator">Kalenderdaten werden geladen...</div>';
     
     // Get month title element
     const monthTitle = document.getElementById('monthTitle');
@@ -1360,7 +1360,7 @@ async function updateCalendar() {
     } catch (error) {
         console.error('Error updating calendar:', error);
         if (calendar) {
-            calendar.innerHTML = '<div class="error-message">Failed to load calendar data. Please try again.</div>';
+            calendar.innerHTML = '<div class="error-message">Fehler beim Laden der Kalenderdaten. Bitte versuchen Sie es erneut.</div>';
         }
     }
 }
@@ -1629,10 +1629,10 @@ async function initializeApp() {
         // Show error message to user
         document.body.innerHTML = `
             <div class="error-container">
-                <h2>Error Loading Application</h2>
-                <p>There was a problem connecting to the server. Please try again later.</p>
+                <h2>Fehler beim Laden der Anwendung</h2>
+                <p>Es gab ein Problem bei der Verbindung zum Server. Bitte versuchen Sie es später erneut.</p>
                 <p class="error-details">${error.message}</p>
-                <button onclick="location.reload()">Retry</button>
+                <button onclick="location.reload()">Erneut versuchen</button>
             </div>
         `;
     }
@@ -1705,7 +1705,7 @@ async function toggleCalendarFrozen() {
         
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.error || 'Failed to update calendar state');
+            throw new Error(error.error || 'Fehler beim Aktualisieren des Kalenderstatus');
         }
         
         const state = await response.json();
@@ -1718,18 +1718,18 @@ async function toggleCalendarFrozen() {
         
         // Show a message to confirm the action
         const message = isCalendarFrozen 
-            ? `Calendar for ${getMonthName(currentMonth)} ${currentYear} has been frozen.`
-            : `Calendar for ${getMonthName(currentMonth)} ${currentYear} has been unfrozen.`;
+            ? `Kalender für ${getMonthName(currentMonth)} ${currentYear} wurde gesperrt.`
+            : `Kalender für ${getMonthName(currentMonth)} ${currentYear} wurde entsperrt.`;
         
         if (isCalendarFrozen) {
-            NotificationSystem.info(message, 'Calendar Frozen');
+            NotificationSystem.info(message, 'Kalender gesperrt');
         } else {
-            NotificationSystem.success(message, 'Calendar Unlocked');
+            NotificationSystem.success(message, 'Kalender entsperrt');
         }
         
     } catch (error) {
         console.error('Error toggling calendar state:', error);
-        NotificationSystem.error(`Failed to update calendar state: ${error.message}`);
+        NotificationSystem.error(`Fehler beim Aktualisieren des Kalenderstatus: ${error.message}`);
     }
 }
 
@@ -2622,7 +2622,7 @@ function updateUserList() {
             const holidayBtn = document.createElement('button');
             holidayBtn.className = 'holiday-btn';
             holidayBtn.innerHTML = '🏖️';
-            holidayBtn.title = 'Manage Holidays';
+            holidayBtn.title = 'Ferien verwalten';
             holidayBtn.setAttribute('data-user-id', user.id);
              
             // Add click handler for the holiday button
@@ -3469,13 +3469,13 @@ function updateHoverInfo(day, show = true) {
     if (e1Display) {
         e1Display.innerHTML = e1Users.length ? 
             e1Users.map(name => `<div class="shift-user">${name}</div>`).join('') : 
-            '<div class="shift-user">No users assigned</div>';
+            '<div class="shift-user">Einsatz unbelegt</div>';
     }
 
     if (e2Display) {
         e2Display.innerHTML = e2Users.length ? 
             e2Users.map(name => `<div class="shift-user">${name}</div>`).join('') : 
-            '<div class="shift-user">No users assigned</div>';
+            '<div class="shift-user">Einsatz unbelegt</div>';
     }
 
     // Add custom events display
@@ -3620,7 +3620,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                         .map(id => {
                             const user = staticData.users.find(u => u.id === id);
                             return user ? `<div class="shift-user-item">${user.name}</div>` : '';
-                        }).join('') || '<div class="shift-user-item">No users assigned</div>'}
+                        }).join('') || '<div class="shift-user-item">Einsatz unbelegt</div>'}
                 </div>
                 ${e1Events.length > 0 ? `
                     <div class="shift-events-list">
@@ -3645,7 +3645,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                         .map(id => {
                             const user = staticData.users.find(u => u.id === id);
                             return user ? `<div class="shift-user-item">${user.name}</div>` : '';
-                        }).join('') || '<div class="shift-user-item">No users assigned</div>'}
+                        }).join('') || '<div class="shift-user-item">Einsatz unbelegt</div>'}
                 </div>
                 ${e2Events.length > 0 ? `
                     <div class="shift-events-list">

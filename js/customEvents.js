@@ -565,7 +565,7 @@ const CustomEventsFeature = (function() {
             
             // Check if we're authenticated
             if (!AuthManager.isAuthenticated()) {
-                NotificationSystem.error('You need to be logged in to add custom events');
+                NotificationSystem.error('Sie müssen angemeldet sein, um Events hinzuzufügen');
                 return;
             }
             
@@ -626,15 +626,15 @@ const CustomEventsFeature = (function() {
             timeInput.value = '';
             
             // Show success notification
-            NotificationSystem.success(`Custom event "${title}" added successfully for ${formattedDate}`);
+            NotificationSystem.success(`Event "${title}" erfolgreich hinzugefügt für ${formattedDate}`);
             
             console.log('[DEBUG] Custom event added successfully:', createdEvent);
         } catch (error) {
             console.error('Error adding custom event:', error);
             if (typeof NotificationSystem !== 'undefined') {
-                NotificationSystem.error(`Failed to add custom event: ${error.message}`);
+                NotificationSystem.error(`Fehler beim Hinzufügen des Events: ${error.message}`);
             } else {
-                alert(`Failed to add custom event: ${error.message}`);
+                alert(`Fehler beim Hinzufügen des Events: ${error.message}`);
             }
         }
     }
@@ -651,7 +651,7 @@ const CustomEventsFeature = (function() {
         try {
             // Check if we're authenticated
             if (!AuthManager.isAuthenticated()) {
-                NotificationSystem.error('You need to be logged in to delete custom events');
+                NotificationSystem.error('Sie müssen angemeldet sein, um Events zu löschen');
                 return;
             }
             
@@ -690,7 +690,7 @@ const CustomEventsFeature = (function() {
                     events.splice(index, 1);
                     
                     // Show success notification
-                    NotificationSystem.success(`Custom event "${deletedEvent.title}" deleted successfully`);
+                    NotificationSystem.success(`Event "${deletedEvent.title}" erfolgreich gelöscht`);
                 }
             }
             
@@ -704,7 +704,7 @@ const CustomEventsFeature = (function() {
             console.log('[DEBUG] Custom event deleted successfully:', id);
         } catch (error) {
             console.error('Error deleting custom event:', error);
-            NotificationSystem.error(`Failed to delete custom event: ${error.message}`);
+            NotificationSystem.error(`Fehler beim Löschen des Events: ${error.message}`);
         }
     }
     
