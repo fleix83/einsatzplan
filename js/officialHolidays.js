@@ -37,30 +37,6 @@ const OfficialHolidaysFeature = (function() {
                 opacity: 0 !important;
             }
             
-            /* Button styles */
-            .button-official-holiday {
-                background: #9DF7E5; /* New color scheme */
-                border: none;
-                color: white;
-                cursor: pointer;
-                padding: 0;
-                border-radius: 12px;
-                font-size: 16px;
-                transition: background-color 0.2s;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 34px;
-                height: 34px;
-            }
-            
-            .button-official-holiday:hover {
-                background: #8ae8d4; /* Darker shade for hover */
-            }
-            
-            .button-official-holiday .button-icon {
-                font-size: 18px;
-            }
             
             /* Modal styles */
             #officialHolidayModal {
@@ -678,7 +654,7 @@ const OfficialHolidaysFeature = (function() {
         // Create button
         const holidayBtn = document.createElement('button');
         holidayBtn.id = 'officialHolidayBtn';
-        holidayBtn.className = 'button-official-holiday';
+        holidayBtn.className = 'button-nav button-official-holiday';
         holidayBtn.innerHTML = '<span class="button-icon">🏖️</span>';
         holidayBtn.title = 'Betriebsferien';
         holidayBtn.addEventListener('click', openOfficialHolidayModal);

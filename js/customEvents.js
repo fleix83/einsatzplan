@@ -56,25 +56,6 @@ const CustomEventsFeature = (function() {
         const styleEl = document.createElement('style');
         styleEl.id = 'custom-events-styles';
         styleEl.innerHTML = `
-            /* Custom event button styles */
-            .button-custom-event {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 34px;
-                height: 34px;
-                border-radius: 12px; /* Standardized border radius */
-                background-color: #FFBDBD; /* New color scheme */
-                color: white;
-                border: none;
-                cursor: pointer;
-                transition: background-color 0.2s;
-                margin-left: 8px;
-            }
-            
-            .button-custom-event:hover {
-                background-color: #ffaaaa; /* Darker shade for hover */
-            }
             
             /* Custom event indicator styles */
             .custom-event-indicator {
@@ -913,7 +894,7 @@ function updateCustomEventList() {
         // Create custom event button
         const eventBtn = document.createElement('button');
         eventBtn.id = 'customEventBtn';
-        eventBtn.className = 'button-custom-event';
+        eventBtn.className = 'button-nav button-custom-event';
         eventBtn.innerHTML = '<span class="button-icon">📝</span>';
         eventBtn.title = 'Events';
         

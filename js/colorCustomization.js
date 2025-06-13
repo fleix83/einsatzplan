@@ -18,7 +18,9 @@ const ColorCustomization = {
         schreibdienstSingle: '#64b5f6',
         schreibdienstFull: '#1976d2',
         hoverBg: '#f5f5f5',
-        selectedBg: '#e3f2fd'
+        selectedBg: '#e3f2fd',
+        buttonNavBg: '#f3f3f3',
+        buttonNavBgHover: '#e8e8e8'
     },
 
     // Current color preferences (in-memory cache)
@@ -75,7 +77,7 @@ const ColorCustomization = {
         // Create color customization button
         const colorBtn = document.createElement('button');
         colorBtn.id = 'colorCustomizeBtn';
-        colorBtn.className = 'button-color-customize';
+        colorBtn.className = 'button-nav button-color-customize';
         colorBtn.innerHTML = '<span class="button-icon">🎨</span>';
         colorBtn.title = 'Farben anpassen';
         colorBtn.addEventListener('click', () => this.showColorCustomizationModal());
@@ -231,7 +233,9 @@ const ColorCustomization = {
             schreibdienstSingle: getColorWithAlpha('schreibdienstSingleColor', 'schreibdienstSingleAlpha'),
             schreibdienstFull: getColorWithAlpha('schreibdienstFullColor', 'schreibdienstFullAlpha'),
             hoverBg: getColorWithAlpha('hoverBgColor', 'hoverBgAlpha'),
-            selectedBg: getColorWithAlpha('selectedBgColor', 'selectedBgAlpha')
+            selectedBg: getColorWithAlpha('selectedBgColor', 'selectedBgAlpha'),
+            buttonNavBg: getColorWithAlpha('buttonNavBgColor', 'buttonNavBgAlpha'),
+            buttonNavBgHover: getColorWithAlpha('buttonNavBgHoverColor', 'buttonNavBgHoverAlpha')
         };
     },
 
@@ -284,6 +288,8 @@ const ColorCustomization = {
                 --color-schreibdienst: ${toRgba(colors.schreibdienstSingle)} !important;
                 --hover-bg: ${toRgba(colors.hoverBg)} !important;
                 --selected-bg: ${toRgba(colors.selectedBg)} !important;
+                --button-nav-bg: ${toRgba(colors.buttonNavBg)} !important;
+                --button-nav-bg-hover: ${toRgba(colors.buttonNavBgHover)} !important;
             }
     
             /* Frozen state background */
@@ -410,6 +416,15 @@ const ColorCustomization = {
             /* Shift user select dropdown arrow */
             .shift-user-row .user-select {
                 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(typeof colors.primaryColor === 'object' ? colors.primaryColor.hex : colors.primaryColor)}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+            }
+            
+            /* Button nav background */
+            .button-nav {
+                background: var(--button-nav-bg) !important;
+            }
+            
+            .button-nav:hover {
+                background: var(--button-nav-bg-hover) !important;
             }
         `;
     
@@ -552,6 +567,26 @@ const ColorCustomization = {
                                 <input type="color" id="selectedBgColor" value="${currentColors.selectedBg.hex || currentColors.selectedBg}">
                                 <input type="range" id="selectedBgAlpha" min="0" max="1" step="0.01" value="${currentColors.selectedBg.alpha || 1}" class="alpha-slider">
                                 <span class="alpha-value">${Math.round((currentColors.selectedBg.alpha || 1) * 100)}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-section">
+                        <h3>Navigation Buttons</h3>
+                        <div class="cc-color-option">
+                            <label>Button Hintergrund:</label>
+                            <div class="color-with-alpha">
+                                <input type="color" id="buttonNavBgColor" value="${currentColors.buttonNavBg.hex || currentColors.buttonNavBg}">
+                                <input type="range" id="buttonNavBgAlpha" min="0" max="1" step="0.01" value="${currentColors.buttonNavBg.alpha || 1}" class="alpha-slider">
+                                <span class="alpha-value">${Math.round((currentColors.buttonNavBg.alpha || 1) * 100)}%</span>
+                            </div>
+                        </div>
+                        <div class="cc-color-option">
+                            <label>Button Hintergrund (Hover):</label>
+                            <div class="color-with-alpha">
+                                <input type="color" id="buttonNavBgHoverColor" value="${currentColors.buttonNavBgHover.hex || currentColors.buttonNavBgHover}">
+                                <input type="range" id="buttonNavBgHoverAlpha" min="0" max="1" step="0.01" value="${currentColors.buttonNavBgHover.alpha || 1}" class="alpha-slider">
+                                <span class="alpha-value">${Math.round((currentColors.buttonNavBgHover.alpha || 1) * 100)}%</span>
                             </div>
                         </div>
                     </div>

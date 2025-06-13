@@ -350,7 +350,7 @@ body {
     background: #fdfdfd;
     padding: 40px;
     border-radius: 20px;
-    outline: 2px solid #ff5252;
+    outline: 0px solid #ff5252;
     outline-offset: 8px;
 }
 
@@ -3926,7 +3926,7 @@ body {
     overflow: visible;
     border-bottom: 0px solid var(--primary-color);
     transition: all 0.3s ease;
-    outline: 2px solid #ff5252;
+    outline: 0px solid #ff5252;
     outline-offset: 5px;
 }
 
@@ -4213,6 +4213,57 @@ body {
 .button-color-customize:hover {
     background-color: #f5f5f5;
     transform: scale(1.05);
+}
+
+/* New unified navbar button style */
+.button-nav {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border: none !important;
+    font-size: 16px !important;
+    color: white !important;
+    background: var(--button-nav-bg, #f3f3f3) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    margin: 0 1px !important;
+}
+
+.button-nav:hover {
+    background: var(--button-nav-bg-hover, #e8e8e8) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.button-nav:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.button-nav .button-icon {
+    font-size: 16px !important;
+    color: white !important;
+}
+
+/* Override specific button styling for navbar buttons */
+.navbar-controls .button-nav,
+.mobile-menu-buttons .button-nav {
+    min-width: 36px !important;
+    max-width: 36px !important;
+    flex: none !important;
+}
+
+
+/* Ensure icons are dark for all navbar buttons (since background is light gray) */
+.button-nav .button-icon,
+.button-nav svg {
+    color: #666 !important;
+    fill: #666 !important;
 }
 
 #colorCustomizationModal {
@@ -4972,10 +5023,10 @@ body {
     color: white;
 }
 
-.auth-link-icon {
+ .auth-link-icon {
     margin-right: 8px;
     font-size: 16px;
-}
+} 
 
 .auth-link-text {
     white-space: nowrap;

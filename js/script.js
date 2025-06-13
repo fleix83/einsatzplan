@@ -346,7 +346,7 @@ function setupUI() {
         // Create button
         const eventBtn = document.createElement('button');
         eventBtn.id = 'customEventBtn';
-        eventBtn.className = 'button-custom-event';
+        eventBtn.className = 'button-nav button-custom-event';
         eventBtn.innerHTML = '<span class="button-icon">📅</span>';
         eventBtn.title = 'Add Custom Event';
         
@@ -1739,7 +1739,7 @@ function addFreezeButton() {
     // Create freeze toggle button - ONLY the icon, no text span
     const freezeBtn = document.createElement('button');
     freezeBtn.id = 'freezeToggleBtn';
-    freezeBtn.className = 'button-freeze'; 
+    freezeBtn.className = 'button-nav button-freeze'; 
     // Only include the icon span, no button-text span
     freezeBtn.innerHTML = '<span class="button-icon">🔓</span>';
     freezeBtn.title = 'Kalender sperren';
