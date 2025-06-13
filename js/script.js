@@ -157,10 +157,13 @@ function refreshButtonStates() {
     const isAuthenticated = AuthManager.isAuthenticated();
     const currentUser = AuthManager.getCurrentUser();
     const isBackoffice = isAuthenticated && currentUser && currentUser.role === 'Backoffice';
+    const isMobileView = window.innerWidth <= 768;
     
     const manageUsersButton = document.getElementById('manageUsers');
     const mobileManageUsersButton = document.getElementById('mobileManageUsers');
+    const exportButton = document.getElementById('exportCalendar');
     
+    // Handle manage users buttons
     if (manageUsersButton) {
         if (isBackoffice) {
             manageUsersButton.style.display = 'block';
@@ -181,12 +184,32 @@ function refreshButtonStates() {
         }
     }
     
+    // Handle export button visibility based on view mode and user role
+    if (exportButton) {
+        if (isMobileView) {
+            // Mobile view: hide for backoffice, show for others
+            if (isBackoffice) {
+                exportButton.style.setProperty('display', 'none', 'important');
+                exportButton.style.setProperty('visibility', 'hidden', 'important');
+            } else {
+                exportButton.style.setProperty('display', 'flex', 'important');
+                exportButton.style.setProperty('visibility', 'visible', 'important');
+            }
+        } else {
+            // Desktop view: show for everyone
+            exportButton.style.setProperty('display', 'block', 'important');
+            exportButton.style.setProperty('visibility', 'visible', 'important');
+        }
+    }
+    
     console.log('refreshButtonStates: Completed', {
         isAuthenticated,
         currentUser: currentUser ? currentUser.name : 'none',
         role: currentUser ? currentUser.role : 'none',
         isBackoffice,
-        manageUsersVisible: manageUsersButton ? manageUsersButton.style.display : 'not found'
+        isMobileView,
+        manageUsersVisible: manageUsersButton ? manageUsersButton.style.display : 'not found',
+        exportButtonVisible: exportButton ? exportButton.style.display : 'not found'
     });
 }
 
@@ -324,35 +347,41 @@ function setupUI() {
       }
     }
     
-    // Ensure export button is visible for non-backoffice users
+    // Handle export button visibility based on view mode and user role
     if (exportButton) {
-      if (isBackoffice) {
-        exportButton.style.display = 'block'; // Backoffice can also export
+      if (isMobileView) {
+        // Mobile view: hide for backoffice, show for others
+        if (isBackoffice) {
+          exportButton.style.setProperty('display', 'none', 'important');
+          exportButton.style.setProperty('visibility', 'hidden', 'important');
+          console.log('setupUI: Hiding export button for backoffice user in mobile view');
+        } else {
+          exportButton.style.setProperty('display', 'flex', 'important');
+          exportButton.style.setProperty('visibility', 'visible', 'important');
+          console.log('setupUI: Showing export button for non-backoffice user in mobile view');
+        }
       } else {
-        exportButton.style.display = 'block'; // Show for everyone else
+        // Desktop view: show for everyone
+        exportButton.style.setProperty('display', 'block', 'important');
+        exportButton.style.setProperty('visibility', 'visible', 'important');
+        console.log('setupUI: Showing export button in desktop view');
+      }
+    }
+    
+    // Handle freeze button visibility in mobile view
+    if (isMobileView && freezeToggleBtn) {
+      if (isBackoffice) {
+        freezeToggleBtn.style.display = 'flex';
+        console.log('setupUI: Showing freeze button for backoffice user in mobile view');
+      } else {
+        freezeToggleBtn.style.display = 'none';
+        console.log('setupUI: Hiding freeze button for non-backoffice user in mobile view');
       }
     }
     
     // Hide auth container in top navbar (since we're using the new auth link)
     if (navbarAuth) {
       navbarAuth.style.display = 'none';
-    }
-    
-    // In mobile view, adjust buttons in the top navbar
-    if (isMobileView) {
-      // Show/hide freeze button in navbar for backoffice users in mobile
-      if (freezeToggleBtn) {
-        if (isBackoffice) {
-          freezeToggleBtn.style.display = 'flex';
-        } else {
-          freezeToggleBtn.style.display = 'none';
-        }
-      }
-      
-      // For non-backoffice users, show export button in navbar
-      if (exportButton && !isBackoffice) {
-        exportButton.style.display = 'flex';
-      }
     }
     
     // Update mobile auth button state
@@ -1554,6 +1583,30 @@ async function initializeApp() {
         
         // Make refreshButtonStates available globally for debugging
         window.refreshButtonStates = refreshButtonStates;
+        
+        // Create debug function to check current state
+        window.debugButtonStates = function() {
+            const isAuthenticated = AuthManager.isAuthenticated();
+            const currentUser = AuthManager.getCurrentUser();
+            const isBackoffice = isAuthenticated && currentUser && currentUser.role === 'Backoffice';
+            const isMobileView = window.innerWidth <= 768;
+            const exportButton = document.getElementById('exportCalendar');
+            
+            console.log('DEBUG BUTTON STATES:', {
+                isAuthenticated,
+                currentUser: currentUser ? currentUser.name : 'none',
+                role: currentUser ? currentUser.role : 'none',
+                isBackoffice,
+                isMobileView,
+                windowWidth: window.innerWidth,
+                exportButton: exportButton ? {
+                    display: exportButton.style.display,
+                    visibility: exportButton.style.visibility,
+                    computedDisplay: window.getComputedStyle(exportButton).display,
+                    computedVisibility: window.getComputedStyle(exportButton).visibility
+                } : 'not found'
+            });
+        };
         
         if (typeof SchreibdienstFeature !== 'undefined') {
             await SchreibdienstFeature.init();
