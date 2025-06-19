@@ -3167,60 +3167,55 @@ function updateCalendarHighlights() {
         const hasSelectedUserE1 = selectedUserId && dayData.E1 && dayData.E1.includes(selectedUserId);
         const hasSelectedUserE2 = selectedUserId && dayData.E2 && dayData.E2.includes(selectedUserId);
 
-        // Track if all shifts are dimmed
-        let allShiftsDimmed = (hoveredUserId || selectedUserId);
+        // Helper function to check if a shift is double-assigned
+        const isDoubleAssigned = (shiftData) => {
+            if (!shiftData || !Array.isArray(shiftData)) return false;
+            const nonEmptyUsers = shiftData.filter(userId => userId && userId !== null && userId !== '' && userId !== undefined);
+            return nonEmptyUsers.length > 1;
+        };
 
         // Handle E1 shift
         if (shiftE1) {
+            // Remove all highlight classes first
+            shiftE1.classList.remove('highlight-hover', 'highlight-selected', 'highlight-hover-single', 'highlight-selected-single', 'dimmed');
+            
             if (hasHoveredUserE1) {
-                shiftE1.classList.add('highlight-hover');
-                allShiftsDimmed = false;
-            } else {
-                shiftE1.classList.remove('highlight-hover');
+                if (isDoubleAssigned(dayData.E1)) {
+                    shiftE1.classList.add('highlight-hover');
+                } else {
+                    shiftE1.classList.add('highlight-hover-single');
+                }
             }
             
             if (hasSelectedUserE1) {
-                shiftE1.classList.add('highlight-selected');
-                allShiftsDimmed = false;
-            } else {
-                shiftE1.classList.remove('highlight-selected');
-            }
-            
-            if ((hoveredUserId || selectedUserId) && !hasHoveredUserE1 && !hasSelectedUserE1) {
-                shiftE1.classList.add('dimmed');
-            } else {
-                shiftE1.classList.remove('dimmed');
-                allShiftsDimmed = false;
+                if (isDoubleAssigned(dayData.E1)) {
+                    shiftE1.classList.add('highlight-selected');
+                } else {
+                    shiftE1.classList.add('highlight-selected-single');
+                }
             }
         }
 
         // Handle E2 shift
         if (shiftE2) {
+            // Remove all highlight classes first
+            shiftE2.classList.remove('highlight-hover', 'highlight-selected', 'highlight-hover-single', 'highlight-selected-single', 'dimmed');
+            
             if (hasHoveredUserE2) {
-                shiftE2.classList.add('highlight-hover');
-                allShiftsDimmed = false;
-            } else {
-                shiftE2.classList.remove('highlight-hover');
+                if (isDoubleAssigned(dayData.E2)) {
+                    shiftE2.classList.add('highlight-hover');
+                } else {
+                    shiftE2.classList.add('highlight-hover-single');
+                }
             }
             
             if (hasSelectedUserE2) {
-                shiftE2.classList.add('highlight-selected');
-                allShiftsDimmed = false;
-            } else {
-                shiftE2.classList.remove('highlight-selected');
+                if (isDoubleAssigned(dayData.E2)) {
+                    shiftE2.classList.add('highlight-selected');
+                } else {
+                    shiftE2.classList.add('highlight-selected-single');
+                }
             }
-            
-            if ((hoveredUserId || selectedUserId) && !hasHoveredUserE2 && !hasSelectedUserE2) {
-                shiftE2.classList.add('dimmed');
-            } else {
-                shiftE2.classList.remove('dimmed');
-                allShiftsDimmed = false;
-            }
-        }
-        
-        // If user is hovered/selected and no shifts in this day card match, add class to the card
-        if (allShiftsDimmed) {
-            dayCard.classList.add('all-shifts-dimmed');
         }
     });
 }
