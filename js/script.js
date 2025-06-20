@@ -2645,6 +2645,13 @@ function updateUserList() {
                 userItem.querySelector('.user-item-content').append(starterIndicator);
             }
 
+            // Add holiday indicator dot (hidden by default)
+            const holidayDot = document.createElement('span');
+            holidayDot.className = 'holiday-indicator-dot';
+            holidayDot.dataset.userId = user.id;
+            holidayDot.title = 'Benutzer ist im Urlaub';
+            userItem.querySelector('.user-item-content').appendChild(holidayDot);
+
             // Add Schreibdienst flag if applicable (keeping this as text)
             if (user.isSchreibdienst) {
                 const schreibdienstFlag = document.createElement('span');
@@ -3377,6 +3384,18 @@ function createDayCard(day) {
         if (!isMobile()) {
             updateHoverInfo(day, true);
             updateCurrentDayDisplay(day);
+            
+            // Show holiday indicators for users on holiday
+            const usersOnHoliday = getUsersOnHolidayForDate(currentYear, currentMonth, day);
+            console.log(`Hover on day ${day}: Found ${usersOnHoliday.length} users on holiday:`, usersOnHoliday);
+            usersOnHoliday.forEach(userId => {
+                const dot = document.querySelector(`.holiday-indicator-dot[data-user-id="${userId}"]`);
+                console.log(`Looking for dot with user-id="${userId}":`, dot);
+                if (dot) {
+                    dot.style.display = 'inline-block';
+                    console.log(`Showing holiday dot for user ${userId}`);
+                }
+            });
         }
     });
     
@@ -3384,6 +3403,11 @@ function createDayCard(day) {
         if (!isMobile()) {
             updateHoverInfo(day, false);
             updateCurrentDayDisplay(); // Reset to default
+            
+            // Hide all holiday indicators
+            document.querySelectorAll('.holiday-indicator-dot').forEach(dot => {
+                dot.style.display = 'none';
+            });
         }
     });
 
@@ -3898,6 +3922,42 @@ function showMobileModal(day, shiftType, shiftElement) {
     modal.classList.add('active');
     overlay.classList.add('active');
 } 
+
+// Get users who are on holiday for a specific date
+function getUsersOnHolidayForDate(year, month, day) {
+    const usersOnHoliday = [];
+    
+    // Check if staticData and holidays exist
+    if (!staticData || !staticData.holidays) {
+        console.log('getUsersOnHolidayForDate: No staticData or holidays data available');
+        return usersOnHoliday;
+    }
+    
+    // Format the target date as YYYY-MM-DD for string comparison
+    const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    console.log(`getUsersOnHolidayForDate: Checking date ${targetDateStr}`);
+    console.log('Available holiday data:', staticData.holidays);
+    
+    // Iterate through all users' holidays
+    Object.keys(staticData.holidays).forEach(userId => {
+        const userHolidays = staticData.holidays[userId];
+        if (!userHolidays) return;
+        
+        console.log(`Checking user ${userId} holidays:`, userHolidays);
+        
+        // Check each holiday period for this user
+        userHolidays.forEach(holiday => {
+            console.log(`  Holiday period: ${holiday.start} to ${holiday.end}, target: ${targetDateStr}`);
+            // Use string comparison for YYYY-MM-DD format dates
+            if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
+                console.log(`  -> User ${userId} is on holiday!`);
+                usersOnHoliday.push(parseInt(userId));
+            }
+        });
+    });
+    
+    return usersOnHoliday;
+}
 
 // Hide mobile modal
 function hideMobileModal() {
