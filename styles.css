@@ -583,7 +583,7 @@ body {
 
 .shift-left .shift-custom-event:nth-child(4),
 .shift-right .shift-custom-event:nth-child(4) {
-    bottom: 38px;
+    bottom: 24px;
 }
 
 .shift-left.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="false"].dimmed,
@@ -1012,6 +1012,59 @@ body {
     color: #333;
     flex: 1;
     margin-left: 10px;
+}
+
+/* Mobile Holidays */
+.mobile-holidays {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.mobile-holidays-section {
+    margin-bottom: 15px;
+}
+
+.mobile-holidays-section:last-child {
+    margin-bottom: 0;
+}
+
+.mobile-holidays-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.mobile-holidays-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mobile-holiday-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.mobile-holiday-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2d9dff;
+    flex: 1;
+}
+
+.mobile-holiday-dates {
+    font-size: 14px;
+    color: #2d9dff;
+    min-width: 90px;
+    text-align: right;
 }
 
 .user-item {
@@ -1735,24 +1788,6 @@ body {
         color: var(--primary-color);
     }
 
-    .shift-notes {
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #eee;
-    }
-
-    .shift-notes-title {
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #666;
-    }
-
-    .shift-note-text {
-        background: #f5f5f5;
-        padding: 10px;
-        border-radius: 4px;
-        color: #333;
-    }
 
     .mobile-shift-modal-content {
         padding: 20px;
@@ -2704,24 +2739,6 @@ body {
     border-radius: 4px;
 }
 
-.mobile-shift-notes-section {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.mobile-shift-notes-column {
-    flex: 1;
-    min-width: 0;
-}
-
-.mobile-shift-notes-column input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
 
 .mobile-shift-modal-content {
     max-height: 80vh;
@@ -4243,15 +4260,6 @@ body {
     position: relative;
   }
 
-  @media screen and (max-width: 768px) {
-    .shift-notes {
-      margin: 15px 10px;
-    }
-
-    .shift-note-text {
-      font-size: 14px;
-    }
-  }
 
 
 /* Enhanced CSS for Color Customization Modal */

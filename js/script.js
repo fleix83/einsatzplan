@@ -3387,14 +3387,9 @@ function createDayCard(day) {
             
             // Show holiday indicators for users on holiday
             const usersOnHoliday = getUsersOnHolidayForDate(currentYear, currentMonth, day);
-            console.log(`Hover on day ${day}: Found ${usersOnHoliday.length} users on holiday:`, usersOnHoliday);
             usersOnHoliday.forEach(userId => {
                 const dot = document.querySelector(`.holiday-indicator-dot[data-user-id="${userId}"]`);
-                console.log(`Looking for dot with user-id="${userId}":`, dot);
-                if (dot) {
-                    dot.style.display = 'inline-block';
-                    console.log(`Showing holiday dot for user ${userId}`);
-                }
+                if (dot) dot.style.display = 'inline-block';
             });
         }
     });
@@ -3708,25 +3703,48 @@ function showMobileModal(day, shiftType, shiftElement) {
         infoContainer.innerHTML += customEventsSection;
     }
 
-    // Add notes section if any notes exist
-    const e1Notes = dayData.notes?.E1 || ['', ''];
-    const e2Notes = dayData.notes?.E2 || ['', ''];
-    const hasAnyNotes = [...e1Notes, ...e2Notes].some(note => note && note.trim() !== '');
-    
-    if (hasAnyNotes) {
-        // FIXED: Show notes with user names in a combined section
-        const notesSection = `
-            <div class="shift-notes">
-                <div class="shift-notes-title">Notes</div>
-                ${formatNotesWithUserNames(dayData, 'E1')}
-                ${formatNotesWithUserNames(dayData, 'E2')}
-            </div>
-        `;
-        infoContainer.innerHTML += notesSection;
+    // Add holidays section
+    const holidays = getHolidaysForDate(currentYear, currentMonth, day);
+    if (holidays.freiwillige.length > 0 || holidays.backoffice.length > 0) {
+        let holidaysSection = `<div class="mobile-holidays">`;
+        
+        // Add Freiwillige holidays if any
+        if (holidays.freiwillige.length > 0) {
+            holidaysSection += `
+                <div class="mobile-holidays-section">
+                    <div class="mobile-holidays-title">Ferien Freiwillige</div>
+                    <div class="mobile-holidays-list">
+                        ${holidays.freiwillige.map(holiday => `
+                            <div class="mobile-holiday-item">
+                                <div class="mobile-holiday-name">${holiday.userName}</div>
+                                <div class="mobile-holiday-dates">${holiday.dateRange}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Add Backoffice holidays if any
+        if (holidays.backoffice.length > 0) {
+            holidaysSection += `
+                <div class="mobile-holidays-section">
+                    <div class="mobile-holidays-title">Ferien Backoffice</div>
+                    <div class="mobile-holidays-list">
+                        ${holidays.backoffice.map(holiday => `
+                            <div class="mobile-holiday-item">
+                                <div class="mobile-holiday-name">${holiday.userName}</div>
+                                <div class="mobile-holiday-dates">${holiday.dateRange}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        holidaysSection += `</div>`;
+        infoContainer.innerHTML += holidaysSection;
     }
-
-
-
 
     // Check if the month is frozen and user is not backoffice
     const isFrozen = isCalendarFrozen && !isBackofficeUser();
@@ -3803,37 +3821,6 @@ function showMobileModal(day, shiftType, shiftElement) {
             </div>
         </div>
     </div>
-    
-    <!-- Notes Section (grouped at the bottom) -->
-    <div class="mobile-shift-notes-section">
-        <div class="mobile-shift-notes-column">
-            <div class="mobile-shift-column-title">Notiz</div>
-            <input type="text" class="shift-note" 
-                data-shift="E1" 
-                data-position="1" 
-                placeholder="Notiz für E1..."
-                value="${dayData.notes?.E1?.[0] || ''}">
-            <input type="text" class="shift-note" 
-                data-shift="E1" 
-                data-position="2" 
-                placeholder="Notiz für E1..."
-                value="${dayData.notes?.E1?.[1] || ''}">
-        </div>
-        
-        <div class="mobile-shift-notes-column">
-            <div class="mobile-shift-column-title">Notiz</div>
-            <input type="text" class="shift-note" 
-                data-shift="E2" 
-                data-position="1" 
-                placeholder="Notiz für E2..."
-                value="${dayData.notes?.E2?.[0] || ''}">
-            <input type="text" class="shift-note" 
-                data-shift="E2" 
-                data-position="2" 
-                placeholder="Notiz für E2..."
-                value="${dayData.notes?.E2?.[1] || ''}">
-        </div>
-    </div>
 `;
     // After building the detailContainer content, add the date tab directly to the modal (not inside detailContainer)
     const dateTab = document.createElement('div');
@@ -3876,26 +3863,6 @@ function showMobileModal(day, shiftType, shiftElement) {
         });
     });
 
-    detailContainer.querySelectorAll('.shift-note').forEach(input => {
-        input.addEventListener('change', (e) => {
-            const shift = e.target.dataset.shift;
-            const position = parseInt(e.target.dataset.position) - 1;
-            
-            console.log(`Attempting to update note: ${shift}, position: ${position}, value: ${e.target.value}`);
-            
-            // Make sure we have valid data
-            if (!shift || isNaN(position)) {
-                console.error('Invalid shift or position data', { shift, position });
-                return;
-            }
-            
-            // Update shift note
-            updateShift(day, shift, position, 
-                dayData[shift][position], 
-                e.target.value);
-        });
-    });
-    
       // Set up click handler on overlay to close modal
       overlay.addEventListener('click', hideMobileModal);
     
@@ -3929,34 +3896,80 @@ function getUsersOnHolidayForDate(year, month, day) {
     
     // Check if staticData and holidays exist
     if (!staticData || !staticData.holidays) {
-        console.log('getUsersOnHolidayForDate: No staticData or holidays data available');
         return usersOnHoliday;
     }
     
     // Format the target date as YYYY-MM-DD for string comparison
     const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    console.log(`getUsersOnHolidayForDate: Checking date ${targetDateStr}`);
-    console.log('Available holiday data:', staticData.holidays);
     
     // Iterate through all users' holidays
     Object.keys(staticData.holidays).forEach(userId => {
         const userHolidays = staticData.holidays[userId];
         if (!userHolidays) return;
         
-        console.log(`Checking user ${userId} holidays:`, userHolidays);
-        
         // Check each holiday period for this user
         userHolidays.forEach(holiday => {
-            console.log(`  Holiday period: ${holiday.start} to ${holiday.end}, target: ${targetDateStr}`);
             // Use string comparison for YYYY-MM-DD format dates
             if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
-                console.log(`  -> User ${userId} is on holiday!`);
                 usersOnHoliday.push(parseInt(userId));
             }
         });
     });
     
     return usersOnHoliday;
+}
+
+// Get detailed holiday information for mobile modal display
+function getHolidaysForDate(year, month, day) {
+    const result = {
+        freiwillige: [],
+        backoffice: []
+    };
+    
+    // Check if staticData and holidays exist
+    if (!staticData || !staticData.holidays || !staticData.users) {
+        return result;
+    }
+    
+    // Format the target date as YYYY-MM-DD for string comparison
+    const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    // Iterate through all users' holidays
+    Object.keys(staticData.holidays).forEach(userId => {
+        const userHolidays = staticData.holidays[userId];
+        if (!userHolidays) return;
+        
+        // Find the user to get name and role
+        const user = staticData.users.find(u => u.id === parseInt(userId));
+        if (!user) return;
+        
+        // Check each holiday period for this user
+        userHolidays.forEach(holiday => {
+            // Use string comparison for YYYY-MM-DD format dates
+            if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
+                // Format dates for display (DD.MM format)
+                const startDate = new Date(holiday.start);
+                const endDate = new Date(holiday.end);
+                const formattedStart = `${String(startDate.getDate()).padStart(2, '0')}.${String(startDate.getMonth() + 1).padStart(2, '0')}`;
+                const formattedEnd = `${String(endDate.getDate()).padStart(2, '0')}.${String(endDate.getMonth() + 1).padStart(2, '0')}`;
+                
+                const holidayInfo = {
+                    userName: user.name,
+                    dateRange: `${formattedStart} - ${formattedEnd}`,
+                    userId: parseInt(userId)
+                };
+                
+                // Sort into appropriate category based on user role
+                if (user.role === 'Backoffice') {
+                    result.backoffice.push(holidayInfo);
+                } else {
+                    result.freiwillige.push(holidayInfo);
+                }
+            }
+        });
+    });
+    
+    return result;
 }
 
 // Hide mobile modal
