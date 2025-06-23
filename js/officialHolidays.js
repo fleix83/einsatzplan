@@ -28,7 +28,7 @@ const OfficialHolidaysFeature = (function() {
                 background-color: #ffffff !important;
                 opacity: 0.8 !important;
                 background-size: 10px 10px !important;
-                background-image: repeating-linear-gradient(-45deg, #ff392b 0, #ff392b 1px, #ffffff 0, #ffffff 50%) !important;
+                background-image: repeating-linear-gradient(-45deg, #64aff9 0, #64aff9 1px, #ffffff 0, #ffffff 50%) !important;
                 position: relative;
             }
             
@@ -102,6 +102,7 @@ const OfficialHolidaysFeature = (function() {
                     display: block !important;
                     margin-bottom: 8px !important;
                     z-index: auto !important;
+                    margin-top: 38px !important;
                 }
             }
             
@@ -156,16 +157,17 @@ const OfficialHolidaysFeature = (function() {
             
             .official-holiday-label {
                 display: block;
-                word-break: break-word; 
-                overflow-wrap: break-word; 
-                white-space: normal; 
-                margin-bottom: -24px;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                white-space: normal;
+                border-radius: 3px;
+                margin-top: 52px;
                 font-weight: 600;
-                font-size: 0.8rem;
-                color: #ff392b;
-                background-color: #ffffff;
+                font-size: 12px;
+                color: #ffffff;
+                background-color: #2e9dff;
                 width: 100%;
-                padding-left: 4px;
+                padding: 4px 5px;
             }
             
             .official-holiday-input,

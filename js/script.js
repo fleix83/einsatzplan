@@ -1279,28 +1279,6 @@ function setupShiftDetailModal() {
         });
     });
     
-    // Note input change handler
-    modal.querySelectorAll('.shift-note-input').forEach(input => {
-        input.addEventListener('change', (e) => {
-            const shift = e.target.dataset.shift;
-            const position = parseInt(e.target.dataset.position) - 1;
-            
-            ensureScheduleDataExists(currentDay);
-            
-            // Get the old value and new value
-            const oldValue = staticData.schedules[currentYear][currentMonth][currentDay].notes[shift][position];
-            const newValue = e.target.value;
-            
-            // Only update if there's an actual change
-            if (oldValue !== newValue) {
-                // Get the user ID for this position
-                const userId = staticData.schedules[currentYear][currentMonth][currentDay][shift][position];
-                
-                // Update the shift with the API
-                updateShift(currentDay, shift, position, userId, newValue);
-            }
-        });
-    });
     
     // Add other modal setup code (already in your original function)...
 }
@@ -2339,14 +2317,6 @@ function showShiftDetailModal(shiftElement, day, shiftType) {
         select.dataset.position = index + 1;
     });
     
-    // Update notes
-    const notes = modal.querySelectorAll('.shift-note-input');
-    notes.forEach((input, index) => {
-        input.value = dayData.notes?.[shiftType]?.[index] || '';
-        input.dataset.shift = shiftType;
-        input.dataset.position = index + 1;
-    });
-    
     // Show modal and overlay
     modal.style.display = 'block';
     overlay.style.display = 'block';
@@ -2403,14 +2373,6 @@ function showReadOnlyShiftModal(shiftElement, day, shiftType) {
         select.disabled = true;
         select.dataset.shift = shiftType;
         select.dataset.position = index + 1;
-    });
-    
-    // Update notes - keep them editable
-    const notes = modal.querySelectorAll('.shift-note-input');
-    notes.forEach((input, index) => {
-        input.value = dayData.notes?.[shiftType]?.[index] || '';
-        input.dataset.shift = shiftType;
-        input.dataset.position = index + 1;
     });
     
     // Add frozen message to modal
@@ -2869,22 +2831,6 @@ function setupShiftDetailModal() {
             // Update shift with the selected user
             updateShift(currentDay, shift, position, e.target.value, 
                 staticData.schedules[currentYear][currentMonth][currentDay].notes[shift][position]);
-        });
-    });
-    
-    // Note input change handler
-    modal.querySelectorAll('.shift-note-input').forEach(input => {
-        input.addEventListener('change', (e) => {
-            const shift = e.target.dataset.shift;
-            const position = parseInt(e.target.dataset.position) - 1;
-            
-            ensureScheduleDataExists(currentDay);
-            
-            // Get the user ID for this position
-            const userId = staticData.schedules[currentYear][currentMonth][currentDay][shift][position];
-            
-            // Update the shift with the new note
-            updateShift(currentDay, shift, position, userId, e.target.value);
         });
     });
     

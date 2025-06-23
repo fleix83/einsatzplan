@@ -176,3 +176,917 @@
         "pragma": "no-cache"
     }
 }
+{
+    "timestamp": "2025-06-13 09:30:16",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "40",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 1f1fe87418fad38e9a56deea1638d661583e1b7812716c618f092793f289de04",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-13 09:30:19",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "41",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 1f1fe87418fad38e9a56deea1638d661583e1b7812716c618f092793f289de04",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:25:22",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "80",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:25:29",
+    "method": "DELETE",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:26:25",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "76",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:27:51",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "76",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:27:53",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:28:27",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:30:55",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "40",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:31:02",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "41",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2"
+    }
+}
+{
+    "timestamp": "2025-06-13 10:31:31",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "83",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 7c9463473a94e6a5781f3231463349e0dc81a0fd9186946be3b5e953d3b4779b",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2"
+    }
+}
+{
+    "timestamp": "2025-06-18 18:20:02",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "76",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 27093feb8cf7c9baa4f3fb680295edf1ab5f7ac32779ae6688872c6a8261e7af",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2; last_session=SES-20250616-F9645E",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-18 18:20:05",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 27093feb8cf7c9baa4f3fb680295edf1ab5f7ac32779ae6688872c6a8261e7af",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2; last_session=SES-20250616-F9645E",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-18 18:20:10",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "iOS",
+        "Authorization": "Bearer 27093feb8cf7c9baa4f3fb680295edf1ab5f7ac32779ae6688872c6a8261e7af",
+        "User-Agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit\/603.1.30 (KHTML, like Gecko) Version\/17.5 Mobile\/15A5370a Safari\/602.1",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?1",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=7b5e2gibdl05hesbsdivvc1ks2; last_session=SES-20250616-F9645E",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:00:00",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "75",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 09ea781a2631639e681cc23aea5869e611a4d98def312539d7f7bea977c1e8c1",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:00:21",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "75",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 09ea781a2631639e681cc23aea5869e611a4d98def312539d7f7bea977c1e8c1",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:02:09",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 09ea781a2631639e681cc23aea5869e611a4d98def312539d7f7bea977c1e8c1",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:31:34",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Accept": "*\/*",
+        "Authorization": "Bearer 97b8e0fbc60c07ce8cbf4c31d771e5c20a9b6c1e62e308b8dd1156e5724dfd43",
+        "Sec-Fetch-Site": "same-origin",
+        "Accept-Language": "de-DE,de;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Sec-Fetch-Mode": "cors",
+        "Content-Type": "application\/json",
+        "Origin": "http:\/\/localhost",
+        "Content-Length": "76",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/605.1.15 (KHTML, like Gecko) Version\/17.5 Safari\/605.1.15",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Connection": "keep-alive",
+        "Sec-Fetch-Dest": "empty"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:31:36",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Accept": "*\/*",
+        "Authorization": "Bearer 97b8e0fbc60c07ce8cbf4c31d771e5c20a9b6c1e62e308b8dd1156e5724dfd43",
+        "Sec-Fetch-Site": "same-origin",
+        "Accept-Language": "de-DE,de;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Sec-Fetch-Mode": "cors",
+        "Content-Type": "application\/json",
+        "Origin": "http:\/\/localhost",
+        "Content-Length": "77",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/605.1.15 (KHTML, like Gecko) Version\/17.5 Safari\/605.1.15",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Connection": "keep-alive",
+        "Sec-Fetch-Dest": "empty"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:31:40",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Accept": "*\/*",
+        "Authorization": "Bearer 97b8e0fbc60c07ce8cbf4c31d771e5c20a9b6c1e62e308b8dd1156e5724dfd43",
+        "Sec-Fetch-Site": "same-origin",
+        "Accept-Language": "de-DE,de;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Sec-Fetch-Mode": "cors",
+        "Content-Type": "application\/json",
+        "Origin": "http:\/\/localhost",
+        "Content-Length": "77",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/605.1.15 (KHTML, like Gecko) Version\/17.5 Safari\/605.1.15",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Connection": "keep-alive",
+        "Sec-Fetch-Dest": "empty"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:32:34",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Accept": "*\/*",
+        "Authorization": "Bearer 97b8e0fbc60c07ce8cbf4c31d771e5c20a9b6c1e62e308b8dd1156e5724dfd43",
+        "Sec-Fetch-Site": "same-origin",
+        "Accept-Language": "de-DE,de;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Sec-Fetch-Mode": "cors",
+        "Content-Type": "application\/json",
+        "Origin": "http:\/\/localhost",
+        "Content-Length": "77",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/605.1.15 (KHTML, like Gecko) Version\/17.5 Safari\/605.1.15",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Connection": "keep-alive",
+        "Sec-Fetch-Dest": "empty"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:32:36",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Accept": "*\/*",
+        "Authorization": "Bearer 97b8e0fbc60c07ce8cbf4c31d771e5c20a9b6c1e62e308b8dd1156e5724dfd43",
+        "Sec-Fetch-Site": "same-origin",
+        "Accept-Language": "de-DE,de;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Sec-Fetch-Mode": "cors",
+        "Content-Type": "application\/json",
+        "Origin": "http:\/\/localhost",
+        "Content-Length": "77",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/605.1.15 (KHTML, like Gecko) Version\/17.5 Safari\/605.1.15",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Connection": "keep-alive",
+        "Sec-Fetch-Dest": "empty"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:32:41",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Accept": "*\/*",
+        "Authorization": "Bearer 97b8e0fbc60c07ce8cbf4c31d771e5c20a9b6c1e62e308b8dd1156e5724dfd43",
+        "Sec-Fetch-Site": "same-origin",
+        "Accept-Language": "de-DE,de;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Sec-Fetch-Mode": "cors",
+        "Content-Type": "application\/json",
+        "Origin": "http:\/\/localhost",
+        "Content-Length": "76",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/605.1.15 (KHTML, like Gecko) Version\/17.5 Safari\/605.1.15",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Connection": "keep-alive",
+        "Sec-Fetch-Dest": "empty"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:44:00",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 5647a32c000f8dc8232a9a3d4d38d537594725395631bb5bde4c2108242179e9",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:44:04",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "76",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 5647a32c000f8dc8232a9a3d4d38d537594725395631bb5bde4c2108242179e9",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-19 17:44:06",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 5647a32c000f8dc8232a9a3d4d38d537594725395631bb5bde4c2108242179e9",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-20 12:06:18",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "79",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer e6e5aee21c0b45a55897e4a671c5dd4bfedb04890a190b8e0b047f884a6fcfc6",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-20 13:23:02",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "40",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer e6e5aee21c0b45a55897e4a671c5dd4bfedb04890a190b8e0b047f884a6fcfc6",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 16:21:53",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "64",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 16:22:21",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "52",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 16:22:41",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "52",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 16:25:39",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "41",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}

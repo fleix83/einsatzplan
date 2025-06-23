@@ -1985,25 +1985,6 @@ body {
     background-color: white;
 }
 
-.shift-notes-section {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #eee;
-}
-
-.shift-note-input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 6px 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.shift-note-input:last-child {
-    margin-bottom: 0;
-}
 
 .shift-note-input:focus,
 .shift-user-row .user-select:focus {

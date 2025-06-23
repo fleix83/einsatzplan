@@ -7,19 +7,8 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "wszyaa4lhnxrvhyuaox1u77e"
-  title = "Jahr filtern"
-  description = "Zum Fehler vermeiden"
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "x7nxnt9vzz2u00k3ithrdwf2"
-  title = "Holiday stripes counting eternally? Console"
+  id = "vhqc1gyksjfvknon3pn7idgn"
+  title = "Shift leicht hervorheben mouseover"
   description = ""
   tag = "backlog"
   linkFiles = [ ]
@@ -29,31 +18,9 @@ name = "To Do"
   linkCommits = [ ]
 
   [[processes.tasks]]
-  id = "vzbzlhvuhqcpv809pymgzpoz"
-  title = "Mobile View nicht fertig"
+  id = "kx67f1jb4meppuulebfmg1ta"
+  title = "Kalender mit allen Usern vorbereiten | Juli"
   description = ""
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "q33gt6d7987l1z6i1fy5kvvt"
-  title = "Schreibdienst Events in Mobile View anzeigen"
-  description = ""
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "ug8yb5prxxzdyy6h347vwc78"
-  title = "Freeze Mode - normal"
-  description = "<p>Desktop: Notes nicht editierbar<br>Mobile: Notes nicht editierbar</p>"
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
@@ -66,9 +33,20 @@ id = "process2"
 name = "In Progress"
 
   [[processes.tasks]]
-  id = "task1"
-  title = "Kalender Einfrieren Funktion"
-  description = "<p></p>"
+  id = "a4tnigjsw5vd2w4m01foncd9"
+  title = "Notes raus"
+  description = "Notes raus aus Detail Modal"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "vzbzlhvuhqcpv809pymgzpoz"
+  title = "Mobile View nicht fertig"
+  description = ""
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
@@ -180,17 +158,6 @@ name = "Done"
   linkCommits = [ ]
 
   [[processes.tasks]]
-  id = "lvf4txkkl3fqpezft10f8ni8"
-  title = "Ferien eingeben, löschen"
-  description = "<p></p>"
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "otjxn97qg199vgk6kgbc3gh8"
   title = "ical-feed für synchronisation"
   description = ""
@@ -205,6 +172,111 @@ name = "Done"
   id = "pwr39k84dqdij2lwoszn5v5s"
   title = "Freeze Mode - backoffice"
   description = "<p>Desktop: √ <br>Mobile: √</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task1"
+  title = "Kalender Einfrieren Funktion"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "wszyaa4lhnxrvhyuaox1u77e"
+  title = "Jahr filtern"
+  description = "Zum Fehler vermeiden"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "x7nxnt9vzz2u00k3ithrdwf2"
+  title = "Holiday stripes counting eternally? Console"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "ug8yb5prxxzdyy6h347vwc78"
+  title = "Freeze Mode - normal"
+  description = "<p>Desktop: Notes nicht editierbar<br>Mobile: Notes nicht editierbar</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "q33gt6d7987l1z6i1fy5kvvt"
+  title = "Schreibdienst Events in Mobile View anzeigen"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qqak9dz74ku3f9gccooebuar"
+  title = "User shift highlight gelb"
+  description = """
+- User shift highlight doppelte shift vollgelb
+- User shift highlight einfach shift halbgelb
+- übrige Einsätze normal anzeigen (nicht gedimmt)"""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "vji2ydtrlz0qpncsbmfag963"
+  title = "Betriebsferien blaue diagonale Streifen"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "jh7gj841kde5v4jou3x9bckx"
+  title = "Ferien Freiwillige "
+  description = "Ferien von Freiwillige bei Shift Hover in der User-List markieren"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "g1wo6iebqaa4od61tc867anv"
+  title = "Ferien alle mobile"
+  description = """
+In mobile Detail Card
+- Ferien Backoffice User anzeigen
+- Ferien Freiwillige anzeigen"""
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
