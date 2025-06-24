@@ -388,18 +388,6 @@ body {
     box-shadow: 0 0px 0 #ff6969;
   }
 
-
-/* .day-number {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    font-size: 14px;
-    font-weight: 600;
-    z-index: 1;
-    color: rgb(255, 255, 255);
-    mix-blend-mode: difference;
-} */
-
 .day-number {
     position: absolute;
     top: 0px;
@@ -413,7 +401,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); */
     z-index: 20;
     border-bottom-right-radius: 54%;
     padding: 0 0 0 2px;
@@ -441,7 +428,7 @@ body {
     justify-content: center;
     margin-right: 0;
     border-radius: 3px;
-    transition: background-color 0.2s ease, background 0.2s ease;
+    transition: background-color 0.2s ease, box-shadow 0.6s ease;
 }
 
 /* Subtle hover effect for all shifts */
@@ -451,8 +438,9 @@ body {
 .shift-left.green:hover, .shift-right.green:hover,
 .shift-left.schreibdienst-single:hover, .shift-right.schreibdienst-single:hover {
     /* box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.05) !important; */
-    background: rgba(0, 161, 38, 0.037) !important;
-    background: #d7d7d72f !important;
+    /* background: rgba(0, 161, 38, 0.037) !important; */
+    /* background: #d7d7d71f !important; */
+    box-shadow: inset -90px -87px 87px -3px rgba(0, 0, 0, 0.012);
 }
 
 .shift-label {
@@ -736,7 +724,7 @@ body {
     width: 250px;
     border-right: 0;
     padding: 20px;
-    margin-top: 220px;
+    margin-top: 227px;
 }
 
 .user-list-title {
@@ -1609,13 +1597,13 @@ body {
     .day-card .day-number {
         display: flex !important; /* Force display as flex */
         position: absolute;
-        top: -12px;
+        top: 0px;
         left: 0px;
         font-size: 0.9rem; /* Smaller font size for mobile */
         background-color: rgb(255, 255, 255); /* Solid white background */
-        border-radius: 50%;
-        width: 1.5rem;
-        height: 1.5rem;
+        /* border-radius: 50%; */
+        width: 1.4rem;
+        height: 1.4rem;
         align-items: center;     /* Center vertically */
         justify-content: center; /* Center horizontally */
         text-align: center;      /* Center text */
@@ -1624,6 +1612,7 @@ body {
         line-height: 1;          /* Important for vertical centering */
         padding: 0;              /* Remove any padding that might affect centering */
         margin: 0;               /* Remove any margin that might affect centering */
+        border-bottom-right-radius: 54%;
     }
 
     
@@ -3519,6 +3508,60 @@ body {
     .user-list-panel .auth-container {
       display: none !important;
     }
+
+    /* Desktop-only scrollable user list with fade effects */
+    .user-list {
+      max-height: 531px;
+      overflow-y: auto;
+      position: relative;
+      padding: 0 5px 0 0; /* Add right padding for scrollbar */
+    }
+
+    /* Custom scrollbar styling */
+    .user-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .user-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 3px;
+    }
+
+    .user-list::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+      transition: background 0.2s ease;
+    }
+
+    .user-list::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Top fade effect */
+    .user-list::before {
+      content: '';
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(to bottom, var(--background-primary, #fffcf7) 0%, transparent 100%);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Bottom fade effect */
+    .user-list::after {
+      content: '';
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(to top, var(--background-primary, #fffcf7) 0%, transparent 100%);
+      z-index: 10;
+      pointer-events: none;
+    }
   }
 
 
@@ -5081,7 +5124,7 @@ body {
 }
 
 .auth-link.logged-in {
-    background-color: #2e9dfe;
+    background-color: #3a6d99;
     color: white;
 }
 
