@@ -5,6 +5,7 @@ let currentMonth = (new Date()).getMonth() + 1;
 let selectedDay = null;
 let hoveredUserId = null;
 let selectedUserId = null;
+let showUserNames = false; // Track if user names should be displayed in shifts
 
 // Notification System
 const NotificationSystem = {
@@ -2163,6 +2164,16 @@ function setupEventListeners() {
         });
     }
 
+    // Names toggle button handler
+    const namesToggleButton = document.getElementById('namesToggleButton');
+    if (namesToggleButton) {
+        namesToggleButton.addEventListener('click', function() {
+            showUserNames = !showUserNames;
+            updateNamesToggleButton();
+            updateAllDayCards();
+        });
+    }
+
     // Add new user with Enter key (handled in initializeUserForm function)
 
     // Close modal when clicking outside
@@ -2194,6 +2205,31 @@ function setupEventListeners() {
     window.addEventListener('resize', () => {
         setupUI(); // Reconfigure UI based on new window size
       });
+}
+
+// Function to update the names toggle button text and state
+function updateNamesToggleButton() {
+    const button = document.getElementById('namesToggleButton');
+    if (button) {
+        const textElement = button.querySelector('.toggle-text');
+        if (textElement) {
+            textElement.textContent = showUserNames ? 'Namen ausblenden' : 'Namen anzeigen';
+        }
+    }
+}
+
+// Function to update all day cards to show/hide names
+function updateAllDayCards() {
+    const calendar = document.getElementById('calendar');
+    if (!calendar) return;
+    
+    const dayCards = calendar.querySelectorAll('.day-card');
+    dayCards.forEach(dayCard => {
+        const day = parseInt(dayCard.dataset.day);
+        if (day) {
+            updateDayCard(day);
+        }
+    });
 }
 
 // Function to position modal in the center of the screen on desktop
@@ -3036,10 +3072,68 @@ function updateDayCard(day) {
         });
     }
     
+    // Handle user names display if enabled
+    if (showUserNames) {
+        renderUserNamesInShifts(shiftLeft, e1Users, 'E1');
+        renderUserNamesInShifts(shiftRight, e2Users, 'E2');
+    } else {
+        // Remove any existing name elements
+        clearUserNamesFromShift(shiftLeft);
+        clearUserNamesFromShift(shiftRight);
+    }
+    
     // Restore "today" class if it was present
     if (wasToday) {
         dayCard.classList.add('today');
     }
+}
+
+// Helper function to render user names in a shift container
+function renderUserNamesInShifts(shiftElement, userIds, shiftType) {
+    if (!shiftElement || !userIds) return;
+    
+    // Clear any existing names first
+    clearUserNamesFromShift(shiftElement);
+    
+    // Filter out empty user IDs
+    const validUserIds = userIds.filter(userId => userId && userId !== '');
+    if (validUserIds.length === 0) return;
+    
+    // Get user names
+    const userNames = validUserIds.map(userId => {
+        const user = staticData.users.find(u => u.id === userId);
+        return user ? user.name : 'Unbekannt';
+    }).filter(name => name);
+    
+    if (userNames.length === 0) return;
+    
+    // Create names container
+    const namesContainer = document.createElement('div');
+    namesContainer.className = 'shift-user-names';
+    
+    // Add multi-user class if more than one user
+    if (userNames.length > 1) {
+        namesContainer.classList.add('multi-user');
+    }
+    
+    // Set the text content
+    if (userNames.length === 1) {
+        namesContainer.textContent = userNames[0];
+    } else {
+        // For multiple users, join with line breaks
+        namesContainer.innerHTML = userNames.join('<br>');
+    }
+    
+    // Add to shift element
+    shiftElement.appendChild(namesContainer);
+}
+
+// Helper function to clear user names from a shift container
+function clearUserNamesFromShift(shiftElement) {
+    if (!shiftElement) return;
+    
+    const existingNames = shiftElement.querySelectorAll('.shift-user-names');
+    existingNames.forEach(element => element.remove());
 }
 
 // Get color class based on assigned users
