@@ -1090,3 +1090,237 @@
         "Cookie": "last_session=SES-20250616-F9645E"
     }
 }
+{
+    "timestamp": "2025-06-23 17:42:26",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 21:24:34",
+    "method": "PUT",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 21:24:37",
+    "method": "PUT",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 21:24:39",
+    "method": "PUT",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 21:24:42",
+    "method": "PUT",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-23 22:33:40",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 2861a5fdb5a1f8bf3387a4990defc8365b7b5edc9b9c745c851ce64dcebcbe3e",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=6",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-24 11:11:34",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "40",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 303419ba06680591e54c73dda09bbb7d822dc4cd588fa70a01b13e93e8e28314",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"137\", \"Chromium\";v=\"137\", \"Not\/A)Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}
+{
+    "timestamp": "2025-06-24 15:13:04",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "41",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 303419ba06680591e54c73dda09bbb7d822dc4cd588fa70a01b13e93e8e28314",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"137\", \"Chromium\";v=\"137\", \"Not\/A)Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=7",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "last_session=SES-20250616-F9645E"
+    }
+}

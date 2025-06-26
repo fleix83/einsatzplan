@@ -7,17 +7,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "vhqc1gyksjfvknon3pn7idgn"
-  title = "Shift leicht hervorheben mouseover"
-  description = ""
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "kx67f1jb4meppuulebfmg1ta"
   title = "Kalender mit allen Usern vorbereiten | Juli"
   description = ""
@@ -28,20 +17,31 @@ name = "To Do"
   priority = ""
   linkCommits = [ ]
 
-[[processes]]
-id = "process2"
-name = "In Progress"
-
   [[processes.tasks]]
-  id = "a4tnigjsw5vd2w4m01foncd9"
-  title = "Notes raus"
-  description = "Notes raus aus Detail Modal"
+  id = "s4zwb283oa3dfebmz6cpr0er"
+  title = "Color Customizer - get all elements"
+  description = ""
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
   checkList = [ ]
   priority = ""
   linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "rbybwbyoiuku87bdvls1wrus"
+  title = "Logo SVG ColorCustomizer implementierung"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process2"
+name = "In Progress"
 
   [[processes.tasks]]
   id = "vzbzlhvuhqcpv809pymgzpoz"
@@ -277,6 +277,28 @@ name = "Done"
 In mobile Detail Card
 - Ferien Backoffice User anzeigen
 - Ferien Freiwillige anzeigen"""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "a4tnigjsw5vd2w4m01foncd9"
+  title = "Notes raus"
+  description = "Notes raus aus Detail Modal"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "vhqc1gyksjfvknon3pn7idgn"
+  title = "Shift leicht hervorheben mouseover"
+  description = ""
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""

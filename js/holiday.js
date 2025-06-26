@@ -65,7 +65,7 @@ const HolidayFeature = (function() {
                 border-radius: 0 0 4px 4px;
                 z-index: 6;
                 background-size: 10px 10px;
-                /* background-image: repeating-linear-gradient(-45deg, #386aff 0, #386aff 1px, #ffffff 0, #ffffff 50%); */
+                /* background-image: repeating-linear-gradient(-45deg, #3a6d99 0, #3a6d99 1px, #ffffff 0, #ffffff 50%); */
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -77,7 +77,7 @@ const HolidayFeature = (function() {
             
             /* White background for the text inside backoffice holiday stripes */
             span.backoffice-holiday-text {
-                background-color: #2d9dff;
+                background-color: #3a6d99;
                 color: white;
                 padding: 4px 6px;
                 border-radius: 3px;

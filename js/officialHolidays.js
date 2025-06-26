@@ -28,7 +28,7 @@ const OfficialHolidaysFeature = (function() {
                 background-color: #ffffff !important;
                 opacity: 0.8 !important;
                 background-size: 10px 10px !important;
-                background-image: repeating-linear-gradient(-45deg, #64aff9 0, #64aff9 1px, #ffffff 0, #ffffff 50%) !important;
+                background-image: repeating-linear-gradient(-45deg, #3a6d99 0, #3a6d99 1px, #ffffff 0, #ffffff 50%) !important;
                 position: relative;
             }
             
@@ -165,7 +165,7 @@ const OfficialHolidaysFeature = (function() {
                 font-weight: 600;
                 font-size: 12px;
                 color: #ffffff;
-                background-color: #2e9dff;
+                background-color: #3a6d99;
                 width: 100%;
                 padding: 4px 5px;
             }

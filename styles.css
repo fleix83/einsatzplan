@@ -300,6 +300,7 @@ body {
 .panel-logo {
     width: 170px;
     margin-bottom: 40px;
+    fill: var(--background-primary);
 }
 
 
