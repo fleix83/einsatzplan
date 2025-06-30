@@ -5547,7 +5547,7 @@ body {
     align-items: center;
     gap: 6px;
     padding: 5px 12px;
-    /* border-bottom-left-radius: 12px; */
+    border-top-left-radius: 20px;
     border-bottom-right-radius: 12px;
     transition: all 0.2s ease;
     z-index: 100;
