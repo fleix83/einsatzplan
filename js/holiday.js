@@ -44,7 +44,7 @@ const HolidayFeature = (function() {
             }
             
             .holiday-stripe.level-1 {
-                background-color: #FFD700; /* Yellow for 1-2 users */
+                background-color: #ffe66b; /* Yellow for 1-2 users */
             }
             
             .holiday-stripe.level-2 {

@@ -379,7 +379,7 @@ body {
 .day-card:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     outline: 4px solid var(--primary-color);
-    outline-offset: 10px;
+    outline-offset: 5px;
     z-index: 1000;
 }
 
@@ -5535,9 +5535,9 @@ body {
 
 .names-toggle-button {
     position: absolute;
-    top: 5px;
-    left: 22px;
-    background: rgba(131, 128, 128, 0.1);
+    top: 0px;
+    left: 0px;
+    background: rgb(13 7 7 / 5%);
     border: none;
     color: #838080;
     font-size: 16px;
@@ -5547,7 +5547,8 @@ body {
     align-items: center;
     gap: 6px;
     padding: 5px 12px;
-    border-radius: 12px;
+    /* border-bottom-left-radius: 12px; */
+    border-bottom-right-radius: 12px;
     transition: all 0.2s ease;
     z-index: 100;
 }
