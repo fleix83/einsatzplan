@@ -2174,6 +2174,33 @@ function setupEventListeners() {
         });
     }
 
+    // Mobile device detection function
+    function isMobileDevice() {
+        return window.innerWidth <= 768;
+    }
+
+    // Mobile background touch handler for names toggle
+    function handleBackgroundTouch(event) {
+        // Only handle on mobile devices
+        if (!isMobileDevice()) {
+            return;
+        }
+
+        // Only trigger if the click is directly on the body element
+        // This prevents triggering when clicking on child elements
+        if (event.target !== document.body) {
+            return;
+        }
+
+        // Toggle names
+        showUserNames = !showUserNames;
+        updateNamesToggleButton();
+        updateAllDayCards();
+    }
+
+    // Add background touch event listener
+    document.body.addEventListener('click', handleBackgroundTouch);
+
     // Add new user with Enter key (handled in initializeUserForm function)
 
     // Close modal when clicking outside
@@ -2230,6 +2257,11 @@ function updateAllDayCards() {
             updateDayCard(day);
         }
     });
+    
+    // Restore official holiday styling after updating day cards
+    if (typeof OfficialHolidaysFeature !== 'undefined' && OfficialHolidaysFeature.updateOfficialHolidayIndicators) {
+        OfficialHolidaysFeature.updateOfficialHolidayIndicators();
+    }
 }
 
 // Function to position modal in the center of the screen on desktop

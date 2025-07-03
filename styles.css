@@ -39,9 +39,9 @@
     --color-empty: #f5f5f5; /* Updated from --color-red */
     --color-starter: #ffd000b5;
     --color-schreibdienst: #6ae09e;
-    --holiday-stripe-1: #ffe66b;
-    --holiday-stripe-2: #FFA500;
-    --holiday-stripe-3: #FF4500;
+    --holiday-stripe-1: #C4D8E9;
+    --holiday-stripe-2: #6B9CC7;
+    --holiday-stripe-3: #3A6D99;
 }
 
 /* Global Layout */
@@ -5595,9 +5595,7 @@ body {
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     .names-toggle-button {
-        top: -40px;
-        font-size: 13px;
-        padding: 6px 10px;
+        display: none; /* Hide the button on mobile - background touch will handle toggle */
     }
     
     .shift-user-names {
