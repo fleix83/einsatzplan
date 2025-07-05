@@ -2815,7 +2815,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1500;
+    z-index: 1560;
     height: 100%;
     background-color: #ffffff;
     border-radius: 0px 0px 0 0;
@@ -2845,7 +2845,7 @@ body {
     font-weight: bold;
     border-radius: 20px 20px 20px 20px;
     box-shadow: inset rgba(149, 157, 165, 0.2) 0px 8px 37px;
-    z-index: 1510;
+    z-index: 1570;
     font-size: 20px;
     text-align: center;
     min-width: 260px;
@@ -5607,6 +5607,27 @@ body {
     
     .shift-user-names.multi-user {
         font-size: 10px;
+    }
+}
+
+/* Mobile Names Toggle Overlay */
+.mobile-names-toggle-overlay {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    height: calc(50vh - 70px);
+    background: transparent;
+    z-index: 1550;
+    display: none;
+    pointer-events: auto;
+    /* background: rgba(255, 0, 0, 0.1); */
+}
+
+/* Show overlay only on mobile devices */
+@media (max-width: 768px) {
+    .mobile-names-toggle-overlay {
+        display: block;
     }
 }
 

@@ -2179,27 +2179,58 @@ function setupEventListeners() {
         return window.innerWidth <= 768;
     }
 
-    // Mobile background touch handler for names toggle
-    function handleBackgroundTouch(event) {
-        // Only handle on mobile devices
-        if (!isMobileDevice()) {
-            return;
+    // Mobile names toggle overlay functionality
+    function setupMobileNamesToggleOverlay() {
+        const overlay = document.getElementById('mobileNamesToggleOverlay');
+        if (!overlay) return;
+
+        // Mobile device detection function  
+        function isMobileDevice() {
+            return window.innerWidth <= 768;
         }
 
-        // Only trigger if the click is directly on the body element
-        // This prevents triggering when clicking on child elements
-        if (event.target !== document.body) {
-            return;
+        // Elements that should NOT trigger the names toggle
+        const excludedSelectors = [
+            '.calendar', '.calendar *', // Calendar and all its children
+            'button', 'input', 'select', 'textarea', 'a', // Interactive elements
+            '.modal', '.modal *', // Modals and their contents
+            '.user-list-panel', '.user-list-panel *', // User panel
+            '.sidebar-overlay', '.sidebar-overlay *', // Sidebar overlay
+            '#sidebarOverlay', // Sidebar overlay by ID
+            '.navbar-controls', '.navbar-controls *', // Navigation controls
+            '.hover-info-panel', '.hover-info-panel *', // Hover info
+            '.shift-left', '.shift-right', // Shift containers
+            '.day-card', '.day-card *', // Day cards and their contents
+            '.top-navbar', '.top-navbar *', // Top navigation
+            '.mobile-menu-buttons', '.mobile-menu-buttons *' // Mobile menu buttons
+        ];
+
+        // Handle overlay click
+        function handleOverlayClick(event) {
+            // Only handle on mobile devices
+            if (!isMobileDevice()) {
+                return;
+            }
+
+            // Check if the clicked element or any of its parents match excluded selectors
+            for (const selector of excludedSelectors) {
+                if (event.target.matches(selector) || event.target.closest(selector)) {
+                    return; // Don't trigger toggle
+                }
+            }
+
+            // Toggle names
+            showUserNames = !showUserNames;
+            updateNamesToggleButton();
+            updateAllDayCards();
         }
 
-        // Toggle names
-        showUserNames = !showUserNames;
-        updateNamesToggleButton();
-        updateAllDayCards();
+        // Add click event listener to overlay
+        overlay.addEventListener('click', handleOverlayClick);
     }
 
-    // Add background touch event listener
-    document.body.addEventListener('click', handleBackgroundTouch);
+    // Initialize mobile names toggle overlay
+    setupMobileNamesToggleOverlay();
 
     // Add new user with Enter key (handled in initializeUserForm function)
 
