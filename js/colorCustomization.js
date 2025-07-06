@@ -10,7 +10,8 @@ const ColorCustomization = {
     defaultColors: {
         primaryColor: '#1760ff',
         background: '#f5f7fd',
-        backgroundFreeze: '#f5f7fd', 
+        backgroundFreeze: '#f5f7fd',
+        backgroundPrimary: '#fffcf7',
         redShift: '#ff5252',
         orangeShift: '#ffab40',
         greenShift: '#4caf50',
@@ -219,8 +220,16 @@ const ColorCustomization = {
     getColorValuesFromInputs: function() {
         // Helper to get color with alpha
         const getColorWithAlpha = (colorId, alphaId) => {
-            const color = document.getElementById(colorId).value;
-            const alpha = document.getElementById(alphaId)?.value || 1;
+            const colorElement = document.getElementById(colorId);
+            const alphaElement = document.getElementById(alphaId);
+            
+            if (!colorElement) {
+                console.warn(`Color element with ID '${colorId}' not found`);
+                return { hex: '#000000', alpha: 1 };
+            }
+            
+            const color = colorElement.value;
+            const alpha = alphaElement?.value || 1;
             return { hex: color, alpha: parseFloat(alpha) };
         };
         
@@ -228,18 +237,20 @@ const ColorCustomization = {
             primaryColor: getColorWithAlpha('primaryColorInput', 'primaryColorAlpha'),
             background: getColorWithAlpha('backgroundColor', 'backgroundAlpha'),
             backgroundFreeze: getColorWithAlpha('backgroundFreezeColor', 'backgroundFreezeAlpha'),
+            backgroundPrimary: getColorWithAlpha('backgroundPrimaryColor', 'backgroundPrimaryAlpha'),
             redShift: getColorWithAlpha('redShiftColor', 'redShiftAlpha'),
             orangeShift: getColorWithAlpha('orangeShiftColor', 'orangeShiftAlpha'),
             greenShift: getColorWithAlpha('greenShiftColor', 'greenShiftAlpha'),
             starterShift: getColorWithAlpha('starterShiftColor', 'starterShiftAlpha'),
             schreibdienstSingle: getColorWithAlpha('schreibdienstSingleColor', 'schreibdienstSingleAlpha'),
             schreibdienstFull: getColorWithAlpha('schreibdienstFullColor', 'schreibdienstFullAlpha'),
-            hoverBg: getColorWithAlpha('hoverBgColor', 'hoverBgAlpha'),
             selectedBg: getColorWithAlpha('selectedBgColor', 'selectedBgAlpha'),
-            hoverBgSingle: getColorWithAlpha('hoverBgSingleColor', 'hoverBgSingleAlpha'),
             selectedBgSingle: getColorWithAlpha('selectedBgSingleColor', 'selectedBgSingleAlpha'),
             buttonNavBg: getColorWithAlpha('buttonNavBgColor', 'buttonNavBgAlpha'),
-            buttonNavBgHover: getColorWithAlpha('buttonNavBgHoverColor', 'buttonNavBgHoverAlpha')
+            // These are commented out in the modal HTML, so use defaults
+            hoverBg: this.getColorPreferences().hoverBg,
+            hoverBgSingle: this.getColorPreferences().hoverBgSingle,
+            buttonNavBgHover: this.getColorPreferences().buttonNavBgHover
         };
     },
 
@@ -285,6 +296,7 @@ const ColorCustomization = {
                 --primary-color: ${toRgba(colors.primaryColor)} !important;
                 --background-color: ${toRgba(colors.background)} !important;
                 --background-freeze-color: ${toRgba(colors.backgroundFreeze)} !important;
+                --background-primary: ${toRgba(colors.backgroundPrimary)} !important;
                 --color-empty: ${toRgba(colors.redShift)} !important;
                 --color-single: ${toRgba(colors.orangeShift)} !important;
                 --color-full: ${toRgba(colors.greenShift)} !important;
@@ -521,6 +533,14 @@ const ColorCustomization = {
                                 <span class="alpha-value">${Math.round((currentColors.backgroundFreeze?.alpha || 1) * 100)}%</span>
                             </div>
                         </div>
+                        <div class="cc-color-option">
+                            <label>Hintergrund Elemente:</label>
+                            <div class="color-with-alpha">
+                                <input type="color" id="backgroundPrimaryColor" value="${currentColors.backgroundPrimary?.hex || currentColors.backgroundPrimary}">
+                                <input type="range" id="backgroundPrimaryAlpha" min="0" max="1" step="0.01" value="${currentColors.backgroundPrimary?.alpha || 1}" class="alpha-slider">
+                                <span class="alpha-value">${Math.round((currentColors.backgroundPrimary?.alpha || 1) * 100)}%</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="color-section">
@@ -576,15 +596,15 @@ const ColorCustomization = {
                     </div>
 
                     <div class="color-section">
-                        <h3>User Hervorhebung </h3>
-                        <div class="cc-color-option">
+                        <h3>User Einsätze </h3>
+                        <!-- <div class="cc-color-option">
                             <label>Mousover (Doppelt besetzt):</label>
                             <div class="color-with-alpha">
                                 <input type="color" id="hoverBgColor" value="${currentColors.hoverBg.hex || currentColors.hoverBg}">
                                 <input type="range" id="hoverBgAlpha" min="0" max="1" step="0.01" value="${currentColors.hoverBg.alpha || 1}" class="alpha-slider">
                                 <span class="alpha-value">${Math.round((currentColors.hoverBg.alpha || 1) * 100)}%</span>
                             </div>
-                        </div>
+                        </div>  -->
                         <div class="cc-color-option">
                             <label>Auswahl (Doppelt besetzt):</label>
                             <div class="color-with-alpha">
@@ -593,14 +613,14 @@ const ColorCustomization = {
                                 <span class="alpha-value">${Math.round((currentColors.selectedBg.alpha || 1) * 100)}%</span>
                             </div>
                         </div>
-                        <div class="cc-color-option">
+                        <!-- <div class="cc-color-option">
                             <label>Mousover (Einzeln besetzt):</label>
                             <div class="color-with-alpha">
                                 <input type="color" id="hoverBgSingleColor" value="${currentColors.hoverBgSingle?.hex || currentColors.hoverBgSingle || '#f8f8f8'}">
                                 <input type="range" id="hoverBgSingleAlpha" min="0" max="1" step="0.01" value="${currentColors.hoverBgSingle?.alpha || 1}" class="alpha-slider">
                                 <span class="alpha-value">${Math.round((currentColors.hoverBgSingle?.alpha || 1) * 100)}%</span>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="cc-color-option">
                             <label>Auswahl (Einzeln besetzt):</label>
                             <div class="color-with-alpha">
@@ -622,13 +642,13 @@ const ColorCustomization = {
                             </div>
                         </div>
                         <div class="cc-color-option">
-                            <label>Button Hintergrund (Hover):</label>
+                           <!--  <label>Button Hintergrund (Hover):</label>
                             <div class="color-with-alpha">
                                 <input type="color" id="buttonNavBgHoverColor" value="${currentColors.buttonNavBgHover.hex || currentColors.buttonNavBgHover}">
                                 <input type="range" id="buttonNavBgHoverAlpha" min="0" max="1" step="0.01" value="${currentColors.buttonNavBgHover.alpha || 1}" class="alpha-slider">
                                 <span class="alpha-value">${Math.round((currentColors.buttonNavBgHover.alpha || 1) * 100)}%</span>
-                            </div>
-                        </div>
+                            </div> 
+                        </div> -->
                     </div>
 
                     <div class="color-actions">
@@ -750,18 +770,17 @@ const ColorCustomization = {
         updateColorWithAlpha('primaryColorInput', 'primaryColorAlpha', colors.primaryColor);
         updateColorWithAlpha('backgroundColor', 'backgroundAlpha', colors.background);
         updateColorWithAlpha('backgroundFreezeColor', 'backgroundFreezeAlpha', colors.backgroundFreeze);
+        updateColorWithAlpha('backgroundPrimaryColor', 'backgroundPrimaryAlpha', colors.backgroundPrimary);
         updateColorWithAlpha('redShiftColor', 'redShiftAlpha', colors.redShift);
         updateColorWithAlpha('orangeShiftColor', 'orangeShiftAlpha', colors.orangeShift);
         updateColorWithAlpha('greenShiftColor', 'greenShiftAlpha', colors.greenShift);
         updateColorWithAlpha('starterShiftColor', 'starterShiftAlpha', colors.starterShift);
         updateColorWithAlpha('schreibdienstSingleColor', 'schreibdienstSingleAlpha', colors.schreibdienstSingle);
         updateColorWithAlpha('schreibdienstFullColor', 'schreibdienstFullAlpha', colors.schreibdienstFull);
-        updateColorWithAlpha('hoverBgColor', 'hoverBgAlpha', colors.hoverBg);
         updateColorWithAlpha('selectedBgColor', 'selectedBgAlpha', colors.selectedBg);
-        updateColorWithAlpha('hoverBgSingleColor', 'hoverBgSingleAlpha', colors.hoverBgSingle);
         updateColorWithAlpha('selectedBgSingleColor', 'selectedBgSingleAlpha', colors.selectedBgSingle);
         updateColorWithAlpha('buttonNavBgColor', 'buttonNavBgAlpha', colors.buttonNavBg);
-        updateColorWithAlpha('buttonNavBgHoverColor', 'buttonNavBgHoverAlpha', colors.buttonNavBgHover);
+        // Skip updating commented-out elements: hoverBg, hoverBgSingle, buttonNavBgHover
         
         // Force a preview update
         this.updatePreview();
@@ -937,7 +956,7 @@ const ColorCustomization = {
         
         // More flexible check for required colors
         const requiredColors = [
-            'primaryColor', 'background', 'backgroundFreeze', 'redShift', 'orangeShift', 
+            'primaryColor', 'background', 'backgroundFreeze', 'backgroundPrimary', 'redShift', 'orangeShift', 
             'greenShift', 'starterShift', 'schreibdienstSingle', 
             'schreibdienstFull', 'hoverBg', 'selectedBg', 'hoverBgSingle', 'selectedBgSingle'
         ];
