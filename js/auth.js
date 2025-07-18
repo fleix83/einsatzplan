@@ -213,6 +213,143 @@ const AuthManager = {
                 }
             }
         }
+        
+        // Set up mobile auth button
+        const mobileAuthButton = document.getElementById('mobileAuthButton');
+        if (mobileAuthButton) {
+            if (user) {
+                mobileAuthButton.textContent = 'Logout';
+                mobileAuthButton.classList.add('logged-in');
+                mobileAuthButton.onclick = () => this.logout();
+                
+                const mobileUserInfoEl = document.getElementById('mobileUserInfo');
+                if (mobileUserInfoEl && user.name) {
+                    mobileUserInfoEl.textContent = user.name;
+                    mobileUserInfoEl.style.display = 'block';
+                }
+            } else {
+                mobileAuthButton.textContent = 'Anmelden';
+                mobileAuthButton.classList.remove('logged-in');
+                mobileAuthButton.onclick = () => this.showLoginDialog();
+                
+                const mobileUserInfoEl = document.getElementById('mobileUserInfo');
+                if (mobileUserInfoEl) {
+                    mobileUserInfoEl.style.display = 'none';
+                }
+            }
+        }
+    },
+    
+    // Password reset functionality
+    passwordReset: {
+        // Request password reset
+        requestReset: async function(email) {
+            try {
+                const response = await fetch('api/auth.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'request_reset',
+                        email: email
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    return { success: true, message: data.message };
+                } else {
+                    return { success: false, error: data.error || 'Reset request failed' };
+                }
+            } catch (error) {
+                console.error('Password reset request error:', error);
+                return { success: false, error: 'Network error occurred' };
+            }
+        },
+        
+        // Validate reset token
+        validateToken: async function(token) {
+            try {
+                const response = await fetch('api/auth.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'validate_reset_token',
+                        token: token
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    return { success: true, message: data.message };
+                } else {
+                    return { success: false, error: data.error || 'Token validation failed' };
+                }
+            } catch (error) {
+                console.error('Token validation error:', error);
+                return { success: false, error: 'Network error occurred' };
+            }
+        },
+        
+        // Reset password with token
+        resetPassword: async function(token, newPassword) {
+            try {
+                const response = await fetch('api/auth.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'reset_password',
+                        token: token,
+                        password: newPassword
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    return { success: true, message: data.message };
+                } else {
+                    return { success: false, error: data.error || 'Password reset failed' };
+                }
+            } catch (error) {
+                console.error('Password reset error:', error);
+                return { success: false, error: 'Network error occurred' };
+            }
+        },
+        
+        // Clear reset token (admin function)
+        clearResetToken: async function(userId) {
+            try {
+                const response = await AuthManager.fetchWithAuth('api/users.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'clear_reset_token',
+                        userId: userId
+                    })
+                }, true);
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    return { success: true, message: data.message };
+                } else {
+                    return { success: false, error: data.error || 'Failed to clear reset token' };
+                }
+            } catch (error) {
+                console.error('Clear reset token error:', error);
+                return { success: false, error: 'Network error occurred' };
+            }
+        }
     }
 };
 

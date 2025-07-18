@@ -44,15 +44,15 @@ const HolidayFeature = (function() {
             }
             
             .holiday-stripe.level-1 {
-                background-color: #C4D8E9; /* Yellow for 1-2 users */
+                background-color: #C4D8E9; /* Lightblue for 1-2 users */
             }
             
             .holiday-stripe.level-2 {
-                background-color: #7AA6CD; /* Orange for 3-4 users */
+                background-color: #7AA6CD; /* Blue for 3-4 users */
             }
             
             .holiday-stripe.level-3 {
-                background-color: #3A6D99; /* Red for 5+ users */
+                background-color: #3A6D99; /* Marine for 5+ users */
             }
             
             /* Backoffice holiday stripe styles */

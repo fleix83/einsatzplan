@@ -804,8 +804,6 @@ body {
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    width: 34px;
-    height: 34px;
 }
 
 .button-delete {
@@ -1360,7 +1358,6 @@ body {
     border: none;
     border-radius: 6px;
     padding: 10px 16px;
-    width: 69px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -3079,7 +3076,7 @@ body {
     }
 
     .feed-url-container .button-secondary {
-        align-self: flex-end;
+        align-self: flex-start;
     }
 }
 

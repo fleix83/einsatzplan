@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "Restricted Area"
-AuthUserFile /Applications/XAMPP/xamppfiles/htdocs/calendar-deutsch/.htpasswd
-Require user user

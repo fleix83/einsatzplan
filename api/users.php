@@ -26,8 +26,41 @@ $conn = getDbConnection();
 // Handle request based on method
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        // Get users - public access for everyone
-        $stmt = $conn->prepare("SELECT id, name, role, is_starter, is_schreibdienst, active, max_shifts_per_week FROM users WHERE active = 1 ORDER BY name");
+        // Check if user is authenticated (admin view)
+        $currentUser = null;
+        $isAdmin = false;
+        
+        try {
+            $currentUser = getCurrentUser();
+            $isAdmin = ($currentUser && $currentUser['role'] === 'Backoffice');
+        } catch (Exception $e) {
+            // Not authenticated, continue with public access
+        }
+        
+        // Get users - public access for everyone, admin gets additional info
+        if ($isAdmin) {
+            // Admin view - include reset token information
+            $stmt = $conn->prepare("
+                SELECT id, name, email, role, is_starter, is_schreibdienst, active, max_shifts_per_week,
+                       reset_token, reset_token_expires,
+                       CASE 
+                           WHEN reset_token IS NOT NULL AND reset_token_expires > NOW() THEN 'active'
+                           WHEN reset_token IS NOT NULL AND reset_token_expires <= NOW() THEN 'expired'
+                           ELSE 'none'
+                       END as reset_status
+                FROM users 
+                WHERE active = 1 
+                ORDER BY name
+            ");
+        } else {
+            // Public view - basic info only
+            $stmt = $conn->prepare("
+                SELECT id, name, role, is_starter, is_schreibdienst, active, max_shifts_per_week 
+                FROM users 
+                WHERE active = 1 
+                ORDER BY name
+            ");
+        }
         
         if (!$stmt) {
             http_response_code(500);
@@ -45,8 +78,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $users = [];
         
         while ($row = $result->fetch_assoc()) {
-            // Convert DB field names to match your current JavaScript
-            $users[] = [
+            $user = [
                 'id' => $row['id'],
                 'name' => $row['name'],
                 'role' => $row['role'],
@@ -55,13 +87,22 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 'active' => (bool)$row['active'],
                 'maxShiftsPerWeek' => $row['max_shifts_per_week']
             ];
+            
+            // Add admin-only information
+            if ($isAdmin) {
+                $user['email'] = $row['email'];
+                $user['resetStatus'] = $row['reset_status'];
+                $user['resetTokenExpires'] = $row['reset_token_expires'];
+            }
+            
+            $users[] = $user;
         }
         
         echo json_encode($users);
         break;
         
     case 'POST':
-        // Add a new user - requires backoffice role
+        // Verify authentication for all POST operations
         try {
             // Verify authentication using the new requireAuth function
             $currentUser = requireAuth();
@@ -69,7 +110,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             // Check if user has backoffice role
             if ($currentUser['role'] !== 'Backoffice') {
                 http_response_code(403);
-                echo json_encode(['error' => 'Only Backoffice users can add new users']);
+                echo json_encode(['error' => 'Only Backoffice users can perform this action']);
                 exit;
             }
         } catch (Exception $e) {
@@ -78,8 +119,54 @@ switch ($_SERVER['REQUEST_METHOD']) {
             exit;
         }
         
-        // Now handle the actual user creation
+        // Get request data
         $data = json_decode(file_get_contents('php://input'), true);
+        
+        // Handle different actions
+        if (isset($data['action'])) {
+            switch ($data['action']) {
+                case 'clear_reset_token':
+                    // Clear reset token for a user
+                    if (!isset($data['userId'])) {
+                        http_response_code(400);
+                        echo json_encode(['error' => 'User ID is required']);
+                        exit;
+                    }
+                    
+                    $userId = $data['userId'];
+                    
+                    // Clear the reset token
+                    $stmt = $conn->prepare("
+                        UPDATE users 
+                        SET reset_token = NULL, reset_token_expires = NULL 
+                        WHERE id = ?
+                    ");
+                    
+                    if (!$stmt) {
+                        http_response_code(500);
+                        echo json_encode(['error' => 'Failed to prepare statement: ' . $conn->error]);
+                        exit;
+                    }
+                    
+                    $stmt->bind_param('i', $userId);
+                    
+                    if (!$stmt->execute()) {
+                        http_response_code(500);
+                        echo json_encode(['error' => 'Failed to clear reset token: ' . $stmt->error]);
+                        exit;
+                    }
+                    
+                    echo json_encode(['success' => true, 'message' => 'Reset token cleared successfully']);
+                    $stmt->close();
+                    $conn->close();
+                    exit;
+                    
+                default:
+                    http_response_code(400);
+                    echo json_encode(['error' => 'Unknown action']);
+                    exit;
+            }
+        }
         
         // Validate request
         if (!isset($data['name']) || trim($data['name']) === '') {
