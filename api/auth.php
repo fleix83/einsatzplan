@@ -1,10 +1,17 @@
 <?php
+// Disable error output to prevent JSON corruption
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
+// Start output buffering to catch any unexpected output
+ob_start();
+
 require_once 'config.php';
 // DO NOT require auth_middleware.php here
 
-error_log('Auth endpoint accessed: ' . file_get_contents('php://input'));
-
-// Set content type to JSON
+// Clean any output buffer and set content type to JSON
+ob_clean();
 header('Content-Type: application/json');
 
 // Get database connection
@@ -264,3 +271,4 @@ switch ($_SERVER['REQUEST_METHOD']) {
 }
 
 $conn->close();
+ob_end_flush();

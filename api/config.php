@@ -42,6 +42,10 @@ function getCurrentUser() {
 
 // Helper function to send JSON response
 function sendJsonResponse($data, $statusCode = 200) {
+    // Clear any output buffer to prevent corruption
+    if (ob_get_level()) {
+        ob_clean();
+    }
     http_response_code($statusCode);
     header('Content-Type: application/json');
     echo json_encode($data);
@@ -50,6 +54,10 @@ function sendJsonResponse($data, $statusCode = 200) {
 
 // Helper function to handle errors
 function handleError($message, $statusCode = 500) {
+    // Clear any output buffer to prevent corruption
+    if (ob_get_level()) {
+        ob_clean();
+    }
     http_response_code($statusCode);
     header('Content-Type: application/json');
     echo json_encode(['error' => $message]);
