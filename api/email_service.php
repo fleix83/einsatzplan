@@ -210,11 +210,7 @@ function sendEmailWithPHPMailer($email, $subject, $message) {
         return sendEmailWithBasicSMTP($email, $subject, $message);
     }
     
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
-    
-    $mail = new PHPMailer(true);
+    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
     
     try {
         // Server settings
@@ -238,7 +234,7 @@ function sendEmailWithPHPMailer($email, $subject, $message) {
         
         $mail->send();
         return true;
-    } catch (Exception $e) {
+    } catch (PHPMailer\PHPMailer\Exception $e) {
         error_log('PHPMailer Error: ' . $mail->ErrorInfo);
         // Try fallback method
         return sendEmailWithBasicSMTP($email, $subject, $message);
