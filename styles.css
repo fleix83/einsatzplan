@@ -52,7 +52,7 @@ body {
     font-family: "DIN Next Rounded LT W01 Regular";
     max-width: 1400px;
     margin: 0 auto;
-    padding: 100px 40px;
+    padding: 100px 40px 100px 40px;
     background: linear-gradient(180deg, var(--background-color) -9%, rgba(255, 255, 255, 1) 100%);
     transition: background 0.5s ease;
     position: relative;
@@ -174,10 +174,7 @@ body.frozen-state {
     background-color: #8b9972; /* Darker shade for hover */
 }
 
-/* Adjust body padding to account for fixed navbar */
-body {
-    padding-top: 80px;
-}
+
 
 /* Remove old controls container */
 .controls {
@@ -2227,18 +2224,19 @@ body {
 
 .current-day-display {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 69px;
+    padding: 0 30px;
     transition: all 0.3s ease;
     height: 80px;
+    gap: 15px;
 }
 
 .current-day-number {
-    font-size: 72px;
+    font-size: 78px;
     font-weight: 700;
     line-height: 1;
-    margin-right: 10px;
     color: var(--background-primary);
     transition: all 0.3s ease;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
@@ -2255,16 +2253,52 @@ body {
     min-width: 100px;
 }
 
+.date-info-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+}
+
+.date-info-group .month-title {
+    font-size: 29px;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-right: 0;
+    text-align: left;
+    line-height: 1;
+}
+
+.date-info-group .current-day-name {
+    margin: 0;
+    padding-bottom: 0;
+    min-width: auto;
+    text-align: left;
+}
+
 @media screen and (max-width: 768px) {
     .current-day-display {
-        margin-bottom: 55px;
+        margin-bottom: 62px;
+        justify-content: flex-end;
+        gap: 5px;
+        padding: 0 20px;
     }
 
     .current-day-number {
-        font-size: 52px;
+        font-size: 66px;
+        margin-right: 0;
     }
 
     .current-day-name {
+        font-size: 16px;
+    }
+    
+    .date-info-group .month-title {
+        font-size: 16px;
+    }
+    
+    .date-info-group .current-day-name {
         font-size: 16px;
     }
 }
@@ -4079,7 +4113,7 @@ body {
 
 .top-navbar {
     position: absolute;
-    top: 217px;
+    top: 230px;
     right: 34px;
     background-color: var(--background-primary);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -4273,9 +4307,9 @@ body {
         height: 56px;
         width: 79%;
         border-radius: 0px;
-        top: 119px;
+        top: 143px;
         border-radius: 40px;
-        margin-left:  10px;
+        margin-left: 10px;
     }
 
     .navbar-container {
