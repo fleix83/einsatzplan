@@ -3,8 +3,20 @@
 const AuthManager = {
     // Check if user is authenticated
     isAuthenticated: function() {
-        const authData = JSON.parse(localStorage.getItem('authData'));
-        if (!authData || !authData.token) {
+        let authData;
+        try {
+            const authDataString = localStorage.getItem('authData');
+            if (!authDataString) {
+                return false;
+            }
+            authData = JSON.parse(authDataString);
+            if (!authData || !authData.token) {
+                return false;
+            }
+        } catch (error) {
+            // Invalid JSON in localStorage, clear it
+            console.warn('Invalid authData in localStorage, clearing:', error);
+            localStorage.removeItem('authData');
             return false;
         }
         
@@ -25,8 +37,18 @@ const AuthManager = {
             return null;
         }
         
-        const authData = JSON.parse(localStorage.getItem('authData'));
-        return authData.user;
+        try {
+            const authDataString = localStorage.getItem('authData');
+            if (!authDataString) {
+                return null;
+            }
+            const authData = JSON.parse(authDataString);
+            return authData.user;
+        } catch (error) {
+            console.warn('Invalid authData in localStorage, clearing:', error);
+            localStorage.removeItem('authData');
+            return null;
+        }
     },
     
     // Get auth token
@@ -35,8 +57,18 @@ const AuthManager = {
             return null;
         }
         
-        const authData = JSON.parse(localStorage.getItem('authData'));
-        return authData.token;
+        try {
+            const authDataString = localStorage.getItem('authData');
+            if (!authDataString) {
+                return null;
+            }
+            const authData = JSON.parse(authDataString);
+            return authData.token;
+        } catch (error) {
+            console.warn('Invalid authData in localStorage, clearing:', error);
+            localStorage.removeItem('authData');
+            return null;
+        }
     },
     
     // Debug function to test headers
@@ -70,7 +102,15 @@ const AuthManager = {
     
     // Logout user
     logout: async function() {
-        const authData = JSON.parse(localStorage.getItem('authData'));
+        let authData = null;
+        try {
+            const authDataString = localStorage.getItem('authData');
+            if (authDataString) {
+                authData = JSON.parse(authDataString);
+            }
+        } catch (error) {
+            console.warn('Invalid authData in localStorage during logout:', error);
+        }
         
         // Clear local storage first
         localStorage.removeItem('authData');

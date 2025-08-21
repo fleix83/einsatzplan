@@ -3432,7 +3432,7 @@ body.frozen-state {
       background: var(--background-primary);
       box-shadow: -2px 0 5px rgba(0,0,0,0.1);
       transition: right 0.3s ease;
-      z-index: 1000;
+      z-index: 1700; /* Higher than mobile-names-toggle-overlay (1550) */
       padding: 100px 15px 20px 15px;
     }
 
@@ -3464,7 +3464,7 @@ body.frozen-state {
         right: 60px; /* 15px (avatar margin) + 34px (avatar width) + 11px (spacing) */
         z-index: 1600; /* Same as avatar to work above overlay */
         color: white;
-        font-size: 14px;
+        font-size: 16px;
         font-family: inherit;
         font-weight: 500;
         cursor: pointer;
@@ -3475,7 +3475,6 @@ body.frozen-state {
 
     .mobile-legend-link-fixed:hover {
         color: rgba(255, 255, 255, 0.8);
-        text-decoration-color: rgba(255, 255, 255, 0.9);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     }
 
@@ -3484,6 +3483,7 @@ body.frozen-state {
       display: flex;
       justify-content: center;
       align-items: center;
+      z-index: 2000;
     }
 
     .mobile-menu-buttons {
@@ -5714,6 +5714,12 @@ body.frozen-state {
     display: none;
     pointer-events: auto;
     /* background: rgba(255, 0, 0, 0.1); */
+    transition: right 0.3s ease;
+}
+
+/* When mobile menu is open, adjust overlay to not cover the menu */
+.user-list-panel.active ~ .mobile-names-toggle-overlay {
+    right: 240px; /* Width of the mobile menu */
 }
 
 /* Show overlay only on mobile devices */

@@ -111,7 +111,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Check if already logged in
-            const authData = JSON.parse(localStorage.getItem('authData'));
+            let authData = null;
+            try {
+                const authDataString = localStorage.getItem('authData');
+                if (authDataString) {
+                    authData = JSON.parse(authDataString);
+                }
+            } catch (error) {
+                console.warn('Invalid authData in localStorage, clearing:', error);
+                localStorage.removeItem('authData');
+            }
             if (authData && authData.token) {
                 // Get return URL from query string
                 const urlParams = new URLSearchParams(window.location.search);

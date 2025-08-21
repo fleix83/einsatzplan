@@ -27,3 +27,61 @@
         "Cookie": "PHPSESSID=mh28r4bpuj711dhsrogd57t7k1; last_session=SES-20250616-F9645E"
     }
 }
+{
+    "timestamp": "2025-08-21 18:54:13",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 218dcb8a8c650adaf66a168b4da9378241be2f2d75ccae9708fc68a1779f9725",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"137\", \"Chromium\";v=\"137\", \"Not\/A)Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=8",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=dm3dijjtah3hds9fv7rob2p5u9"
+    }
+}
+{
+    "timestamp": "2025-08-21 18:54:41",
+    "method": "POST",
+    "server_vars": {
+        "HTTP_AUTHORIZATION": "not set",
+        "REDIRECT_HTTP_AUTHORIZATION": "not set"
+    },
+    "getallheaders_exists": true,
+    "all_headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Content-Length": "75",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "Authorization": "Bearer 218dcb8a8c650adaf66a168b4da9378241be2f2d75ccae9708fc68a1779f9725",
+        "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"137\", \"Chromium\";v=\"137\", \"Not\/A)Brand\";v=\"24\"",
+        "Content-Type": "application\/json",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "*\/*",
+        "Origin": "http:\/\/localhost",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "http:\/\/localhost\/calendar-deutsch\/?year=2025&month=8",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6,tr;q=0.5",
+        "Cookie": "PHPSESSID=dm3dijjtah3hds9fv7rob2p5u9"
+    }
+}
