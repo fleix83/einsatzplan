@@ -4105,9 +4105,63 @@ function hideMobileModal() {
     if (overlay) overlay.classList.remove('active');
 }
 
+// Legend Modal Functions
+function showLegendModal() {
+    const modal = document.getElementById('legendModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function hideLegendModal() {
+    const modal = document.getElementById('legendModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+}
+
+function initializeLegendModal() {
+    const desktopButton = document.getElementById('legendToggleButton');
+    const mobileButton = document.getElementById('mobileLegendButton');
+    const closeButton = document.getElementById('legendCloseButton');
+    const overlay = document.getElementById('legendOverlay');
+
+    // Desktop legend button event listener
+    if (desktopButton) {
+        desktopButton.addEventListener('click', showLegendModal);
+    }
+
+    // Mobile legend button event listener (now in top controls)
+    if (mobileButton) {
+        mobileButton.addEventListener('click', showLegendModal);
+    }
+
+    // Close button event listener
+    if (closeButton) {
+        closeButton.addEventListener('click', hideLegendModal);
+    }
+
+    // Overlay click event listener
+    if (overlay) {
+        overlay.addEventListener('click', hideLegendModal);
+    }
+
+    // ESC key event listener
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            hideLegendModal();
+        }
+    });
+}
+
 
 // Start the application with async loading
 document.addEventListener('DOMContentLoaded', function() {
     // Small delay to ensure all elements are properly available
-    setTimeout(initializeApp, 200);
+    setTimeout(() => {
+        initializeApp();
+        initializeLegendModal();
+    }, 200);
 });

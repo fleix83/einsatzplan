@@ -3456,6 +3456,29 @@ body.frozen-state {
       margin-bottom: 10px;
     }
 
+    /* Mobile Legend Link Container */
+    .mobile-legend-container {
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .mobile-legend-link {
+        background: none;
+        border: none;
+        color: #838080;
+        font-size: 16px;
+        font-family: inherit;
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 5px;
+        transition: color 0.2s ease;
+    }
+
+    .mobile-legend-link:hover {
+        color: #666;
+    }
+
     .user-list-panel .auth-button {
       width: 100%;
       display: flex;
@@ -5580,7 +5603,7 @@ body.frozen-state {
     gap: 6px;
     padding: 5px 12px;
     border-top-left-radius: 20px;
-    border-bottom-right-radius: 12px;
+    border-bottom-right-radius: 0px;
     transition: all 0.2s ease;
     z-index: 100;
 }
@@ -5596,6 +5619,37 @@ body.frozen-state {
 
 .toggle-text {
     font-weight: 500;
+}
+
+/* Desktop Legend Toggle Button */
+.legend-toggle-button {
+    position: absolute;
+    top: 0px;
+    left: 140px; /* Position next to names toggle button */
+    background: rgb(13 7 7 / 5%);
+    border: none;
+    color: #838080;
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 12px;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.legend-toggle-button:hover {
+    background: rgba(131, 128, 128, 0.17);
+    color: #666;
+}
+
+/* Mobile Legend Link Container - hidden by default on desktop */
+.mobile-legend-container {
+    display: none;
 }
 
 /* User Names in Shift Containers */
@@ -5626,6 +5680,10 @@ body.frozen-state {
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
+    /* Hide desktop legend button on mobile */
+    .legend-toggle-button {
+        display: none;
+    }
     .names-toggle-button {
         display: none; /* Hide the button on mobile - background touch will handle toggle */
     }
@@ -5663,6 +5721,200 @@ body.frozen-state {
     }
 }
 
+/* Legend Modal Styles */
+.legend-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    display: none;
+}
+
+.legend-modal.show {
+    display: block;
+}
+
+.legend-modal-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40vh;
+    background: white;
+    border-bottom: 0px solid var(--primary-color);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 30px 40px;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-out;
+    overflow-y: auto;
+    padding: 50px 200px;
+}
+
+.legend-modal.show .legend-modal-content {
+    transform: translateY(0);
+}
+
+.legend-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 66vh;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: -1;
+}
+
+.legend-close-button {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    background: none;
+    border: none;
+    font-size: 60px;
+    font-weight: 100;
+    color: #838080;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.legend-close-button:hover {
+    color: #666;
+}
+
+.legend-modal h2 {
+    margin: 0 0 25px 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: left;
+}
+
+.legend-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    height: calc(100% - 60px);
+}
+
+.legend-section h3 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    text-align: left;
+}
+
+.legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.legend-color-full {
+    background: var(--color-full);
+}
+
+.legend-color-single {
+    background: var(--color-single);
+}
+
+.legend-color-starter {
+    background: var(--color-starter);
+}
+
+.legend-color-individual-full {
+    background: #ffd000b5;
+}
+
+.legend-color-individual-single {
+    background: #ffd60080;
+}
+
+.legend-color-holiday-2 {
+    background: var(--holiday-stripe-1);
+}
+
+.legend-color-holiday-4 {
+    background: var(--holiday-stripe-2);
+}
+
+.legend-color-holiday-more {
+    background: var(--holiday-stripe-3);
+}
+
+/* Mobile responsive styles for legend modal */
+@media (max-width: 768px) {
+    .legend-modal-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40vh;
+        border-radius: 0;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        padding: 20px;
+        transform: translateY(-100%);
+    }
+
+    .legend-modal.show .legend-modal-content {
+        transform: translateY(0);
+    }
+
+    .legend-modal h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .legend-sections {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        height: calc(100% - 50px);
+    }
+
+    .legend-section h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .legend-items {
+        gap: 8px;
+    }
+
+    .legend-item {
+        font-size: 14px;
+    }
+
+    .legend-color {
+        width: 16px;
+        height: 16px;
+    }
+}
 
 
 

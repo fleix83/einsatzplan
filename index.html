@@ -85,6 +85,12 @@
                 <button id="mobileAuthButton" class="auth-button">Anmelden</button>
             </div>
             
+            <div class="mobile-legend-container">
+                <button class="mobile-legend-link" id="mobileLegendButton">
+                    Legende
+                </button>
+            </div>
+            
             <!-- Mobile Menu Buttons -->
             <div class="mobile-menu-buttons">
                 <button class="button-nav" id="mobileManageUsers" title="User Verwaltung">
@@ -173,6 +179,9 @@
         <button class="names-toggle-button" id="namesToggleButton">
             <span class="toggle-text">Namen anzeigen</span>
         </button>
+        <button class="legend-toggle-button" id="legendToggleButton">
+            <span class="toggle-text">Legende</span>
+        </button>
         <div class="calendar" id="calendar"></div>
     </div>
             
@@ -248,6 +257,67 @@
     
     <!-- Mobile Names Toggle Overlay -->
     <div class="mobile-names-toggle-overlay" id="mobileNamesToggleOverlay"></div>
+
+    <!-- Legend Modal -->
+    <div class="legend-modal" id="legendModal">
+        <div class="legend-modal-content">
+            <button class="legend-close-button" id="legendCloseButton">×</button>
+            <h2>Legende</h2>
+            
+            <div class="legend-sections">
+                <div class="legend-section">
+                    <h3>Einsätze alle</h3>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-full"></div>
+                            <span>Doppelt besetzt</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-single"></div>
+                            <span>Einfach besetzt</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-starter"></div>
+                            <span>Starter einfach besetzt</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="legend-section">
+                    <h3>Einsätze individuell, Klick auf User</h3>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-individual-full"></div>
+                            <span>Individueller Einsatz doppelt besetzt</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-individual-single"></div>
+                            <span>Individueller Einsatz einfach besetzt</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="legend-section">
+                    <h3>Ferien Balken über Einsatz</h3>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-holiday-2"></div>
+                            <span>max 2 Freiwillige in Ferien</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-holiday-4"></div>
+                            <span>max 4 Freiwillige in Ferien</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-color-holiday-more"></div>
+                            <span>über 4 Freiwillige in Ferien</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="legend-overlay" id="legendOverlay"></div>
+    </div>
 
     <!-- Custom Notification System -->
     <div class="notification-container" id="notificationContainer"></div>
