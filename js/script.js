@@ -3616,39 +3616,44 @@ function updateHoverInfo(day, show = true) {
             '<div class="shift-user">Einsatz unbelegt</div>';
     }
 
-    // Add custom events display
-    const customEvents = staticData.customEvents?.[currentYear]?.[currentMonth]?.[day] || [];
-    if (customEvents.length > 0) {
-        // Check if custom events section already exists
-        let customEventsSection = hoverPanel.querySelector('.hover-info-custom-events');
-        if (!customEventsSection) {
-            // Create custom events section
-            customEventsSection = document.createElement('div');
-            customEventsSection.className = 'hover-info-custom-events';
-            hoverPanel.querySelector('.hover-info-content').appendChild(customEventsSection);
+    // Add holidays display
+    const holidayData = getHolidaysForDate(currentYear, currentMonth, day);
+    const allHolidayUsers = [...holidayData.freiwillige, ...holidayData.backoffice];
+    
+    if (allHolidayUsers.length > 0) {
+        // Check if holidays section already exists
+        let holidaysSection = hoverPanel.querySelector('.hover-info-holidays');
+        if (!holidaysSection) {
+            // Create holidays section
+            holidaysSection = document.createElement('div');
+            holidaysSection.className = 'hover-info-holidays';
+            hoverPanel.querySelector('.hover-info-content').appendChild(holidaysSection);
         }
 
-        // Update custom events content
-        customEventsSection.innerHTML = `
-            <div class="custom-events-title">Veranstaltungen</div>
-            <div class="custom-events-list">
-                ${customEvents.map(event => {
-                    const timeParts = event.time.split(':');
-                    const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
-                    return `
-                        <div class="hover-custom-event-item">
-                            <div class="hover-custom-event-time">${formattedTime}</div>
-                            <div class="hover-custom-event-title">${event.title}</div>
-                        </div>
-                    `;
-                }).join('')}
+        // Create multi-column layout (max 2 users per column)
+        const columns = [];
+        for (let i = 0; i < allHolidayUsers.length; i += 2) {
+            columns.push(allHolidayUsers.slice(i, i + 2));
+        }
+
+        // Update holidays content
+        holidaysSection.innerHTML = `
+            <div class="holidays-title">Ferien</div>
+            <div class="holidays-columns">
+                ${columns.map(column => `
+                    <div class="holidays-column">
+                        ${column.map(user => `
+                            <div class="holiday-user">${user.userName}</div>
+                        `).join('')}
+                    </div>
+                `).join('')}
             </div>
         `;
     } else {
-        // Remove custom events section if no events
-        const customEventsSection = hoverPanel.querySelector('.hover-info-custom-events');
-        if (customEventsSection) {
-            customEventsSection.remove();
+        // Remove holidays section if no users on holiday
+        const holidaysSection = hoverPanel.querySelector('.hover-info-holidays');
+        if (holidaysSection) {
+            holidaysSection.remove();
         }
     }
 

@@ -893,11 +893,11 @@ body.frozen-state {
 
 .hover-info-shifts {
     display: flex;
-    gap: 120px;
+    gap: 90px;
     max-height: 100%;
     position: relative;
     top: 0px;
-    margin-right: 160px;
+    margin-right: 140px;
 }
 
 .hover-info-shift {
@@ -913,7 +913,6 @@ body.frozen-state {
 
 .shift-user {
     margin: 3px 0;
-    padding: 3px 0;
     display: inline-block;
     float: left;
     clear: both;
@@ -926,24 +925,37 @@ body.frozen-state {
 }
 
 /* Custom Events in Hover Info Panel */
-.hover-info-custom-events {
-    margin-left: 20px;
-    padding-left: 20px;
-    border-left: 1px solid #eee;
+.hover-info-holidays {
+    margin-left: -70px;
     min-width: 200px;
 }
 
-.custom-events-title {
-    font-size: 16px;
+.holidays-title {
+    font-size: 30px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: #666;
 }
 
-.custom-events-list {
+.holidays-columns {
+    display: flex;
+    gap: 15px;
+}
+
+.holidays-column {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
+}
+
+.holiday-user {
+    color: white;
+    background: #3a6d99;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    min-width: 80px;
 }
 
 .hover-custom-event-item {
