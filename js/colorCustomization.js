@@ -18,10 +18,10 @@ const ColorCustomization = {
         starterShift: '#ffd700',
         schreibdienstSingle: '#64b5f6',
         schreibdienstFull: '#1976d2',
-        hoverBg: '#f5f5f5',
-        selectedBg: '#e3f2fd',
-        hoverBgSingle: '#f8f8f8',
-        selectedBgSingle: '#eef7ff',
+        hoverBg: '#ffed75',
+        selectedBg: '#ffed75',
+        hoverBgSingle: '#fff3cd',
+        selectedBgSingle: '#fff3cd',
         buttonNavBg: '#f3f3f3',
         buttonNavBgHover: '#e8e8e8'
     },
@@ -247,9 +247,9 @@ const ColorCustomization = {
             selectedBg: getColorWithAlpha('selectedBgColor', 'selectedBgAlpha'),
             selectedBgSingle: getColorWithAlpha('selectedBgSingleColor', 'selectedBgSingleAlpha'),
             buttonNavBg: getColorWithAlpha('buttonNavBgColor', 'buttonNavBgAlpha'),
-            // These are commented out in the modal HTML, so use defaults
-            hoverBg: this.getColorPreferences().hoverBg,
-            hoverBgSingle: this.getColorPreferences().hoverBgSingle,
+            // Hover colors should match selected colors (no separate UI controls)
+            hoverBg: getColorWithAlpha('selectedBgColor', 'selectedBgAlpha'),
+            hoverBgSingle: getColorWithAlpha('selectedBgSingleColor', 'selectedBgSingleAlpha'),
             buttonNavBgHover: this.getColorPreferences().buttonNavBgHover
         };
     },
