@@ -317,8 +317,65 @@ const ColorCustomization = {
     
             /* Shift Colors (using existing vars mapped above) */
             .shift-left.red, .shift-right.red { background: var(--color-empty) !important; }
+            
+            /* Eye graphic overlay for red shifts - when names are hidden */
+            .shift-left.red:not(.hide-eye-graphic):not(.official-holiday-shift), .shift-right.red:not(.hide-eye-graphic):not(.official-holiday-shift) {
+                background-image: url('eye.svg'), linear-gradient(to bottom, var(--color-empty), var(--color-empty)) !important;
+                background-position: center, center !important;
+                background-repeat: no-repeat, no-repeat !important;
+                background-size: auto 80%, cover !important;
+                background-blend-mode: normal, normal !important;
+            }
             .shift-left.orange, .shift-right.orange { background-color: var(--color-single) !important; }
             .shift-left.green, .shift-right.green { background-color: var(--color-full) !important; }
+            
+            /* Eye graphic overlay for green shifts (full-shifts) - when names are hidden */
+            .shift-left.green:not(.hide-eye-graphic):not(.official-holiday-shift), .shift-right.green:not(.hide-eye-graphic):not(.official-holiday-shift) {
+                background-image: url('eye.svg'), linear-gradient(to bottom, var(--color-full), var(--color-full)) !important;
+                background-position: center, center !important;
+                background-repeat: no-repeat, no-repeat !important;
+                background-size: auto 80%, cover !important;
+                background-blend-mode: normal, normal !important;
+            }
+            
+            /* Hide eye graphic when names are toggled on */
+            .shift-left.red.hide-eye-graphic, .shift-right.red.hide-eye-graphic,
+            .shift-left.green.hide-eye-graphic, .shift-right.green.hide-eye-graphic,
+            .shift-left.official-holiday-shift, .shift-right.official-holiday-shift {
+                background-image: none !important;
+            }
+            
+            /* Eye graphic with hover highlights */
+            .shift-left.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover,
+            .shift-right.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover,
+            .shift-left.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover,
+            .shift-right.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover {
+                background-image: url('eye.svg'), linear-gradient(to bottom, var(--hover-bg), var(--hover-bg)) !important;
+            }
+            
+            /* Eye graphic with selection highlights */
+            .shift-left.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected,
+            .shift-right.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected,
+            .shift-left.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected,
+            .shift-right.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected {
+                background-image: url('eye.svg'), linear-gradient(to bottom, var(--selected-bg), var(--selected-bg)) !important;
+            }
+            
+            /* Eye graphic with single hover highlights */
+            .shift-left.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover-single,
+            .shift-right.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover-single,
+            .shift-left.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover-single,
+            .shift-right.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-hover-single {
+                background-image: url('eye.svg'), linear-gradient(to bottom, var(--hover-bg-single), var(--hover-bg-single)) !important;
+            }
+            
+            /* Eye graphic with single selection highlights */
+            .shift-left.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected-single,
+            .shift-right.red:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected-single,
+            .shift-left.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected-single,
+            .shift-right.green:not(.hide-eye-graphic):not(.official-holiday-shift).highlight-selected-single {
+                background-image: url('eye.svg'), linear-gradient(to bottom, var(--selected-bg-single), var(--selected-bg-single)) !important;
+            }
             .shift-left.starter, .shift-right.starter { background-color: var(--color-starter) !important; }
             .shift-left.schreibdienst-single, .shift-right.schreibdienst-single { background-color: var(--color-schreibdienst) !important; }
             

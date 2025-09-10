@@ -2276,6 +2276,22 @@ function updateNamesToggleButton() {
     }
 }
 
+// Function to update eye graphics visibility based on names toggle state
+function updateEyeGraphicsVisibility() {
+    const calendar = document.getElementById('calendar');
+    if (!calendar) return;
+    
+    const shiftsWithEyeGraphic = calendar.querySelectorAll('.shift-left.red, .shift-right.red, .shift-left.green, .shift-right.green');
+    
+    shiftsWithEyeGraphic.forEach(shift => {
+        if (showUserNames) {
+            shift.classList.add('hide-eye-graphic');
+        } else {
+            shift.classList.remove('hide-eye-graphic');
+        }
+    });
+}
+
 // Function to update all day cards to show/hide names
 function updateAllDayCards() {
     const calendar = document.getElementById('calendar');
@@ -2288,6 +2304,9 @@ function updateAllDayCards() {
             updateDayCard(day);
         }
     });
+    
+    // Update eye graphics visibility after updating day cards
+    updateEyeGraphicsVisibility();
     
     // Restore official holiday styling after updating day cards
     if (typeof OfficialHolidaysFeature !== 'undefined' && OfficialHolidaysFeature.updateOfficialHolidayIndicators) {
