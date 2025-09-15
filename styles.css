@@ -5704,10 +5704,16 @@ body.frozen-state {
     position: relative;
 }
 
-.names-toggle-button {
+.toggle-buttons-container {
     position: absolute;
     top: 0px;
     left: 0px;
+    display: flex;
+    gap: 2px;
+    z-index: 100;
+}
+
+.names-toggle-button {
     background: rgb(13 7 7 / 5%);
     border: none;
     color: #838080;
@@ -5721,7 +5727,6 @@ body.frozen-state {
     border-top-left-radius: 20px;
     border-bottom-right-radius: 0px;
     transition: all 0.2s ease;
-    z-index: 100;
 }
 
 .names-toggle-button:hover {
@@ -5739,9 +5744,6 @@ body.frozen-state {
 
 /* Desktop Legend Toggle Button */
 .legend-toggle-button {
-    position: absolute;
-    top: 0px;
-    left: 140px; /* Position next to names toggle button */
     background: rgb(13 7 7 / 5%);
     border: none;
     color: #838080;
@@ -5755,7 +5757,6 @@ body.frozen-state {
     border-top-left-radius: 0px;
     border-bottom-right-radius: 12px;
     transition: all 0.2s ease;
-    z-index: 100;
 }
 
 .legend-toggle-button:hover {
@@ -5798,12 +5799,9 @@ body.frozen-state {
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
-    /* Hide desktop legend button on mobile */
-    .legend-toggle-button {
-        display: none;
-    }
-    .names-toggle-button {
-        display: none; /* Hide the button on mobile - background touch will handle toggle */
+    /* Hide desktop toggle buttons container on mobile */
+    .toggle-buttons-container {
+        display: none; /* Hide both buttons on mobile - background touch will handle toggle */
     }
     
     .shift-user-names {
