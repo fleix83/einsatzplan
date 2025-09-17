@@ -382,9 +382,9 @@ body.frozen-state {
 
 .day-card.today {
     outline: 4px solid #ff5252;
-    outline-offset: 10px;
+    outline-offset: 5px;
     box-shadow: 0 0px 0 #ff6969;
-  }
+}
 
 .day-number {
     position: absolute;
@@ -891,7 +891,7 @@ body.frozen-state {
 
 .hover-info-shifts {
     display: flex;
-    gap: 90px;
+    gap: 60px;
     max-height: 100%;
     position: relative;
     top: 0px;
@@ -2202,7 +2202,7 @@ body.frozen-state {
 @media screen and (max-width: 768px) {
     .day-card.today {
         outline: 2px solid #ff5252;
-        outline-offset: 4px;
+        outline-offset: 7px;
         position: relative;
     }
 
@@ -3938,6 +3938,38 @@ body.frozen-state {
     background: #f9fafb;
     border-radius: 12px;
     padding: 16px;
+}
+
+.shift-modal-actions {
+    margin-top: 16px;
+    padding-top: 2px;
+    /* border-top: 1px solid #e2e8f0; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shift-modal-actions .auth-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(23, 96, 255, 0.2);
+}
+
+.shift-modal-actions .auth-button:hover {
+    background: #1257e0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(23, 96, 255, 0.3);
+}
+
+.shift-modal-actions .auth-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(23, 96, 255, 0.3);
 }
 
 .shift-user-row {

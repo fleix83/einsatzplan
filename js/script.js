@@ -600,8 +600,9 @@ async function loadUsers() {
             return;
         }
         
-        staticData.users = users;
-        console.log('Benutzer geladen:', users.length);
+        // Normalize user IDs to strings to ensure consistent type matching
+        staticData.users = users.map(u => ({ ...u, id: String(u.id) }));
+        console.log('Benutzer geladen:', users.length, '(IDs normalized to strings)');
     } catch (error) {
         console.error('Fehler beim Laden der Benutzer:', error);
         throw error;
@@ -691,13 +692,15 @@ async function loadScheduleData(year, month) {
             }
             
             if (shift.shift_type === 'E1') {
-                staticData.schedules[year][month][day].E1[0] = shift.user1_id || "";
-                staticData.schedules[year][month][day].E1[1] = shift.user2_id || "";
+                // Normalize user IDs to strings for consistent type matching
+                staticData.schedules[year][month][day].E1[0] = shift.user1_id ? String(shift.user1_id) : "";
+                staticData.schedules[year][month][day].E1[1] = shift.user2_id ? String(shift.user2_id) : "";
                 staticData.schedules[year][month][day].notes.E1[0] = shift.note1 || "";
                 staticData.schedules[year][month][day].notes.E1[1] = shift.note2 || "";
             } else if (shift.shift_type === 'E2') {
-                staticData.schedules[year][month][day].E2[0] = shift.user1_id || "";
-                staticData.schedules[year][month][day].E2[1] = shift.user2_id || "";
+                // Normalize user IDs to strings for consistent type matching
+                staticData.schedules[year][month][day].E2[0] = shift.user1_id ? String(shift.user1_id) : "";
+                staticData.schedules[year][month][day].E2[1] = shift.user2_id ? String(shift.user2_id) : "";
                 staticData.schedules[year][month][day].notes.E2[0] = shift.note1 || "";
                 staticData.schedules[year][month][day].notes.E2[1] = shift.note2 || "";
             }
@@ -1227,19 +1230,100 @@ async function updateShift(day, shift, position, userId, note) {
         
         // Update local data
         ensureScheduleDataExists(day);
-        staticData.schedules[currentYear][currentMonth][day][shift][position] = userId;
+        // Normalize userId to string for consistent type matching
+        const normalizedUserId = userId ? String(userId) : "";
+        staticData.schedules[currentYear][currentMonth][day][shift][position] = normalizedUserId;
         if (typeof note !== 'undefined') {
             staticData.schedules[currentYear][currentMonth][day].notes[shift][position] = note;
         }
         
-        // Update UI with correct colors handling flagged users
-        updateDayCard(day);
+        // Update UI with full refresh to ensure names are displayed correctly
+        // Using refreshShiftUI instead of just updateDayCard for complete refresh
+        // Don't show notification for automatic updates (only when user clicks "Speichern")
+        await refreshShiftUI(day, false);
         
         console.log(`Updated shift ${shift} position ${position+1} for ${formattedDate} to user ${userId}`);
     } catch (error) {
         console.error('Error updating shift:', error);
         // Show error to user
         NotificationSystem.error(`Fehler beim Aktualisieren der Schicht: ${error.message}`);
+    }
+}
+
+// Function to refresh all UI elements after shift changes
+async function refreshShiftUI(day, showNotification = true) {
+    try {
+        console.log(`Refreshing UI for day ${day}`);
+        
+        // Check if user data needs reloading (if it's missing or empty)
+        if (!staticData.users || staticData.users.length === 0) {
+            console.log('User data missing or empty, reloading...');
+            await loadUsers();
+            console.log(`User data reloaded, total users: ${staticData.users.length}`);
+        } else {
+            console.log(`User data already loaded, ${staticData.users.length} users available`);
+        }
+        
+        // Update the specific day card (colors and styling)
+        updateDayCard(day);
+        
+        // Force name rendering if names are enabled
+        if (showUserNames) {
+            const calendar = document.getElementById('calendar');
+            const dayCards = Array.from(calendar.getElementsByClassName('day-card'));
+            const dayCard = dayCards.find(card => parseInt(card.dataset.day) === day);
+            
+            if (dayCard) {
+                const shiftLeft = dayCard.querySelector('.shift-left');
+                const shiftRight = dayCard.querySelector('.shift-right');
+                
+                // Ensure schedule data exists
+                ensureScheduleDataExists(day);
+                const dayData = staticData.schedules[currentYear][currentMonth][day];
+                
+                if (dayData && shiftLeft && shiftRight) {
+                    console.log(`Re-rendering names for day ${day}`, dayData);
+                    
+                    // Re-render names for both shifts
+                    renderUserNamesInShifts(shiftLeft, dayData.E1, 'E1');
+                    renderUserNamesInShifts(shiftRight, dayData.E2, 'E2');
+                }
+            }
+        }
+        
+        // Delayed hover info refresh to ensure data is ready
+        setTimeout(() => {
+            const hoverPanel = document.getElementById('hoverInfoPanel');
+            if (hoverPanel && hoverPanel.classList.contains('visible')) {
+                console.log(`Refreshing hover info for day ${day}`);
+                // Force complete rebuild of hover info
+                updateHoverInfo(day, true);
+            }
+        }, 200); // Increased delay to allow user data to be processed
+        
+        // Update calendar highlights to ensure proper user highlighting
+        updateCalendarHighlights();
+        
+        // Update the user list display in case user assignments affected availability
+        updateUserList();
+        
+        // Force a visual refresh of the calendar
+        const calendar = document.getElementById('calendar');
+        if (calendar) {
+            // Trigger a reflow to ensure all changes are applied
+            calendar.offsetHeight;
+        }
+        
+        console.log(`UI refresh completed for day ${day}`);
+        
+        // Show success notification only when explicitly requested (e.g., user clicks "Speichern")
+        if (showNotification) {
+            NotificationSystem.success('Änderungen erfolgreich angewendet');
+        }
+        
+    } catch (error) {
+        console.error('Error refreshing UI:', error);
+        NotificationSystem.error('Fehler beim Aktualisieren der Anzeige');
     }
 }
 
@@ -1259,7 +1343,7 @@ function setupShiftDetailModal() {
     
     // User selection change handler
     modal.querySelectorAll('.user-select').forEach(select => {
-        select.addEventListener('change', (e) => {
+        select.addEventListener('change', async (e) => {
             const shift = e.target.dataset.shift;
             const position = parseInt(e.target.dataset.position) - 1;
             
@@ -1274,8 +1358,8 @@ function setupShiftDetailModal() {
                 // Get the note for this position
                 const note = staticData.schedules[currentYear][currentMonth][currentDay].notes[shift][position];
                 
-                // Update the shift with the API
-                updateShift(currentDay, shift, position, newValue, note);
+                // Update the shift with the API (now properly awaited)
+                await updateShift(currentDay, shift, position, newValue, note);
             }
         });
     });
@@ -2430,10 +2514,15 @@ function showShiftDetailModal(shiftElement, day, shiftType) {
         select.dataset.shift = shiftType;
         select.dataset.position = index + 1;
         
-        // Add change event listener to update CSS class dynamically
-        select.addEventListener('change', function() {
+        // Note: The actual change handler for updating shifts is in setupShiftDetailModal
+        // This just updates the visual state
+        const updateVisualState = function() {
             this.className = `user-select ${this.value ? 'shift-assigned' : 'shift-empty'}`;
-        });
+        };
+        
+        // Remove old listener and add new one to avoid duplicates
+        select.removeEventListener('change', updateVisualState);
+        select.addEventListener('change', updateVisualState);
     });
     
     // Show modal and overlay
@@ -2953,6 +3042,37 @@ function setupShiftDetailModal() {
                 staticData.schedules[currentYear][currentMonth][currentDay].notes[shift][position]);
         });
     });
+    
+    // Apply & Refresh button handler
+    const saveButton = modal.querySelector('#shiftApplyRefresh');
+    if (saveButton) {
+        saveButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Disable button during refresh
+            saveButton.disabled = true;
+            saveButton.textContent = 'Speichern...';
+            
+            try {
+                // Refresh the UI for the current day (now async)
+                await refreshShiftUI(currentDay);
+                
+                // Close the modal after a brief delay to show the success message
+                setTimeout(() => {
+                    hideShiftDetailModal();
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Error during refresh:', error);
+                NotificationSystem.error('Fehler beim Aktualisieren');
+            } finally {
+                // Re-enable button
+                saveButton.disabled = false;
+                saveButton.textContent = 'Speichern';
+            }
+        });
+    }
     
     // Make the modal draggable on desktop
     if (window.innerWidth > 768) {
@@ -3974,7 +4094,7 @@ function showMobileModal(day, shiftType, shiftElement) {
 
     // Attach event listeners for user selects and notes
     detailContainer.querySelectorAll('.user-select').forEach(select => {
-        select.addEventListener('change', (e) => {
+        select.addEventListener('change', async (e) => {
             const shift = e.target.dataset.shift;
             const position = parseInt(e.target.dataset.position) - 1;
             
@@ -3986,8 +4106,8 @@ function showMobileModal(day, shiftType, shiftElement) {
                 return;
             }
             
-            // Update shift with new user
-            updateShift(day, shift, position, e.target.value, 
+            // Update shift with new user (now properly awaited)
+            await updateShift(day, shift, position, e.target.value, 
                         dayData.notes?.[shift]?.[position] || '');
         });
     });
