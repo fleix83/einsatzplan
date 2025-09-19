@@ -1318,7 +1318,7 @@ async function refreshShiftUI(day, showNotification = true) {
         
         // Show success notification only when explicitly requested (e.g., user clicks "Speichern")
         if (showNotification) {
-            NotificationSystem.success('Änderungen erfolgreich angewendet');
+            NotificationSystem.success('Einsatz erfolgreich eingetragen. Vielen Dank.');
         }
         
     } catch (error) {
