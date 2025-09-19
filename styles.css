@@ -3962,9 +3962,9 @@ body.frozen-state {
 }
 
 .shift-modal-actions .auth-button:hover {
-    background: #1257e0;
+    background: #59cb9a;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(23, 96, 255, 0.3);
+    /* box-shadow: 0 4px 8px rgba(23, 96, 255, 0.3); */
 }
 
 .shift-modal-actions .auth-button:active {
@@ -4895,7 +4895,7 @@ body.frozen-state {
     left: 0%;
     border-radius: 40px;
     outline: none;
-    top: 125px;
+    top: 143px;
     }
 }
 
@@ -5961,6 +5961,44 @@ body.frozen-state {
     .legend-color {
         width: 16px;
         height: 16px;
+    }
+}
+
+/* Landscape Orientation Overlay */
+.landscape-orientation-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--background-color) 32%, var(--background-primary) 100%);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.landscape-message-container {
+    text-align: center;
+    max-width: 90%;
+    margin-top: -40px;
+}
+
+.landscape-message {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--background-primary);
+    line-height: 1.2;
+    margin: 0;
+    /* text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); */
+}
+
+/* Show overlay only on mobile devices in landscape orientation */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .landscape-orientation-overlay {
+        display: flex !important;
     }
 }
 
