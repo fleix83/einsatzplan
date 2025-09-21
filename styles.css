@@ -621,13 +621,13 @@ body.frozen-state {
     display: none;
 }
 
-/* Also hide when the shift has highlight classes to avoid visual conflict */
-.shift-left.highlight-selected .holiday-stripe,
+/* Keep holiday stripes visible during hover/selection - commented out problematic rules */
+/* .shift-left.highlight-selected .holiday-stripe,
 .shift-right.highlight-selected .holiday-stripe,
 .shift-left.highlight-hover .holiday-stripe,
 .shift-right.highlight-hover .holiday-stripe {
     display: none;
-}
+} */
 
 /* Keep the original rule for backward compatibility */
 .day-card.all-shifts-dimmed .holiday-stripe {
@@ -641,7 +641,7 @@ body.frozen-state {
     left: 0;
     right: 0;
     height: 5px;
-    z-index: 5;
+    z-index: 15; /* Increased z-index to ensure visibility above other elements */
 }
 
 /* For left shift */
@@ -880,6 +880,7 @@ body.frozen-state {
 .hover-info-content {
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .hover-info-date {
@@ -922,16 +923,32 @@ body.frozen-state {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 37px;
 }
 
-/* Custom Events in Hover Info Panel */
+/* Holidays in Hover Info Panel */
 .hover-info-holidays {
-    margin-left: -70px;
-    min-width: 200px;
+    margin-left: -40px; /* Reduce gap to left by 30px from original positioning */
+    margin-top: 3px; /* Fine-tune to align bottom edges of badges */
+    padding-top: 0px; /* Remove extra padding to match shift alignment */
 }
 
 .holidays-title {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #666;
+}
+
+.holidays-columns {
+    display: flex;
+    gap: 15px;
+}
+
+.holidays-column {
+    flex: 1;
+}
+
+.holiday-user {
+    font-size: 12px;
+    padding: 2px 0;
     color: #666;
 }
 
@@ -1994,18 +2011,9 @@ body.frozen-state {
     margin-bottom: 0;
 }
 
-.shift-user-row .user-select {
-    flex: 1;
-    padding: 6px 8px;
-    border: 1px solid #1769aa; /* Consider var(--primary-dark) or similar */
-    border-radius: 4px;
-    font-size: 13px;
-    background-color: white;
-}
+/* Legacy selector - replaced by .shift-user-container .user-select */
 
-
-.shift-note-input:focus,
-.shift-user-row .user-select:focus {
+.shift-note-input:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 2px rgba(23, 96, 255, 0.1);
@@ -3983,6 +3991,30 @@ body.frozen-state {
     margin-bottom: 0;
 }
 
+.shift-user-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.shift-remove-link {
+    display: none;
+    color: #1769aa;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+    align-self: flex-end;
+    margin-top: 4px;
+    margin-right: 2px;
+}
+
+.shift-remove-link:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+}
+
 .shift-user-row::before {
     content: attr(data-position);
     position: absolute;
@@ -4008,7 +4040,7 @@ body.frozen-state {
     content: "2";
 }
 
-.shift-user-row .user-select {
+.shift-user-container .user-select {
     flex: 1;
     padding: 10px 14px;
     border: 1px solid #e0e4ed;
@@ -4024,7 +4056,7 @@ body.frozen-state {
     padding-right: 32px;
 }
 
-.shift-user-row .user-select:focus {
+.shift-user-container .user-select:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 3px rgba(23, 96, 255, 0.15);

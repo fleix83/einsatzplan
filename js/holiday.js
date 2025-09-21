@@ -44,15 +44,15 @@ const HolidayFeature = (function() {
             }
             
             .holiday-stripe.level-1 {
-                background-color: #C4D8E9; /* Lightblue for 1-2 users */
+                background-color: var(--holiday-stripe-1, #C4D8E9); /* Lightblue for 1-2 users */
             }
             
             .holiday-stripe.level-2 {
-                background-color: #7AA6CD; /* Blue for 3-4 users */
+                background-color: var(--holiday-stripe-2, #7AA6CD); /* Blue for 3-4 users */
             }
             
             .holiday-stripe.level-3 {
-                background-color: #3A6D99; /* Marine for 5+ users */
+                background-color: var(--holiday-stripe-3, #3A6D99); /* Marine for 5+ users */
             }
             
             /* Backoffice holiday stripe styles */
@@ -63,7 +63,7 @@ const HolidayFeature = (function() {
                 right: 0;
                 height: 19px;
                 border-radius: 0 0 4px 4px;
-                z-index: 6;
+                z-index: 16;
                 background-size: 10px 10px;
                 /* background-image: repeating-linear-gradient(-45deg, #3a6d99 0, #3a6d99 1px, #ffffff 0, #ffffff 50%); */
                 display: flex;
@@ -238,28 +238,32 @@ const HolidayFeature = (function() {
 // Load holidays from the API
 async function loadHolidays() {
     try {
-        console.log('Loading holiday data from API');
+        console.log('🏖️ Loading holiday data from API');
         
         // Initialize or RESET holidays object
         staticData.holidays = {}; // Reset completely to avoid duplicates
         
         // Make direct fetch request without authorization
         const response = await fetch('api/holidays.php');
+        console.log('🏖️ Holiday API response status:', response.status);
         
         if (!response.ok) {
             throw new Error(`Failed to load holidays: ${response.statusText}`);
         }
         
         const holidays = await response.json();
-        console.log('Received holiday data:', holidays);
+        console.log('🏖️ Received holiday data:', holidays);
+        console.log('🏖️ Number of holidays loaded:', holidays.length);
         
-        // Group holidays by user ID
+        // Group holidays by user ID - ensure consistent string keys
         holidays.forEach(holiday => {
-            if (!staticData.holidays[holiday.user_id]) {
-                staticData.holidays[holiday.user_id] = [];
+            const userIdKey = String(holiday.user_id); // Convert to string for consistent key handling
+            console.log(`🏖️ Processing holiday for user_id: ${holiday.user_id} (type: ${typeof holiday.user_id}) -> key: ${userIdKey}`);
+            if (!staticData.holidays[userIdKey]) {
+                staticData.holidays[userIdKey] = [];
             }
             
-            staticData.holidays[holiday.user_id].push({
+            staticData.holidays[userIdKey].push({
                 id: holiday.id,
                 start: holiday.start_date,
                 end: holiday.end_date,
@@ -268,6 +272,13 @@ async function loadHolidays() {
         });
         
         console.log(`Loaded ${holidays.length} holidays`);
+        console.log('🏖️ Final staticData.holidays structure:', staticData.holidays);
+        
+        // Debug user IDs comparison
+        if (staticData.users) {
+            console.log('🏖️ Available user IDs in staticData.users:', staticData.users.map(u => `${u.id} (${typeof u.id})`));
+            console.log('🏖️ Holiday user IDs:', Object.keys(staticData.holidays));
+        }
         
         return holidays.length;
     } catch (error) {
@@ -286,7 +297,9 @@ async function loadHolidays() {
     
     // Update holiday stripes on day cards
     function updateHolidayStripes() {
+        console.log('🏖️ Updating holiday stripes');
         const dayCards = document.querySelectorAll('.day-card');
+        console.log('🏖️ Found', dayCards.length, 'day cards');
         
         dayCards.forEach(card => {
             // Get day, month, year from card
@@ -304,12 +317,24 @@ async function loadHolidays() {
             // Get backoffice holidays for this day (bottom stripes)
             const backofficeHolidays = countBackofficeHolidaysOnDay(year, month, day);
             
+            if (freiwilligeCount > 0 || backofficeHolidays.length > 0) {
+                console.log(`🏖️ Day ${year}-${month}-${day}: ${freiwilligeCount} Freiwillige, ${backofficeHolidays.length} Backoffice holidays`);
+            }
+            
             // Get shift elements for this day
             const shiftLeft = card.querySelector('.shift-left');
             const shiftRight = card.querySelector('.shift-right');
             
+            if (!shiftLeft || !shiftRight) {
+                console.log(`🏖️ Missing shift elements for day ${day}:`, {shiftLeft: !!shiftLeft, shiftRight: !!shiftRight});
+                return;
+            }
+            
             // Remove existing stripes from shifts
             const existingStripes = card.querySelectorAll('.holiday-stripe, .backoffice-holiday-stripe');
+            if (existingStripes.length > 0) {
+                console.log(`🏖️ Removing ${existingStripes.length} existing stripes from day ${day}`);
+            }
             existingStripes.forEach(stripe => stripe.remove());
             
             // Add Freiwillige stripes to top if needed
@@ -380,18 +405,18 @@ async function loadHolidays() {
     // Count holidays for a specific day (Freiwillige users only)
     function countHolidaysOnDay(year, month, day) {
         if (!staticData || !staticData.holidays || !staticData.users) {
+            console.log(`🏖️ countHolidaysOnDay: Missing data for ${year}-${month}-${day}`);
             return 0;
         }
         
         // Format the target date as YYYY-MM-DD for string comparison
         const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         let count = 0;
-        
-        Object.keys(staticData.holidays).forEach(userId => {
-            if (!staticData.holidays[userId]) return;
+        Object.keys(staticData.holidays).forEach(userIdKey => {
+            if (!staticData.holidays[userIdKey]) return;
             
-            // Find the user to check their role
-            const user = staticData.users.find(u => u.id === parseInt(userId));
+            // Find the user to check their role - userIdKey is a string, u.id might be number
+            const user = staticData.users.find(u => String(u.id) === userIdKey);
             if (!user) {
                 return;
             }
@@ -401,7 +426,7 @@ async function loadHolidays() {
                 return;
             }
             
-            for (const holiday of staticData.holidays[userId]) {
+            for (const holiday of staticData.holidays[userIdKey]) {
                 // Compare as strings in YYYY-MM-DD format for exact matching
                 if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
                     count++;
@@ -410,6 +435,7 @@ async function loadHolidays() {
             }
         });
         
+        console.log(`🏖️ countHolidaysOnDay: Final count for ${targetDateStr}: ${count}`);
         return count;
     }
     
@@ -423,11 +449,11 @@ async function loadHolidays() {
         const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const backofficeHolidays = [];
         
-        Object.keys(staticData.holidays).forEach(userId => {
-            if (!staticData.holidays[userId]) return;
+        Object.keys(staticData.holidays).forEach(userIdKey => {
+            if (!staticData.holidays[userIdKey]) return;
             
-            // Find the user to check their role
-            const user = staticData.users.find(u => u.id === parseInt(userId));
+            // Find the user to check their role - userIdKey is a string, u.id might be number
+            const user = staticData.users.find(u => String(u.id) === userIdKey);
             if (!user) {
                 return;
             }
@@ -437,11 +463,11 @@ async function loadHolidays() {
                 return;
             }
             
-            for (const holiday of staticData.holidays[userId]) {
+            for (const holiday of staticData.holidays[userIdKey]) {
                 // Compare as strings in YYYY-MM-DD format for exact matching
                 if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
                     backofficeHolidays.push({
-                        userId: userId,
+                        userId: userIdKey,
                         userName: user.name,
                         holiday: holiday
                     });
@@ -814,6 +840,34 @@ async function loadHolidays() {
         // Get the current user ID
         getCurrentUserId: function() {
             return currentUserId;
+        },
+        
+        // Manual test function to create holiday stripes
+        testHolidayStripes: function() {
+            console.log('🏖️ MANUAL TEST: Creating test holiday stripes');
+            const dayCards = document.querySelectorAll('.day-card');
+            console.log(`🏖️ MANUAL TEST: Found ${dayCards.length} day cards`);
+            
+            dayCards.forEach((card, index) => {
+                if (index < 3) { // Only test first 3 cards
+                    const shiftLeft = card.querySelector('.shift-left');
+                    const shiftRight = card.querySelector('.shift-right');
+                    
+                    if (shiftLeft && shiftRight) {
+                        // Create test stripe
+                        const testStripe = document.createElement('div');
+                        testStripe.className = 'holiday-stripe level-1 test-stripe';
+                        testStripe.style.backgroundColor = 'red';
+                        testStripe.style.height = '5px';
+                        testStripe.style.zIndex = '100';
+                        shiftLeft.appendChild(testStripe);
+                        
+                        console.log(`🏖️ MANUAL TEST: Added test stripe to card ${index}`, testStripe);
+                    } else {
+                        console.log(`🏖️ MANUAL TEST: Missing shift elements in card ${index}`);
+                    }
+                }
+            });
         }
     };
 })();

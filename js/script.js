@@ -1404,7 +1404,10 @@ async function updateCalendar() {
         
         // Also load holiday data if that module is active
         if (typeof HolidayFeature !== 'undefined' && typeof HolidayFeature.loadHolidays === 'function') {
+            console.log('🏖️ Loading holidays from updateCalendar');
             await HolidayFeature.loadHolidays();
+        } else {
+            console.warn('🏖️ HolidayFeature not available or loadHolidays function missing');
         }
 
         // Add this line after loading holiday data:
@@ -1616,6 +1619,14 @@ async function initializeApp() {
         // THEN update the calendar
         await updateCalendar();
         
+        // Force holiday stripe update after initial calendar load
+        if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
+            console.log('🏖️ Force updating holiday stripes after initial calendar load');
+            setTimeout(() => {
+                HolidayFeature.updateHolidayStripes();
+            }, 500); // Small delay to ensure DOM is fully rendered
+        }
+        
         // Initialize color customization LAST, so it doesn't block anything else
         if (typeof ColorCustomization !== 'undefined') {
             ColorCustomization.init();  // Don't await this
@@ -1634,7 +1645,11 @@ async function initializeApp() {
         
         // Initialize modules if they exist
         if (typeof HolidayFeature !== 'undefined') {
+            console.log('🏖️ Initializing HolidayFeature');
             await HolidayFeature.init();
+            console.log('🏖️ HolidayFeature initialized');
+        } else {
+            console.warn('🏖️ HolidayFeature not found during initialization');
         }
         
         // Force another setupUI call to ensure button visibility is correct
@@ -2183,6 +2198,12 @@ function populateUserDropdowns() {
             
             select.appendChild(option);
         });
+        
+        // Update "Austragen" link visibility based on current value
+        const removeLink = select.parentElement?.querySelector('.shift-remove-link');
+        if (removeLink) {
+            removeLink.style.display = select.value ? 'inline' : 'none';
+        }
     });
 }
 
@@ -2193,6 +2214,11 @@ function setupEventListeners() {
         currentYear = parseInt(e.target.value);
         await updateCalendar();
         updateUrlParams();
+        
+        // Update holiday stripes after year change
+        if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
+            setTimeout(() => HolidayFeature.updateHolidayStripes(), 100);
+        }
     });
 
     // Month selection
@@ -2200,6 +2226,11 @@ function setupEventListeners() {
         currentMonth = parseInt(e.target.value);
         await updateCalendar();
         updateUrlParams();
+        
+        // Update holiday stripes after month change
+        if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
+            setTimeout(() => HolidayFeature.updateHolidayStripes(), 100);
+        }
     });
 
     // Export Modal
@@ -2377,6 +2408,12 @@ function updateAllDayCards() {
     if (typeof OfficialHolidaysFeature !== 'undefined' && OfficialHolidaysFeature.updateOfficialHolidayIndicators) {
         OfficialHolidaysFeature.updateOfficialHolidayIndicators();
     }
+    
+    // Update holiday stripes after calendar is rendered
+    if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
+        console.log('🏖️ Updating holiday stripes after calendar render');
+        HolidayFeature.updateHolidayStripes();
+    }
 }
 
 // Function to position modal in the center of the screen on desktop
@@ -2514,10 +2551,23 @@ function showShiftDetailModal(shiftElement, day, shiftType) {
         select.dataset.shift = shiftType;
         select.dataset.position = index + 1;
         
+        // Update "Austragen" link visibility
+        const removeLink = select.parentElement.querySelector('.shift-remove-link');
+        if (removeLink) {
+            removeLink.style.display = isAssigned ? 'inline' : 'none';
+        }
+        
         // Note: The actual change handler for updating shifts is in setupShiftDetailModal
-        // This just updates the visual state
+        // This just updates the visual state and remove link visibility
         const updateVisualState = function() {
-            this.className = `user-select ${this.value ? 'shift-assigned' : 'shift-empty'}`;
+            const isNowAssigned = this.value ? true : false;
+            this.className = `user-select ${isNowAssigned ? 'shift-assigned' : 'shift-empty'}`;
+            
+            // Update remove link visibility
+            const removeLink = this.parentElement.querySelector('.shift-remove-link');
+            if (removeLink) {
+                removeLink.style.display = isNowAssigned ? 'inline' : 'none';
+            }
         };
         
         // Remove old listener and add new one to avoid duplicates
@@ -3040,6 +3090,25 @@ function setupShiftDetailModal() {
             // Update shift with the selected user
             updateShift(currentDay, shift, position, e.target.value, 
                 staticData.schedules[currentYear][currentMonth][currentDay].notes[shift][position]);
+        });
+    });
+    
+    // "Austragen" link click handlers
+    modal.querySelectorAll('.shift-remove-link').forEach(removeLink => {
+        removeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Find the corresponding select element
+            const select = removeLink.parentElement.querySelector('.user-select');
+            if (select && select.value) {
+                // Reset the dropdown to empty
+                select.value = '';
+                
+                // Trigger the change event to update the backend and UI
+                const changeEvent = new Event('change', { bubbles: true });
+                select.dispatchEvent(changeEvent);
+            }
         });
     });
     
@@ -4152,15 +4221,16 @@ function getUsersOnHolidayForDate(year, month, day) {
     const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
     // Iterate through all users' holidays
-    Object.keys(staticData.holidays).forEach(userId => {
-        const userHolidays = staticData.holidays[userId];
+    Object.keys(staticData.holidays).forEach(userIdKey => {
+        const userHolidays = staticData.holidays[userIdKey];
         if (!userHolidays) return;
         
         // Check each holiday period for this user
         userHolidays.forEach(holiday => {
             // Use string comparison for YYYY-MM-DD format dates
             if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
-                usersOnHoliday.push(parseInt(userId));
+                // Convert userIdKey back to number for consistency with existing code
+                usersOnHoliday.push(parseInt(userIdKey));
             }
         });
     });
@@ -4177,19 +4247,21 @@ function getHolidaysForDate(year, month, day) {
     
     // Check if staticData and holidays exist
     if (!staticData || !staticData.holidays || !staticData.users) {
+        console.log(`🏖️ getHolidaysForDate: Missing data - staticData: ${!!staticData}, holidays: ${!!staticData?.holidays}, users: ${!!staticData?.users}`);
         return result;
     }
+    
     
     // Format the target date as YYYY-MM-DD for string comparison
     const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
     // Iterate through all users' holidays
-    Object.keys(staticData.holidays).forEach(userId => {
-        const userHolidays = staticData.holidays[userId];
+    Object.keys(staticData.holidays).forEach(userIdKey => {
+        const userHolidays = staticData.holidays[userIdKey];
         if (!userHolidays) return;
         
-        // Find the user to get name and role
-        const user = staticData.users.find(u => u.id === parseInt(userId));
+        // Find the user to get name and role - userIdKey is a string, u.id might be number
+        const user = staticData.users.find(u => String(u.id) === userIdKey);
         if (!user) return;
         
         // Check each holiday period for this user
@@ -4205,7 +4277,7 @@ function getHolidaysForDate(year, month, day) {
                 const holidayInfo = {
                     userName: user.name,
                     dateRange: `${formattedStart} - ${formattedEnd}`,
-                    userId: parseInt(userId)
+                    userId: parseInt(userIdKey)
                 };
                 
                 // Sort into appropriate category based on user role
