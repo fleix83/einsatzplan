@@ -5883,6 +5883,7 @@ body.frozen-state {
 .legend-icon {
     width: 20px;
     height: 20px;
+    max-width: 20px;
     flex-shrink: 0;
 }
 
@@ -5972,6 +5973,7 @@ body.frozen-state {
     .legend-icon {
         width: 16px;
         height: 16px;
+        max-width: 16px;
     }
 }
 
