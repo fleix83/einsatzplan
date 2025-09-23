@@ -3921,6 +3921,10 @@ function showMobileModal(day, shiftType, shiftElement) {
     ensureScheduleDataExists(day);
     const dayData = staticData.schedules[currentYear][currentMonth][day];
 
+    // Check if calendar is frozen for this month
+    const isCalendarFrozen = staticData.calendarStates?.[currentYear]?.[currentMonth]?.frozen || false;
+    const isFrozen = isCalendarFrozen && !isBackofficeUser();
+
     // Get Schreibdienst events for this day
     let e1Events = [];
     let e2Events = [];
@@ -3947,12 +3951,25 @@ function showMobileModal(day, shiftType, shiftElement) {
         <div class="shift-columns">
             <div class="shift-column">
                 <div class="shift-column-title">E1</div>
-                <div class="shift-users-list">
-                    ${dayData.E1.filter(id => id && id !== '')
-                        .map(id => {
-                            const user = staticData.users.find(u => u.id === id);
-                            return user ? `<div class="shift-user-item shift-assigned">${user.name}</div>` : '';
-                        }).join('') || '<div class="shift-user-item shift-empty">Einsatz unbelegt</div>'}
+                <div class="mobile-shift-user-assignments">
+                    <div class="mobile-shift-user-container">
+                        <select class="mobile-user-select ${dayData.E1[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="1" ${isFrozen ? 'disabled' : ''}>
+                            <option value="" class="shift-empty">Eintragen</option>
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                                `<option value="${user.id}" ${dayData.E1[0] == user.id ? 'selected' : ''}>${user.name}</option>`
+                            ).join('')}
+                        </select>
+                        <span class="mobile-shift-remove-link" style="display: ${dayData.E1[0] ? 'inline' : 'none'};">Austragen</span>
+                    </div>
+                    <div class="mobile-shift-user-container">
+                        <select class="mobile-user-select ${dayData.E1[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="2" ${isFrozen ? 'disabled' : ''}>
+                            <option value="" class="shift-empty">Eintragen</option>
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                                `<option value="${user.id}" ${dayData.E1[1] == user.id ? 'selected' : ''}>${user.name}</option>`
+                            ).join('')}
+                        </select>
+                        <span class="mobile-shift-remove-link" style="display: ${dayData.E1[1] ? 'inline' : 'none'};">Austragen</span>
+                    </div>
                 </div>
                 ${e1Events.length > 0 ? `
                     <div class="shift-events-list">
@@ -3972,12 +3989,25 @@ function showMobileModal(day, shiftType, shiftElement) {
             </div>
             <div class="shift-column">
                 <div class="shift-column-title">E2</div>
-                <div class="shift-users-list">
-                    ${dayData.E2.filter(id => id && id !== '')
-                        .map(id => {
-                            const user = staticData.users.find(u => u.id === id);
-                            return user ? `<div class="shift-user-item shift-assigned">${user.name}</div>` : '';
-                        }).join('') || '<div class="shift-user-item shift-empty">Einsatz unbelegt</div>'}
+                <div class="mobile-shift-user-assignments">
+                    <div class="mobile-shift-user-container">
+                        <select class="mobile-user-select ${dayData.E2[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="1" ${isFrozen ? 'disabled' : ''}>
+                            <option value="" class="shift-empty">Eintragen</option>
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                                `<option value="${user.id}" ${dayData.E2[0] == user.id ? 'selected' : ''}>${user.name}</option>`
+                            ).join('')}
+                        </select>
+                        <span class="mobile-shift-remove-link" style="display: ${dayData.E2[0] ? 'inline' : 'none'};">Austragen</span>
+                    </div>
+                    <div class="mobile-shift-user-container">
+                        <select class="mobile-user-select ${dayData.E2[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="2" ${isFrozen ? 'disabled' : ''}>
+                            <option value="" class="shift-empty">Eintragen</option>
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                                `<option value="${user.id}" ${dayData.E2[1] == user.id ? 'selected' : ''}>${user.name}</option>`
+                            ).join('')}
+                        </select>
+                        <span class="mobile-shift-remove-link" style="display: ${dayData.E2[1] ? 'inline' : 'none'};">Austragen</span>
+                    </div>
                 </div>
                 ${e2Events.length > 0 ? `
                     <div class="shift-events-list">
@@ -4064,8 +4094,7 @@ function showMobileModal(day, shiftType, shiftElement) {
         infoContainer.innerHTML += holidaysSection;
     }
 
-    // Check if the month is frozen and user is not backoffice
-    const isFrozen = isCalendarFrozen && !isBackofficeUser();
+    // isFrozen already defined above
     
     // Add frozen month message if needed
     if (isFrozen) {
@@ -4076,74 +4105,16 @@ function showMobileModal(day, shiftType, shiftElement) {
         `;
     }
 
-    // Build detailContainer content - with columns for E1 and E2
-    detailContainer.innerHTML = `
-    <div class="mobile-shift-user-columns">
-        <!-- E1 Column -->
-        <div class="mobile-shift-column">
-            <div class="mobile-shift-column-title">E1</div>
-            
-            <!-- E1 User Dropdowns -->
-            <div class="mobile-shift-user-row">
-                
-                <select class="user-select ${dayData.E1[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="1" ${isFrozen ? 'disabled' : ''}>
-                    <option value="" class="shift-empty">Eintragen</option>
-                    ${staticData.users.filter(u => u.active).map(user => `
-                        <option value="${user.id}" class="shift-assigned" ${dayData.E1[0] === user.id ? 'selected' : ''}>
-                            ${user.name}
-                        </option>
-                    `).join('')}
-                </select>
-            </div>
-            
-            <div class="mobile-shift-user-row">
-              
-                <select class="user-select ${dayData.E1[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="2" ${isFrozen ? 'disabled' : ''}>
-                    <option value="" class="shift-empty">Eintragen</option>
-                    ${staticData.users.filter(u => u.active).map(user => `
-                        <option value="${user.id}" class="shift-assigned" ${dayData.E1[1] === user.id ? 'selected' : ''}>
-                            ${user.name}
-                        </option>
-                    `).join('')}
-                </select>
-            </div>
-        </div>
-        
-        <!-- E2 Column -->
-        <div class="mobile-shift-column">
-            <div class="mobile-shift-column-title">E2</div>
-            
-            <!-- E2 User Dropdowns -->
-            <div class="mobile-shift-user-row">
-               
-                <select class="user-select ${dayData.E2[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="1" ${isFrozen ? 'disabled' : ''}>
-                    <option value="" class="shift-empty">Eintragen</option>
-                    ${staticData.users.filter(u => u.active).map(user => `
-                        <option value="${user.id}" class="shift-assigned" ${dayData.E2[0] === user.id ? 'selected' : ''}>
-                            ${user.name}
-                        </option>
-                    `).join('')}
-                </select>
-            </div>
-            
-            <div class="mobile-shift-user-row">
-               
-                <select class="user-select ${dayData.E2[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="2" ${isFrozen ? 'disabled' : ''}>
-                    <option value="" class="shift-empty">Eintragen</option>
-                    ${staticData.users.filter(u => u.active).map(user => `
-                        <option value="${user.id}" class="shift-assigned" ${dayData.E2[1] === user.id ? 'selected' : ''}>
-                            ${user.name}
-                        </option>
-                    `).join('')}
-                </select>
-            </div>
-        </div>
-    </div>
-`;
+    // The dropdowns are now integrated into the main info display above
+    // No separate dropdown section needed
+    detailContainer.innerHTML = '';
     // After building the detailContainer content, add the date tab directly to the modal (not inside detailContainer)
     const dateTab = document.createElement('div');
     dateTab.className = 'mobile-date-tab';
-    dateTab.textContent = GermanDateFormatter.formatMediumDate(new Date(currentYear, currentMonth - 1, day));
+    const date = new Date(currentYear, currentMonth - 1, day);
+    const weekday = GermanDateFormatter.getWeekdayName(date);
+    const formattedDate = GermanDateFormatter.formatMediumDate(date);
+    dateTab.textContent = `${weekday}, ${formattedDate}`;
     
     // Add a lock icon to the date tab if the month is frozen
     if (isFrozen) {
@@ -4161,13 +4132,13 @@ function showMobileModal(day, shiftType, shiftElement) {
         modal.appendChild(closeBtn);
     }
 
-    // Attach event listeners for user selects and notes
-    detailContainer.querySelectorAll('.user-select').forEach(select => {
+    // Attach event listeners for the new mobile user selects in infoContainer
+    infoContainer.querySelectorAll('.mobile-user-select').forEach(select => {
         select.addEventListener('change', async (e) => {
             const shift = e.target.dataset.shift;
             const position = parseInt(e.target.dataset.position) - 1;
             
-            console.log(`Attempting to update shift: ${shift}, position: ${position}, value: ${e.target.value}`);
+            console.log(`Mobile: Attempting to update shift: ${shift}, position: ${position}, value: ${e.target.value}`);
             
             // Make sure we have valid data
             if (!shift || isNaN(position)) {
@@ -4178,6 +4149,35 @@ function showMobileModal(day, shiftType, shiftElement) {
             // Update shift with new user (now properly awaited)
             await updateShift(day, shift, position, e.target.value, 
                         dayData.notes?.[shift]?.[position] || '');
+            
+            // Update the visual state and "Austragen" link visibility
+            const isAssigned = e.target.value ? true : false;
+            e.target.className = `mobile-user-select ${isAssigned ? 'shift-assigned' : 'shift-empty'}`;
+            
+            // Update "Austragen" link visibility
+            const removeLink = e.target.parentElement.querySelector('.mobile-shift-remove-link');
+            if (removeLink) {
+                removeLink.style.display = isAssigned ? 'inline' : 'none';
+            }
+        });
+    });
+    
+    // Attach event listeners for mobile "Austragen" links  
+    infoContainer.querySelectorAll('.mobile-shift-remove-link').forEach(removeLink => {
+        removeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Find the corresponding select element
+            const select = removeLink.parentElement.querySelector('.mobile-user-select');
+            if (select && select.value) {
+                // Reset the dropdown to empty
+                select.value = '';
+                
+                // Trigger the change event to update the backend and UI
+                const changeEvent = new Event('change', { bubbles: true });
+                select.dispatchEvent(changeEvent);
+            }
         });
     });
 
