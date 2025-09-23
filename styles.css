@@ -2806,14 +2806,14 @@ body.frozen-state {
 .mobile-shift-user-container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
 }
 
 .mobile-user-select {
     width: 100%;
     padding: 10px 32px 10px 10px;
     background: white;
-    border: 1px solid #ccc;
+    border: 0px solid transparent;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 500;
@@ -2823,13 +2823,13 @@ body.frozen-state {
     background-repeat: no-repeat;
     background-position: right 10px center;
     transition: all 0.2s ease;
-    margin-bottom: 8px;
+    margin-top: 2px;
+    margin-bottom: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .mobile-user-select.shift-assigned {
     color: var(--primary-color);
-    border-color: #ccc;
 }
 
 .mobile-user-select.shift-empty {
@@ -2839,7 +2839,6 @@ body.frozen-state {
 
 .mobile-user-select:focus {
     outline: none;
-    border-color: var(--primary-color);
     box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 0 0 2px rgba(23, 96, 255, 0.1);
 }
 
