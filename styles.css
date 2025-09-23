@@ -6112,5 +6112,212 @@ body.frozen-state {
     }
 }
 
+/* Enhanced Export Modal Styles - German Design */
+.export-modal-content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
+    margin: 130px auto;
+    padding: 0;
+    overflow: hidden;
+    animation: modalFadeIn 0.3s ease;
+}
 
+.export-modal-header {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid #e9ecef;
+}
 
+.export-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.export-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6c757d;
+    line-height: 1;
+    padding: 5px;
+}
+
+.export-modal-close:hover {
+    color: #343a40;
+}
+
+.export-modal-body {
+    padding: 30px;
+}
+
+.export-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.export-modal-body h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 25px 0 15px 0;
+    font-weight: 600;
+}
+
+.instructions {
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.subscription-section {
+    margin-bottom: 40px;
+}
+
+.subscription-section:last-of-type {
+    margin-bottom: 25px;
+}
+
+.subscription-label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.subscription-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.subscription-row-single {
+    margin-bottom: 12px;
+}
+
+.user-dropdown {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    background-color: white;
+}
+
+.user-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.url-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #666;
+    background-color: #f8f9fa;
+    font-family: monospace;
+}
+
+.url-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.copy-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    min-width: 80px;
+    transition: background-color 0.2s;
+}
+
+.copy-button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.copy-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.copy-button-standalone {
+    margin-top: 12px;
+    margin-bottom: 15px;
+    align-self: flex-start;
+}
+
+.calendar-instructions {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 30px;
+}
+
+.calendar-instructions p {
+    margin-bottom: 15px;
+    color: #555;
+    line-height: 1.4;
+}
+
+.calendar-instructions p:last-child {
+    margin-bottom: 0;
+}
+
+/* Mobile responsive styles for export modal */
+@media screen and (max-width: 768px) {
+    .export-modal-content {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border-radius: 0;
+        overflow-y: auto;
+    }
+    
+    .export-modal-header {
+        padding: 15px 20px;
+    }
+    
+    .export-modal-body {
+        padding: 20px;
+    }
+    
+    .subscription-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .subscription-row-single {
+        margin-bottom: 12px;
+    }
+    
+    .copy-button {
+        align-self: flex-start;
+        margin-top: 8px;
+    }
+    
+    .copy-button-standalone {
+        margin-top: 12px;
+        margin-bottom: 20px;
+        width: 100px;
+    }
+}

@@ -2011,12 +2011,24 @@ function exportToIcal(userId = null) {
 
 // Function to generate an iCal feed URL
 function getIcalFeedUrl(userId = null) {
-    // Korrigiert: Verwende relative URL ohne doppelten Pfad
+    // Monthly feed URL (backward compatibility)
     let url = `${window.location.origin}${window.location.pathname.replace('index.html', '')}api/ical.php?year=${currentYear}&month=${currentMonth}&feed=true`;
     
     // Add user ID if specified
     if (userId) {
         url += `&user_id=${userId}`;
+    }
+    
+    return url;
+}
+
+function getContinuousIcalFeedUrl(userId = null) {
+    // Continuous subscription URL (no year/month parameters)
+    let url = `${window.location.origin}${window.location.pathname.replace('index.html', '')}api/ical.php`;
+    
+    // Add user ID if specified
+    if (userId) {
+        url += `?user_id=${userId}`;
     }
     
     return url;
@@ -2033,42 +2045,48 @@ function showExportModal() {
         modal.innerHTML = `
             <div class="export-modal-content">
                 <div class="export-modal-header">
-                    <h2>Kalender exportieren</h2>
+                    <h2>Einsätze exportieren</h2>
                     <button class="export-modal-close">&times;</button>
                 </div>
                 <div class="export-modal-body">
-                    <div class="export-option">
-                        <h3>Kalender exportieren</h3>
-                        <p>Importiere den Einsatzplan in deinen Kalender auf dein Gerät. Du kannst entweder alle Einsätze importieren. Oder nur deine Einsätze. Klicke für Letzteres zuerst auf deinen Benutzer in der Benutzerliste um deine Einsätze anzuwählen. Ein Klick auf die heruntergeladene iCal-Datei öffnet die Einsätze in deinem Kalender.</p>
-                        <div class="export-actions">
-                            <button id="exportAllBtn" class="button">Alle Einsätze</button>
-                            <button id="exportSelectedUserBtn" class="button">Nur deine Einsätze</button>
+                    <p class="export-description">
+                        Abonniere den GGG Wegweiser Einsatzplan in deinem persönlichen 
+                        Kalender und mache ihn auf deinem Gerät verfügbar.
+                    </p>
+                    
+                    <h3>Wie geht das?</h3>
+                    <p class="instructions">
+                        Kopiere folgende URL und trage sie in deine Kalender-App ein.
+                    </p>
+                    
+                    <div class="subscription-section">
+                        <label class="subscription-label">URL für deine Einsätze</label>
+                        <div class="subscription-row-single">
+                            <select id="userDropdown" class="user-dropdown">
+                                <option value="">Deine Einsätze auswählen</option>
+                            </select>
+                        </div>
+                        <input type="text" id="userFeedUrl" class="url-input" readonly>
+                        <button id="copyUserFeedBtn" class="copy-button copy-button-standalone">COPY</button>
+                    </div>
+                    
+                    <div class="subscription-section">
+                        <label class="subscription-label">URL für alle Einsätze</label>
+                        <div class="subscription-row">
+                            <input type="text" id="allFeedUrl" class="url-input" readonly placeholder="URL....">
+                            <button id="copyAllFeedBtn" class="copy-button">COPY</button>
                         </div>
                     </div>
                     
-                    <div class="export-option">
-                        <h3>Kalender abonnieren</h3>
-                        <p>Verwende diese Links, um den Einsatzplan in deiner Kalender-App zu abonnieren.</p>
-                        <div class="feed-url-container">
-                            <label>URL für alle Termine:</label>
-                            <input type="text" id="allFeedUrl" readonly>
-                            <button id="copyAllFeedBtn" class="button-secondary">Kopieren</button>
-                        </div>
-                        <div class="feed-url-container">
-                            <label>URL für ausgewählten Benutzer:</label>
-                            <input type="text" id="userFeedUrl" readonly>
-                            <button id="copyUserFeedBtn" class="button-secondary">Kopieren</button>
-                        </div>
-                    </div>
-                    
-                    <div class="feed-instructions">
-                        <h4>Wie abonnieren?</h4>
-                        <p>Kopierte URL in deine Kalender-App eintragen:</p>
-                        <ul>
-                            <li><strong>Apple Kalender:</strong> Datei > Neues Kalenderabonnement</li>
-                            <li><strong>Google Kalender:</strong> Einstellungen > Kalender hinzufügen > Per URL</li>
-                            <li><strong>Outlook:</strong> Kalender hinzufügen > Aus dem Web abonnieren</li>
-                        </ul>
+                    <div class="calendar-instructions">
+                        <p><strong>Apple Kalender:</strong><br>
+                        Datei > Neues Kalenderabonnement</p>
+                        
+                        <p><strong>Google Kalender:</strong><br>
+                        Einstellungen > Kalender hinzufügen > Per URL</p>
+                        
+                        <p><strong>Outlook:</strong><br>
+                        Kalender hinzufügen > Aus dem Web abonnieren</p>
                     </div>
                 </div>
             </div>
@@ -2089,21 +2107,47 @@ function showExportModal() {
             }
         });
         
-        // Export all events button
-        const exportAllBtn = document.getElementById('exportAllBtn');
-        exportAllBtn.addEventListener('click', () => {
-            exportToIcal();
-            modal.style.display = 'none';
+        // Populate user dropdown
+        const userDropdown = document.getElementById('userDropdown');
+        userDropdown.innerHTML = '<option value="">Deine Einsätze auswählen</option>';
+        
+        // Sort users alphabetically by name
+        const sortedUsers = [...staticData.users].sort((a, b) => 
+            a.name.localeCompare(b.name)
+        );
+        
+        sortedUsers.forEach(user => {
+            if (!user.active) return;
+            
+            const option = document.createElement('option');
+            option.value = user.id;
+            option.textContent = user.name;
+            
+            // Mark special user types
+            if (user.isStarter) {
+                option.textContent += ' (Starter)';
+            }
+            if (user.isSchreibdienst) {
+                option.textContent += ' (Schreibdienst)';
+            }
+            
+            userDropdown.appendChild(option);
         });
         
-        // Export selected user events button
-        const exportSelectedUserBtn = document.getElementById('exportSelectedUserBtn');
-        exportSelectedUserBtn.addEventListener('click', () => {
-            if (selectedUserId) {
-                exportToIcal(selectedUserId);
-                modal.style.display = 'none';
+        // Handle user dropdown change
+        userDropdown.addEventListener('change', (e) => {
+            const userId = e.target.value;
+            const userFeedUrl = document.getElementById('userFeedUrl');
+            const copyUserFeedBtn = document.getElementById('copyUserFeedBtn');
+            
+            if (userId) {
+                userFeedUrl.value = getContinuousIcalFeedUrl(userId);
+                userFeedUrl.style.display = 'block';
+                copyUserFeedBtn.disabled = false;
             } else {
-                NotificationSystem.warning('Bitte wähle zuerst einen Benutzer aus der Liste aus.');
+                userFeedUrl.value = '';
+                userFeedUrl.style.display = 'none';
+                copyUserFeedBtn.disabled = true;
             }
         });
         
@@ -2111,53 +2155,50 @@ function showExportModal() {
         const copyAllFeedBtn = document.getElementById('copyAllFeedBtn');
         copyAllFeedBtn.addEventListener('click', () => {
             const allFeedUrl = document.getElementById('allFeedUrl');
-            allFeedUrl.select();
-            document.execCommand('copy');
-            copyAllFeedBtn.textContent = 'Kopiert!';
-            setTimeout(() => {
-                copyAllFeedBtn.textContent = 'Kopieren';
-            }, 2000);
+            navigator.clipboard.writeText(allFeedUrl.value).then(() => {
+                copyAllFeedBtn.textContent = 'COPIED!';
+                setTimeout(() => {
+                    copyAllFeedBtn.textContent = 'COPY';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                allFeedUrl.select();
+                document.execCommand('copy');
+                copyAllFeedBtn.textContent = 'COPIED!';
+                setTimeout(() => {
+                    copyAllFeedBtn.textContent = 'COPY';
+                }, 2000);
+            });
         });
         
         const copyUserFeedBtn = document.getElementById('copyUserFeedBtn');
+        copyUserFeedBtn.disabled = true; // Initially disabled
         copyUserFeedBtn.addEventListener('click', () => {
             const userFeedUrl = document.getElementById('userFeedUrl');
-            userFeedUrl.select();
-            document.execCommand('copy');
-            copyUserFeedBtn.textContent = 'Kopiert!';
-            setTimeout(() => {
-                copyUserFeedBtn.textContent = 'Kopieren';
-            }, 2000);
+            navigator.clipboard.writeText(userFeedUrl.value).then(() => {
+                copyUserFeedBtn.textContent = 'COPIED!';
+                setTimeout(() => {
+                    copyUserFeedBtn.textContent = 'COPY';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                userFeedUrl.select();
+                document.execCommand('copy');
+                copyUserFeedBtn.textContent = 'COPIED!';
+                setTimeout(() => {
+                    copyUserFeedBtn.textContent = 'COPY';
+                }, 2000);
+            });
         });
     }
     
-    // Update feed URLs
+    // Initialize feed URLs
     const allFeedUrl = document.getElementById('allFeedUrl');
-    allFeedUrl.value = getIcalFeedUrl();
+    allFeedUrl.value = getContinuousIcalFeedUrl();
     
+    // Initialize user feed URL as hidden
     const userFeedUrl = document.getElementById('userFeedUrl');
-    const exportSelectedUserBtn = document.getElementById('exportSelectedUserBtn');
-    
-    // Check if a user is selected in the user list
-    if (selectedUserId) {
-        const selectedUser = staticData.users.find(user => user.id === selectedUserId);
-        const userName = selectedUser ? selectedUser.name : 'Ausgewählter Benutzer';
-        
-        exportSelectedUserBtn.textContent = `Termine von ${userName} importieren`;
-        exportSelectedUserBtn.disabled = false;
-        
-        userFeedUrl.value = getIcalFeedUrl(selectedUserId);
-        document.getElementById('copyUserFeedBtn').disabled = false;
-        userFeedUrl.disabled = false;
-    } else {
-        // No user selected
-        exportSelectedUserBtn.textContent = 'Zuerst Benutzer anwählen';
-        exportSelectedUserBtn.disabled = true;
-        
-        userFeedUrl.value = 'Bitte wählen Sie zuerst einen Benutzer aus der Liste';
-        document.getElementById('copyUserFeedBtn').disabled = true;
-        userFeedUrl.disabled = true;
-    }
+    userFeedUrl.style.display = 'none';
     
     // Show the modal
     document.getElementById('exportModal').style.display = 'block';

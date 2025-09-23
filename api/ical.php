@@ -2,14 +2,23 @@
 require_once 'config.php';
 require_once 'auth_middleware.php'; 
 
-// Check required parameters
-if (!isset($_GET['year']) || !isset($_GET['month'])) {
-    http_response_code(400);
-    exit('Year and month parameters are required');
-}
+// Check if year and month are provided for monthly export, otherwise use continuous mode
+$isContinuousMode = !isset($_GET['year']) || !isset($_GET['month']);
 
-$year = (int)$_GET['year'];
-$month = (int)$_GET['month'];
+if ($isContinuousMode) {
+    // Continuous subscription mode: no year/month needed
+    $year = null;
+    $month = null;
+} else {
+    // Monthly export mode: validate parameters
+    $year = (int)$_GET['year'];
+    $month = (int)$_GET['month'];
+    
+    if ($year < 2020 || $year > 2030 || $month < 1 || $month > 12) {
+        http_response_code(400);
+        exit('Invalid year or month parameters');
+    }
+}
 
 // Check for user_id parameter - this is optional for filtering by user
 $userId = isset($_GET['user_id']) ? (int)$_GET['user_id'] : null;
@@ -18,9 +27,9 @@ $userId = isset($_GET['user_id']) ? (int)$_GET['user_id'] : null;
 $isFeed = isset($_GET['feed']) && $_GET['feed'] === 'true';
 
 // Set headers for calendar file download or feed
-if ($isFeed) {
+if ($isFeed || $isContinuousMode) {
     header('Content-Type: text/calendar; charset=utf-8');
-    // Allow caching for feeds
+    // Shorter cache time for continuous feeds
     header('Cache-Control: max-age=3600');
 } else {
     header('Content-Type: text/calendar; charset=utf-8');
@@ -30,9 +39,16 @@ if ($isFeed) {
 // Get database connection
 $conn = getDbConnection();
 
-// Calculate the first and last day of the month
-$firstDay = sprintf('%04d-%02d-01', $year, $month);
-$lastDay = date('Y-m-t', strtotime($firstDay));
+// Calculate date range based on mode
+if ($isContinuousMode) {
+    // Continuous mode: rolling 15-month window (3 months past + 12 months future)
+    $firstDay = date('Y-m-01', strtotime('-3 months'));
+    $lastDay = date('Y-m-t', strtotime('+12 months'));
+} else {
+    // Monthly mode: specific month
+    $firstDay = sprintf('%04d-%02d-01', $year, $month);
+    $lastDay = date('Y-m-t', strtotime($firstDay));
+}
 
 // Start building the iCalendar content
 $icalContent = [
@@ -41,7 +57,7 @@ $icalContent = [
     'PRODID:-//Calendar Scheduler//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
-    'X-WR-CALNAME:Schedule ' . date('F Y', strtotime($firstDay)),
+    'X-WR-CALNAME:' . ($isContinuousMode ? 'Einsatzplan Wegweiser' : 'Schedule ' . date('F Y', strtotime($firstDay))),
     'X-WR-TIMEZONE:Europe/Zurich',
 ];
 
@@ -111,8 +127,8 @@ while ($shift = $result->fetch_assoc()) {
     $userString = implode(', ', $users);
     $summary = $shiftType . ': ' . ($userString ?: 'Not assigned');
     
-    // Create unique ID for event
-    $uid = md5($date . $shiftType . rand()) . '@calendar-scheduler';
+    // Create unique ID for event (deterministic for consistent subscriptions)
+    $uid = md5($date . $shiftType . ($shift['user1_id'] ?? '') . ($shift['user2_id'] ?? '')) . '@calendar-scheduler';
     
     // Determine event color based on user types
     $color = null;
@@ -208,8 +224,8 @@ while ($event = $result->fetch_assoc()) {
     // Event duration (default 1 hour)
     $endTime = date('His', strtotime($time) + 3600);
     
-    // Create unique ID for event
-    $uid = md5($date . $time . rand()) . '@calendar-scheduler';
+    // Create unique ID for event (deterministic for consistent subscriptions)
+    $uid = md5($date . $time . $event['user_id'] . $event['details']) . '@calendar-scheduler';
     
     // Create summary
     $summary = 'Schreibdienst: ' . $event['details'];
