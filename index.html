@@ -5,8 +5,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Einsatzplan</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Preload critical fonts to avoid blocking -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Inline script to preload colors and prevent flash -->
+    <style id="preloadHideBody">
+        body { opacity: 0; transition: opacity 0.2s ease-in; }
+    </style>
+
+    <script>
+    // Preload colors immediately to prevent flash
+    (function() {
+        const defaultColors = {
+            primaryColor: '#1760ff',
+            background: '#f5f7fd',
+            backgroundFreeze: '#f5f7fd',
+            backgroundPrimary: '#fffcf7',
+            redShift: '#ff5252',
+            orangeShift: '#ffab40',
+            greenShift: '#4caf50',
+            starterShift: '#ffd700',
+            schreibdienstSingle: '#64b5f6',
+            schreibdienstFull: '#1976d2',
+            hoverBg: '#ffed75',
+            selectedBg: '#ffed75',
+            hoverBgSingle: '#fff3cd',
+            selectedBgSingle: '#fff3cd',
+            buttonNavBg: '#f3f3f3',
+            buttonNavBgHover: '#e8e8e8'
+        };
+
+        function toRgba(color) {
+            if (!color) return 'rgba(0,0,0,1)';
+            if (typeof color === 'object' && color.hex) {
+                const hex = color.hex.replace('#', '');
+                const alpha = typeof color.alpha === 'number' ? color.alpha : 1;
+                const r = parseInt(hex.substring(0, 2), 16);
+                const g = parseInt(hex.substring(2, 4), 16);
+                const b = parseInt(hex.substring(4, 6), 16);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+            const hex = color.replace('#', '');
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, 1)`;
+        }
+
+        function applyColors(colors) {
+            let styleSheet = document.getElementById('preloadColorStyles');
+            if (!styleSheet) {
+                styleSheet = document.createElement('style');
+                styleSheet.id = 'preloadColorStyles';
+                document.head.appendChild(styleSheet);
+            }
+
+            styleSheet.textContent = `
+                :root {
+                    --primary-color: ${toRgba(colors.primaryColor)} !important;
+                    --background-color: ${toRgba(colors.background)} !important;
+                    --background-freeze-color: ${toRgba(colors.backgroundFreeze)} !important;
+                    --background-primary: ${toRgba(colors.backgroundPrimary)} !important;
+                    --color-empty: ${toRgba(colors.redShift)} !important;
+                    --color-single: ${toRgba(colors.orangeShift)} !important;
+                    --color-full: ${toRgba(colors.greenShift)} !important;
+                    --color-starter: ${toRgba(colors.starterShift)} !important;
+                    --schreibdienst-single-color: ${toRgba(colors.schreibdienstSingle)} !important;
+                    --schreibdienst-full-color: ${toRgba(colors.schreibdienstFull)} !important;
+                    --hover-bg: ${toRgba(colors.hoverBg)} !important;
+                    --selected-bg: ${toRgba(colors.selectedBg)} !important;
+                    --hover-bg-single: ${toRgba(colors.hoverBgSingle)} !important;
+                    --selected-bg-single: ${toRgba(colors.selectedBgSingle)} !important;
+                    --button-nav-bg: ${toRgba(colors.buttonNavBg)} !important;
+                    --button-nav-bg-hover: ${toRgba(colors.buttonNavBgHover)} !important;
+                }
+
+                /* Apply primary color to text elements */
+                .current-day-number,
+                .shift-schreibdienst-creator,
+                .admin-badge,
+                .export-modal-header h2,
+                .color-section h3,
+                .shift-note-text strong,
+                .frozen-indicator,
+                .notification {
+                    color: var(--primary-color) !important;
+                }
+
+                /* Apply primary color to button backgrounds (desktop and mobile) */
+                .navbar-auth .auth-button,
+                .mobile-menu-button,
+                .button-secondary,
+                .button-freeze.frozen,
+                .export-actions .button,
+                .color-actions .button-primary,
+                .mobile-date-tab,
+                .mobile-menu-header .auth-button {
+                    background-color: var(--primary-color) !important;
+                }
+
+                /* Body background gradient - override hardcoded color */
+                body {
+                    background: linear-gradient(180deg, var(--background-color) -9%, var(--background-primary) 84%) !important;
+                }
+
+                body.frozen-state {
+                    background: linear-gradient(180deg, var(--background-freeze-color) -9%, rgba(245, 250, 255, 1) 84%) !important;
+                }
+            `;
+        }
+
+        // Try to fetch colors immediately
+        fetch('api/colors.php')
+            .then(response => response.ok ? response.json() : null)
+            .then(data => {
+                if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+                    const colors = { ...defaultColors, ...data };
+                    applyColors(colors);
+                    window.__colorsPreloaded = true;
+                    window.__preloadedColors = colors; // Save for ColorCustomization module
+                } else {
+                    applyColors(defaultColors);
+                    window.__preloadedColors = defaultColors;
+                }
+            })
+            .catch(() => {
+                applyColors(defaultColors);
+                window.__preloadedColors = defaultColors;
+            })
+            .finally(() => {
+                // Show body after colors are applied
+                setTimeout(() => {
+                    const hideStyle = document.getElementById('preloadHideBody');
+                    if (hideStyle) hideStyle.remove();
+                    document.body.style.opacity = '1';
+                }, 50);
+            });
+    })();
+    </script>
+
     <link rel="stylesheet" href="styles.css">
-    <script src="dateUtility.js"></script>
+    <script src="dateUtility.js" defer></script>
 </head>
 <body>
 

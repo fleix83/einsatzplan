@@ -37,21 +37,34 @@ const ColorCustomization = {
      */
     init: async function() {
         console.log('Initializing ColorCustomization module');
-        
-        // Initialize current preferences with defaults temporarily
-        this.currentColorPreferences = { ...this.defaultColors };
 
-        try {
-            // Wait for preferences to load from database before continuing
-            await this.loadColorPreferences();
-            console.log('Color preferences loaded from database successfully');
-        } catch (error) {
-            console.error('Failed to load color preferences from database:', error);
-            // Ensure we apply default colors on failure
+        // Check if colors were already preloaded by inline script
+        if (window.__colorsPreloaded && window.__preloadedColors) {
+            console.log('Colors already preloaded, skipping duplicate load');
+            // Use the preloaded colors
+            this.currentColorPreferences = window.__preloadedColors;
+            // Just use existing styles from preload
+            const preloadStyles = document.getElementById('preloadColorStyles');
+            if (preloadStyles) {
+                // Rename it so our code recognizes it
+                preloadStyles.id = 'customColorStyles';
+            }
+        } else {
+            // Initialize current preferences with defaults temporarily
             this.currentColorPreferences = { ...this.defaultColors };
-            this.applyColorPreferences();
+
+            try {
+                // Wait for preferences to load from database before continuing
+                await this.loadColorPreferences();
+                console.log('Color preferences loaded from database successfully');
+            } catch (error) {
+                console.error('Failed to load color preferences from database:', error);
+                // Ensure we apply default colors on failure
+                this.currentColorPreferences = { ...this.defaultColors };
+                this.applyColorPreferences();
+            }
         }
-        
+
         // If user is backoffice, add the color button - do this AFTER loading preferences
         if (typeof isBackofficeUser === 'function' && isBackofficeUser()) {
             // Use setTimeout to ensure DOM is fully loaded
@@ -452,9 +465,18 @@ const ColorCustomization = {
             .button-nav {
                 background: var(--button-nav-bg) !important;
             }
-            
+
             .button-nav:hover {
                 background: var(--button-nav-bg-hover) !important;
+            }
+
+            /* Body background gradient - override hardcoded color in styles.css */
+            body {
+                background: linear-gradient(180deg, var(--background-color) -9%, var(--background-primary) 84%) !important;
+            }
+
+            body.frozen-state {
+                background: linear-gradient(180deg, var(--background-freeze-color) -9%, rgba(245, 250, 255, 1) 84%) !important;
             }
         `;
     
