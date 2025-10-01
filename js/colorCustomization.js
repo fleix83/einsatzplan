@@ -12,6 +12,7 @@ const ColorCustomization = {
         background: '#f5f7fd',
         backgroundFreeze: '#f5f7fd',
         backgroundPrimary: '#fffcf7',
+        logo: '#fffcf7',
         redShift: '#ff5252',
         orangeShift: '#ffab40',
         greenShift: '#4caf50',
@@ -31,6 +32,9 @@ const ColorCustomization = {
 
     // Flag to track if colors are being loaded
     isLoadingColors: false,
+
+    // Store Pickr instances
+    pickrInstances: {},
 
     /**
      * Initialize the color customization feature
@@ -192,79 +196,115 @@ const ColorCustomization = {
     },
         
     /**
-     * Set up live preview for color inputs
+     * Initialize Pickr color pickers for all color inputs
      */
-    setupLivePreview: function() {
-        // Color input handlers
-        const colorInputs = document.querySelectorAll('.cc-color-option input[type="color"]');
-        const alphaSliders = document.querySelectorAll('.cc-color-option .alpha-slider');
-        
-        // Handle color changes
-        colorInputs.forEach(input => {
-            input.addEventListener('input', () => {
-                this.updatePreview();
-            });
-        });
-        
-        // Handle alpha slider changes
-        alphaSliders.forEach(slider => {
-            slider.addEventListener('input', (e) => {
-                // Update the alpha value text
-                const alphaValue = e.target.nextElementSibling;
-                if (alphaValue) {
-                    alphaValue.textContent = `${Math.round(e.target.value * 100)}%`;
+    initializeColorPickers: function() {
+        const currentColors = this.getColorPreferences();
+
+        // Helper function to convert hex+alpha to rgba string
+        const toRgbaString = (colorObj) => {
+            const hex = colorObj.hex || colorObj;
+            const alpha = colorObj.alpha !== undefined ? colorObj.alpha : 1;
+
+            const r = parseInt(hex.substring(1, 3), 16);
+            const g = parseInt(hex.substring(3, 5), 16);
+            const b = parseInt(hex.substring(5, 7), 16);
+
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        };
+
+        // Configuration for all color pickers
+        const pickerConfigs = {
+            primaryColorPicker: { color: currentColors.primaryColor, key: 'primaryColor' },
+            backgroundPicker: { color: currentColors.background, key: 'background' },
+            backgroundFreezePicker: { color: currentColors.backgroundFreeze, key: 'backgroundFreeze' },
+            backgroundPrimaryPicker: { color: currentColors.backgroundPrimary, key: 'backgroundPrimary' },
+            logoPicker: { color: currentColors.logo, key: 'logo' },
+            redShiftPicker: { color: currentColors.redShift, key: 'redShift' },
+            orangeShiftPicker: { color: currentColors.orangeShift, key: 'orangeShift' },
+            greenShiftPicker: { color: currentColors.greenShift, key: 'greenShift' },
+            starterShiftPicker: { color: currentColors.starterShift, key: 'starterShift' },
+            schreibdienstSinglePicker: { color: currentColors.schreibdienstSingle, key: 'schreibdienstSingle' },
+            schreibdienstFullPicker: { color: currentColors.schreibdienstFull, key: 'schreibdienstFull' },
+            selectedBgPicker: { color: currentColors.selectedBg, key: 'selectedBg' },
+            selectedBgSinglePicker: { color: currentColors.selectedBgSingle, key: 'selectedBgSingle' },
+            buttonNavBgPicker: { color: currentColors.buttonNavBg, key: 'buttonNavBg' }
+        };
+
+        // Initialize each picker
+        Object.entries(pickerConfigs).forEach(([pickerId, config]) => {
+            const element = document.getElementById(pickerId);
+            if (!element) {
+                console.warn(`Picker element ${pickerId} not found`);
+                return;
+            }
+
+            const pickr = Pickr.create({
+                el: element,
+                theme: 'nano',
+                default: toRgbaString(config.color),
+                swatches: null,
+                components: {
+                    preview: true,
+                    opacity: true,
+                    hue: true,
+                    interaction: {
+                        hex: false,
+                        rgba: false,
+                        hsla: false,
+                        hsva: false,
+                        cmyk: false,
+                        input: true,
+                        clear: false,
+                        save: false,
+                        eyeDropper: true
+                    }
                 }
-                this.updatePreview();
             });
+
+            // Handle color changes for live preview
+            pickr.on('change', (color) => {
+                const rgba = color.toRGBA();
+                const tempColors = this.getColorValuesFromPickr();
+                this.previewColorPreferences(tempColors);
+            });
+
+            this.pickrInstances[config.key] = pickr;
         });
-        
-        console.log('Live color preview initialized');
-    },
-    
-    // New method to update preview based on all inputs
-    updatePreview: function() {
-        const tempColors = this.getColorValuesFromInputs();
-        this.previewColorPreferences(tempColors);
+
+        console.log('Pickr color pickers initialized:', Object.keys(this.pickrInstances));
     },
 
     /**
-     * Get all current color values from the input fields
+     * Get all current color values from Pickr instances
      */
-    getColorValuesFromInputs: function() {
-        // Helper to get color with alpha
-        const getColorWithAlpha = (colorId, alphaId) => {
-            const colorElement = document.getElementById(colorId);
-            const alphaElement = document.getElementById(alphaId);
-            
-            if (!colorElement) {
-                console.warn(`Color element with ID '${colorId}' not found`);
-                return { hex: '#000000', alpha: 1 };
-            }
-            
-            const color = colorElement.value;
-            const alpha = alphaElement?.value || 1;
-            return { hex: color, alpha: parseFloat(alpha) };
+    getColorValuesFromPickr: function() {
+        const colors = {};
+
+        // Helper to convert Pickr color to hex+alpha object
+        const pickrToColor = (pickr) => {
+            if (!pickr) return { hex: '#000000', alpha: 1 };
+            const color = pickr.getColor();
+            if (!color) return { hex: '#000000', alpha: 1 };
+
+            const rgba = color.toRGBA();
+            const hex = color.toHEXA().toString().substring(0, 7); // Get hex without alpha
+            const alpha = rgba[3]; // Get alpha value
+
+            return { hex, alpha };
         };
-        
-        return {
-            primaryColor: getColorWithAlpha('primaryColorInput', 'primaryColorAlpha'),
-            background: getColorWithAlpha('backgroundColor', 'backgroundAlpha'),
-            backgroundFreeze: getColorWithAlpha('backgroundFreezeColor', 'backgroundFreezeAlpha'),
-            backgroundPrimary: getColorWithAlpha('backgroundPrimaryColor', 'backgroundPrimaryAlpha'),
-            redShift: getColorWithAlpha('redShiftColor', 'redShiftAlpha'),
-            orangeShift: getColorWithAlpha('orangeShiftColor', 'orangeShiftAlpha'),
-            greenShift: getColorWithAlpha('greenShiftColor', 'greenShiftAlpha'),
-            starterShift: getColorWithAlpha('starterShiftColor', 'starterShiftAlpha'),
-            schreibdienstSingle: getColorWithAlpha('schreibdienstSingleColor', 'schreibdienstSingleAlpha'),
-            schreibdienstFull: getColorWithAlpha('schreibdienstFullColor', 'schreibdienstFullAlpha'),
-            selectedBg: getColorWithAlpha('selectedBgColor', 'selectedBgAlpha'),
-            selectedBgSingle: getColorWithAlpha('selectedBgSingleColor', 'selectedBgSingleAlpha'),
-            buttonNavBg: getColorWithAlpha('buttonNavBgColor', 'buttonNavBgAlpha'),
-            // Hover colors should match selected colors (no separate UI controls)
-            hoverBg: getColorWithAlpha('selectedBgColor', 'selectedBgAlpha'),
-            hoverBgSingle: getColorWithAlpha('selectedBgSingleColor', 'selectedBgSingleAlpha'),
-            buttonNavBgHover: this.getColorPreferences().buttonNavBgHover
-        };
+
+        // Get colors from all Pickr instances
+        Object.entries(this.pickrInstances).forEach(([key, pickr]) => {
+            colors[key] = pickrToColor(pickr);
+        });
+
+        // Add hover colors (match selected colors)
+        colors.hoverBg = colors.selectedBg || { hex: '#ffed75', alpha: 1 };
+        colors.hoverBgSingle = colors.selectedBgSingle || { hex: '#fff3cd', alpha: 1 };
+        colors.buttonNavBgHover = colors.buttonNavBg || { hex: '#e8e8e8', alpha: 1 };
+
+        return colors;
     },
 
     /**
@@ -310,6 +350,7 @@ const ColorCustomization = {
                 --background-color: ${toRgba(colors.background)} !important;
                 --background-freeze-color: ${toRgba(colors.backgroundFreeze)} !important;
                 --background-primary: ${toRgba(colors.backgroundPrimary)} !important;
+                --logo: ${toRgba(colors.logo)} !important;
                 --color-empty: ${toRgba(colors.redShift)} !important;
                 --color-single: ${toRgba(colors.orangeShift)} !important;
                 --color-full: ${toRgba(colors.greenShift)} !important;
@@ -525,156 +566,102 @@ const ColorCustomization = {
                         <button class="color-modal-close">×</button>
                     </div>
                     <div class="color-modal-body">
-                        <div class="color-global-note" style="margin-bottom: 15px; padding: 8px; background: #f8f9fa; border-left: 3px solid #1760ff; color: #333;">
-                            <strong>Hinweis:</strong> Diese Farbeinstellungen werden auf <u>alle Benutzer</u> angewendet.
+                        <div class="color-preset-section">
+                            <h3>Farbschemas</h3>
+                            <div class="preset-controls">
+                                <div class="preset-select-container">
+                                    <label for="colorPresetDropdown">Schema:</label>
+                                    <select id="colorPresetDropdown" class="preset-dropdown">
+                                        <option value="">Keine Auswahl</option>
+                                    </select>
+                                </div>
+                                <button id="deletePresetBtn" class="preset-delete-btn" style="display: none;" title="Schema löschen">&times;</button>
+                            </div>
+
+                            <button id="savePresetBtn" class="button-secondary save-preset-trigger">Neues Schema speichern</button>
+
+                            <div id="savePresetForm" class="save-preset-form" style="display: none;">
+                                <input type="text" id="presetNameInput" placeholder="Schema-Name eingeben..." maxlength="100">
+                                <div class="preset-form-buttons">
+                                    <button id="confirmSavePresetBtn" class="button-primary">💾 Speichern</button>
+                                    <button id="cancelSavePresetBtn" class="button-secondary">Abbrechen</button>
+                                </div>
+                            </div>
                         </div>
-                        
+
                        <div class="color-section">
                         <h3>Themenfarben</h3>
                         <div class="cc-color-option">
-                            <label>Primärfarbe:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="primaryColorInput" value="${currentColors.primaryColor.hex || currentColors.primaryColor}">
-                                <input type="range" id="primaryColorAlpha" min="0" max="1" step="0.01" value="${currentColors.primaryColor.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.primaryColor.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="primaryColorPicker"></div>
+                            <label>Primärfarbe</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Hintergrund:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="backgroundColor" value="${currentColors.background.hex || currentColors.background}">
-                                <input type="range" id="backgroundAlpha" min="0" max="1" step="0.01" value="${currentColors.background.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.background.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="backgroundPicker"></div>
+                            <label>Hintergrund</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Hintergrund Freeze:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="backgroundFreezeColor" value="${currentColors.backgroundFreeze?.hex || currentColors.backgroundFreeze || currentColors.background}">
-                                <input type="range" id="backgroundFreezeAlpha" min="0" max="1" step="0.01" value="${currentColors.backgroundFreeze?.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.backgroundFreeze?.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="backgroundFreezePicker"></div>
+                            <label>Hintergrund Freeze</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Hintergrund Elemente:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="backgroundPrimaryColor" value="${currentColors.backgroundPrimary?.hex || currentColors.backgroundPrimary}">
-                                <input type="range" id="backgroundPrimaryAlpha" min="0" max="1" step="0.01" value="${currentColors.backgroundPrimary?.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.backgroundPrimary?.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="backgroundPrimaryPicker"></div>
+                            <label>Hintergrund Elemente</label>
+                        </div>
+                        <div class="cc-color-option">
+                            <div class="color-picker-button" id="logoPicker"></div>
+                            <label>Logo</label>
                         </div>
                     </div>
 
                     <div class="color-section">
                         <h3>Einsätze</h3>
                         <div class="cc-color-option">
-                            <label>Unbesetzter Einsatz:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="redShiftColor" value="${currentColors.redShift.hex || currentColors.redShift}">
-                                <input type="range" id="redShiftAlpha" min="0" max="1" step="0.01" value="${currentColors.redShift.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.redShift.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="redShiftPicker"></div>
+                            <label>Unbesetzter Einsatz</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Einzeln besetzter Einsatz:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="orangeShiftColor" value="${currentColors.orangeShift.hex || currentColors.orangeShift}">
-                                <input type="range" id="orangeShiftAlpha" min="0" max="1" step="0.01" value="${currentColors.orangeShift.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.orangeShift.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="orangeShiftPicker"></div>
+                            <label>Einzeln besetzter Einsatz</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Doppelt besetzter Einsatz:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="greenShiftColor" value="${currentColors.greenShift.hex || currentColors.greenShift}">
-                                <input type="range" id="greenShiftAlpha" min="0" max="1" step="0.01" value="${currentColors.greenShift.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.greenShift.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="greenShiftPicker"></div>
+                            <label>Doppelt besetzter Einsatz</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Starter:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="starterShiftColor" value="${currentColors.starterShift.hex || currentColors.starterShift}">
-                                <input type="range" id="starterShiftAlpha" min="0" max="1" step="0.01" value="${currentColors.starterShift.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.starterShift.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="starterShiftPicker"></div>
+                            <label>Starter</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Schreibdienst einzeln besetzt:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="schreibdienstSingleColor" value="${currentColors.schreibdienstSingle.hex || currentColors.schreibdienstSingle}">
-                                <input type="range" id="schreibdienstSingleAlpha" min="0" max="1" step="0.01" value="${currentColors.schreibdienstSingle.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.schreibdienstSingle.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="schreibdienstSinglePicker"></div>
+                            <label>Schreibdienst einzeln besetzt</label>
                         </div>
                         <div class="cc-color-option">
-                            <label>Schreibdienst doppelt besetzt:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="schreibdienstFullColor" value="${currentColors.schreibdienstFull.hex || currentColors.schreibdienstFull}">
-                                <input type="range" id="schreibdienstFullAlpha" min="0" max="1" step="0.01" value="${currentColors.schreibdienstFull.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.schreibdienstFull.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="schreibdienstFullPicker"></div>
+                            <label>Schreibdienst doppelt besetzt</label>
                         </div>
                     </div>
 
                     <div class="color-section">
-                        <h3>User Einsätze </h3>
-                        <!-- <div class="cc-color-option">
-                            <label>Mousover (Doppelt besetzt):</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="hoverBgColor" value="${currentColors.hoverBg.hex || currentColors.hoverBg}">
-                                <input type="range" id="hoverBgAlpha" min="0" max="1" step="0.01" value="${currentColors.hoverBg.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.hoverBg.alpha || 1) * 100)}%</span>
-                            </div>
-                        </div>  -->
+                        <h3>User Einsätze</h3>
                         <div class="cc-color-option">
-                            <label>Auswahl (Doppelt besetzt):</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="selectedBgColor" value="${currentColors.selectedBg.hex || currentColors.selectedBg}">
-                                <input type="range" id="selectedBgAlpha" min="0" max="1" step="0.01" value="${currentColors.selectedBg.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.selectedBg.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="selectedBgPicker"></div>
+                            <label>Auswahl (Doppelt besetzt)</label>
                         </div>
-                        <!-- <div class="cc-color-option">
-                            <label>Mousover (Einzeln besetzt):</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="hoverBgSingleColor" value="${currentColors.hoverBgSingle?.hex || currentColors.hoverBgSingle || '#f8f8f8'}">
-                                <input type="range" id="hoverBgSingleAlpha" min="0" max="1" step="0.01" value="${currentColors.hoverBgSingle?.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.hoverBgSingle?.alpha || 1) * 100)}%</span>
-                            </div>
-                        </div> -->
                         <div class="cc-color-option">
-                            <label>Auswahl (Einzeln besetzt):</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="selectedBgSingleColor" value="${currentColors.selectedBgSingle?.hex || currentColors.selectedBgSingle || '#eef7ff'}">
-                                <input type="range" id="selectedBgSingleAlpha" min="0" max="1" step="0.01" value="${currentColors.selectedBgSingle?.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.selectedBgSingle?.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="selectedBgSinglePicker"></div>
+                            <label>Auswahl (Einzeln besetzt)</label>
                         </div>
                     </div>
 
                     <div class="color-section">
                         <h3>Navigation Buttons</h3>
                         <div class="cc-color-option">
-                            <label>Button Hintergrund:</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="buttonNavBgColor" value="${currentColors.buttonNavBg.hex || currentColors.buttonNavBg}">
-                                <input type="range" id="buttonNavBgAlpha" min="0" max="1" step="0.01" value="${currentColors.buttonNavBg.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.buttonNavBg.alpha || 1) * 100)}%</span>
-                            </div>
+                            <div class="color-picker-button" id="buttonNavBgPicker"></div>
+                            <label>Button Hintergrund</label>
                         </div>
-                        <div class="cc-color-option">
-                           <!--  <label>Button Hintergrund (Hover):</label>
-                            <div class="color-with-alpha">
-                                <input type="color" id="buttonNavBgHoverColor" value="${currentColors.buttonNavBgHover.hex || currentColors.buttonNavBgHover}">
-                                <input type="range" id="buttonNavBgHoverAlpha" min="0" max="1" step="0.01" value="${currentColors.buttonNavBgHover.alpha || 1}" class="alpha-slider">
-                                <span class="alpha-value">${Math.round((currentColors.buttonNavBgHover.alpha || 1) * 100)}%</span>
-                            </div> 
-                        </div> -->
                     </div>
 
                     <div class="color-actions">
-                        <button id="resetColorsBtn" class="button-secondary">Auf Standard zurücksetzen</button>
                         <button id="saveColorsBtn" class="button-primary">Änderungen speichern</button>
                     </div>
 
@@ -698,13 +685,13 @@ const ColorCustomization = {
             });
             
             document.getElementById('saveColorsBtn').addEventListener('click', () => this.saveColorPreferences());
-            document.getElementById('resetColorsBtn').addEventListener('click', () => {
-                if (confirm('Sind Sie sicher, dass Sie alle Farben auf die Standardwerte zurücksetzen möchten? Dies kann nicht rückgängig gemacht werden.')) {
-                    this.resetColorPreferences();
-                }
-            });
-            
-            this.setupLivePreview();
+
+            // Setup preset functionality
+            this.setupPresetEventListeners();
+            this.loadColorPresets(true); // Auto-select current preset
+
+            // Initialize Pickr color pickers
+            this.initializeColorPickers();
         }
 
         setTimeout(() => this.makeColorModalDraggable(), 100);
@@ -885,9 +872,9 @@ const ColorCustomization = {
      */
     saveColorPreferences: async function() {
         this.setColorSaveStatus('Farben werden gespeichert...', 'info');
-        
-        // Get values from input fields
-        const colors = this.getColorValuesFromInputs();
+
+        // Get values from Pickr instances
+        const colors = this.getColorValuesFromPickr();
         console.log("Saving colors to API:", colors);
 
         try {
@@ -978,8 +965,8 @@ const ColorCustomization = {
         
         // More flexible check for required colors
         const requiredColors = [
-            'primaryColor', 'background', 'backgroundFreeze', 'backgroundPrimary', 'redShift', 'orangeShift', 
-            'greenShift', 'starterShift', 'schreibdienstSingle', 
+            'primaryColor', 'background', 'backgroundFreeze', 'backgroundPrimary', 'logo', 'redShift', 'orangeShift',
+            'greenShift', 'starterShift', 'schreibdienstSingle',
             'schreibdienstFull', 'hoverBg', 'selectedBg', 'hoverBgSingle', 'selectedBgSingle'
         ];
         
@@ -1039,5 +1026,381 @@ const ColorCustomization = {
         }
         console.warn(`Invalid hex color: ${hex}. Using default rgba(0,0,0,${alpha}).`);
         return `rgba(0,0,0,${alpha})`; // Return default transparent black on error
+    },
+
+    /**
+     * Load all color presets from database
+     */
+    loadColorPresets: async function(autoSelectCurrent = false) {
+        try {
+            const response = await fetch('api/color_presets.php');
+            if (!response.ok) {
+                throw new Error('Failed to load presets');
+            }
+            const presets = await response.json();
+            this.populatePresetDropdown(presets, autoSelectCurrent);
+            return presets;
+        } catch (error) {
+            console.error('Error loading presets:', error);
+            this.setColorSaveStatus('Fehler beim Laden der Schemas', 'error');
+            return [];
+        }
+    },
+
+    /**
+     * Populate dropdown with presets and optionally select the matching one
+     */
+    populatePresetDropdown: function(presets, autoSelectCurrent = false) {
+        const dropdown = document.getElementById('colorPresetDropdown');
+        if (!dropdown) return;
+
+        // Clear existing options
+        dropdown.innerHTML = '<option value="">Keine Auswahl</option>';
+
+        // System presets first, then user presets
+        let selectedPresetId = null;
+        const currentColors = autoSelectCurrent ? this.getColorPreferences() : null;
+
+        presets.forEach(preset => {
+            const option = document.createElement('option');
+            option.value = preset.id;
+            option.textContent = preset.name;
+            option.dataset.isDefault = preset.is_default;
+
+            // Add indicator for system presets
+            if (preset.is_default) {
+                option.textContent += ' (System)';
+            }
+
+            dropdown.appendChild(option);
+
+            // Check if this preset matches current colors
+            if (autoSelectCurrent && currentColors && !selectedPresetId) {
+                if (this.colorsMatch(preset.colors, currentColors)) {
+                    selectedPresetId = preset.id;
+                }
+            }
+        });
+
+        // Select the matching preset if found
+        if (selectedPresetId) {
+            dropdown.value = selectedPresetId;
+            // Trigger change event to show delete button if applicable
+            const event = new Event('change');
+            dropdown.dispatchEvent(event);
+        }
+    },
+
+    /**
+     * Compare two color objects to see if they match
+     */
+    colorsMatch: function(colors1, colors2) {
+        const colorKeys = Object.keys(colors1);
+
+        for (const key of colorKeys) {
+            const c1 = colors1[key];
+            const c2 = colors2[key];
+
+            if (!c2) return false;
+
+            const hex1 = c1.hex || c1;
+            const hex2 = c2.hex || c2;
+            const alpha1 = c1.alpha !== undefined ? c1.alpha : 1;
+            const alpha2 = c2.alpha !== undefined ? c2.alpha : 1;
+
+            if (hex1 !== hex2 || Math.abs(alpha1 - alpha2) > 0.01) {
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    /**
+     * Save current colors as new preset
+     */
+    saveColorPreset: async function(name) {
+        try {
+            const colors = this.getCurrentColorsFromForm();
+
+            const response = await fetch('api/color_presets.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, colors })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to save preset');
+            }
+
+            // Reload preset list
+            await this.loadColorPresets();
+
+            // Select the newly created preset
+            const dropdown = document.getElementById('colorPresetDropdown');
+            if (dropdown && result.id) {
+                dropdown.value = result.id;
+                // Trigger change event to show delete button
+                const event = new Event('change');
+                dropdown.dispatchEvent(event);
+            }
+
+            // Show success notification
+            this.setColorSaveStatus('Schema erfolgreich gespeichert!', 'success');
+
+            // Hide the save form
+            const saveForm = document.getElementById('savePresetForm');
+            if (saveForm) {
+                saveForm.style.display = 'none';
+            }
+
+            // Clear the input
+            const nameInput = document.getElementById('presetNameInput');
+            if (nameInput) {
+                nameInput.value = '';
+            }
+
+            return result;
+        } catch (error) {
+            console.error('Error saving preset:', error);
+            this.setColorSaveStatus(error.message || 'Fehler beim Speichern des Schemas', 'error');
+            throw error;
+        }
+    },
+
+    /**
+     * Delete a preset
+     */
+    deleteColorPreset: async function(id) {
+        try {
+            const response = await fetch(`api/color_presets.php?id=${id}`, {
+                method: 'DELETE'
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to delete preset');
+            }
+
+            // Reload preset list
+            await this.loadColorPresets();
+
+            // Show success notification
+            this.setColorSaveStatus('Schema gelöscht', 'success');
+
+            return result;
+        } catch (error) {
+            console.error('Error deleting preset:', error);
+            this.setColorSaveStatus(error.message || 'Fehler beim Löschen des Schemas', 'error');
+            throw error;
+        }
+    },
+
+    /**
+     * Apply a preset
+     */
+    applyColorPreset: async function(id) {
+        try {
+            const response = await fetch(`api/color_presets.php?id=${id}`, {
+                method: 'PUT'
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to load preset');
+            }
+
+            // Populate form with preset colors
+            this.populateFormWithColors(result.colors);
+
+            // Apply preview
+            this.previewColorPreferences(result.colors);
+
+            // Show success notification
+            this.setColorSaveStatus('Schema geladen', 'success');
+
+            return result;
+        } catch (error) {
+            console.error('Error applying preset:', error);
+            this.setColorSaveStatus(error.message || 'Fehler beim Laden des Schemas', 'error');
+            throw error;
+        }
+    },
+
+    /**
+     * Get current colors from form inputs
+     */
+    getCurrentColorsFromForm: function() {
+        const colors = {};
+
+        // Define all color input IDs and their corresponding names
+        const colorMappings = {
+            'primaryColorInput': 'primaryColor',
+            'backgroundColor': 'background',
+            'backgroundFreezeColor': 'backgroundFreeze',
+            'backgroundPrimaryColor': 'backgroundPrimary',
+            'logoColor': 'logo',
+            'redShiftColor': 'redShift',
+            'orangeShiftColor': 'orangeShift',
+            'greenShiftColor': 'greenShift',
+            'starterShiftColor': 'starterShift',
+            'schreibdienstSingleColor': 'schreibdienstSingle',
+            'schreibdienstFullColor': 'schreibdienstFull',
+            'hoverBgColor': 'hoverBg',
+            'selectedBgColor': 'selectedBg',
+            'hoverBgSingleColor': 'hoverBgSingle',
+            'selectedBgSingleColor': 'selectedBgSingle',
+            'buttonNavBgColor': 'buttonNavBg',
+            'buttonNavBgHoverColor': 'buttonNavBgHover'
+        };
+
+        for (const [inputId, colorName] of Object.entries(colorMappings)) {
+            const colorInput = document.getElementById(inputId);
+            const alphaInput = document.getElementById(inputId.replace('Color', 'Alpha').replace('Input', 'Alpha'));
+
+            if (colorInput) {
+                colors[colorName] = {
+                    hex: colorInput.value,
+                    alpha: alphaInput ? parseFloat(alphaInput.value) : 1.0
+                };
+            }
+        }
+
+        return colors;
+    },
+
+    /**
+     * Populate Pickr instances with colors from preset
+     */
+    populateFormWithColors: function(colors) {
+        // Helper to convert hex+alpha to RGBA string
+        const toRgbaString = (colorObj) => {
+            const hex = colorObj.hex || colorObj;
+            const alpha = colorObj.alpha !== undefined ? colorObj.alpha : 1;
+
+            const r = parseInt(hex.substring(1, 3), 16);
+            const g = parseInt(hex.substring(3, 5), 16);
+            const b = parseInt(hex.substring(5, 7), 16);
+
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        };
+
+        // Update each Pickr instance with new colors
+        Object.entries(colors).forEach(([colorName, colorValue]) => {
+            const pickr = this.pickrInstances[colorName];
+            if (pickr && colorValue) {
+                const rgbaString = toRgbaString(colorValue);
+                pickr.setColor(rgbaString);
+            }
+        });
+    },
+
+    /**
+     * Setup preset event listeners
+     */
+    setupPresetEventListeners: function() {
+        const deleteBtn = document.getElementById('deletePresetBtn');
+        const saveBtn = document.getElementById('savePresetBtn');
+        const confirmSaveBtn = document.getElementById('confirmSavePresetBtn');
+        const cancelSaveBtn = document.getElementById('cancelSavePresetBtn');
+        const saveForm = document.getElementById('savePresetForm');
+        const nameInput = document.getElementById('presetNameInput');
+        const dropdown = document.getElementById('colorPresetDropdown');
+
+        // Auto-load preset on selection and show/hide delete button
+        if (dropdown && deleteBtn) {
+            dropdown.addEventListener('change', () => {
+                const selectedOption = dropdown.options[dropdown.selectedIndex];
+                const selectedId = dropdown.value;
+
+                if (selectedOption && selectedId) {
+                    // Auto-load the preset
+                    this.applyColorPreset(selectedId);
+
+                    // Show delete button only for non-system presets
+                    if (selectedOption.dataset.isDefault === 'false') {
+                        deleteBtn.style.display = 'inline-block';
+                    } else {
+                        deleteBtn.style.display = 'none';
+                    }
+                } else {
+                    deleteBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Delete preset button
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                const selectedId = dropdown.value;
+                const selectedOption = dropdown.options[dropdown.selectedIndex];
+
+                if (!selectedId) {
+                    this.setColorSaveStatus('Bitte wählen Sie ein Schema', 'error');
+                    return;
+                }
+
+                const presetName = selectedOption.textContent;
+                if (confirm(`Möchten Sie das Schema "${presetName}" wirklich löschen?`)) {
+                    this.deleteColorPreset(selectedId).then(() => {
+                        // Reset dropdown selection and hide delete button
+                        dropdown.value = '';
+                        deleteBtn.style.display = 'none';
+                    }).catch(error => {
+                        console.error('Failed to delete preset:', error);
+                    });
+                }
+            });
+        }
+
+        // Save preset button - show form
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                if (saveForm) {
+                    saveForm.style.display = saveForm.style.display === 'none' ? 'block' : 'none';
+                    if (saveForm.style.display === 'block' && nameInput) {
+                        nameInput.focus();
+                    }
+                }
+            });
+        }
+
+        // Confirm save button
+        if (confirmSaveBtn) {
+            confirmSaveBtn.addEventListener('click', () => {
+                const name = nameInput ? nameInput.value.trim() : '';
+                if (!name) {
+                    this.setColorSaveStatus('Bitte geben Sie einen Namen ein', 'error');
+                    return;
+                }
+                this.saveColorPreset(name);
+            });
+        }
+
+        // Cancel save button
+        if (cancelSaveBtn) {
+            cancelSaveBtn.addEventListener('click', () => {
+                if (saveForm) {
+                    saveForm.style.display = 'none';
+                }
+                if (nameInput) {
+                    nameInput.value = '';
+                }
+            });
+        }
+
+        // Enter key in name input
+        if (nameInput) {
+            nameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    confirmSaveBtn.click();
+                }
+            });
+        }
     }
 };

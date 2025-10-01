@@ -102,6 +102,15 @@ const AuthManager = {
     
     // Logout user
     logout: async function() {
+        console.error('LOGOUT FUNCTION CALLED! Current location:', window.location.href);
+        
+        // Prevent multiple logout calls
+        if (this._loggingOut) {
+            console.error('LOGOUT: Already logging out, ignoring');
+            return;
+        }
+        this._loggingOut = true;
+        
         let authData = null;
         try {
             const authDataString = localStorage.getItem('authData');
@@ -113,28 +122,37 @@ const AuthManager = {
         }
         
         // Clear local storage first
+        console.error('LOGOUT: Clearing localStorage');
         localStorage.removeItem('authData');
         
-        // If we have a token, also invalidate it on the server
+        // For mobile logout, stay on main calendar page - force reload immediately
+        console.error(`LOGOUT: Forcing page reload to stay on calendar`);
+        
+        // Try to invalidate token on server (non-blocking)
         if (authData && authData.token) {
-            try {
-                await fetch('api/auth.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        action: 'logout',
-                        token: authData.token
-                    })
-                });
-            } catch (error) {
-                console.error('Error logging out:', error);
-            }
+            // Fire and forget - don't wait for server response
+            fetch('api/auth.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'logout',
+                    token: authData.token
+                })
+            }).catch(error => {
+                console.warn('Server logout failed (ignored):', error);
+            });
         }
         
-        // Reload the current page instead of redirecting to login
-        window.location.reload();
+        // Force page reload immediately - this stops script execution
+        if (window.location.pathname.includes('login.html')) {
+            // If we're on login page, go to main calendar
+            window.location.href = window.location.origin + window.location.pathname.replace('login.html', 'index.html');
+        } else {
+            // If we're on main page, force reload to refresh without auth
+            window.location.reload();
+        }
     },
     
     // Add auth token to fetch requests if available, but don't require it
@@ -172,13 +190,22 @@ const AuthManager = {
             
             // If we get a 401 Unauthorized and auth is required, show login
             if (response.status === 401 && (requireAuth || this.isAuthenticated())) {
-                console.log('Unauthorized response');
-                // If we were authenticated, clear it
+                console.error(`401 UNAUTHORIZED DEBUG:`, {
+                    url: url,
+                    requireAuth: requireAuth,
+                    isAuthenticated: this.isAuthenticated(),
+                    condition: (requireAuth || this.isAuthenticated()),
+                    willShowLogin: requireAuth
+                });
+                
+                // If we were authenticated, clear it silently (no redirect)
                 if (this.isAuthenticated()) {
-                    this.logout();
+                    localStorage.removeItem('authData');
+                    console.log('Auth data cleared due to 401 response');
                 }
                 
                 if (requireAuth) {
+                    console.error('CALLING showLoginDialog because requireAuth is true!');
                     // Show login dialog for required auth
                     this.showLoginDialog();
                 }
@@ -195,6 +222,15 @@ const AuthManager = {
     
     // Show a login dialog or redirect to login page
     showLoginDialog: function() {
+        console.error('showLoginDialog called! Call stack:');
+        console.trace();
+        
+        // Check if logout is in progress - if so, ignore this call
+        if (window._logoutInProgress) {
+            console.error('BLOCKED: showLoginDialog called during logout, ignoring');
+            return;
+        }
+        
         // For simplicity, redirect to login page
         window.location.href = 'login.html?returnUrl=' + encodeURIComponent(window.location.href);
     },

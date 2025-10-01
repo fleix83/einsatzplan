@@ -275,7 +275,7 @@ body.frozen-state {
 
 /* Seitentitel */
 .titel {
-    color: var(--background-primary);
+    color: var(--logo);
     font-size: 33px;
     font-weight: 700;
     margin: -60px 0 0 78px;
@@ -4741,6 +4741,117 @@ body.frozen-state {
     font-weight: 500;
 }
 
+/* Color preset section styles */
+.color-preset-section {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eef0f7;
+    background-color: #f9fafb;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.color-preset-section h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.preset-controls {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.preset-select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.save-preset-trigger {
+    padding: 8px 12px;
+    margin-bottom: 8px;
+}
+
+.preset-select-container label {
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+.preset-dropdown {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.preset-dropdown:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(23, 96, 255, 0.1);
+}
+
+.save-preset-form {
+    margin-top: 12px;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+.save-preset-form input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.save-preset-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(23, 96, 255, 0.1);
+}
+
+.preset-form-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.preset-form-buttons button {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+/* Delete preset button styling */
+.preset-delete-btn {
+    background: none;
+    border: none;
+    color: #f44336;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    margin-left: 8px;
+}
+
+.preset-delete-btn:hover {
+    color: #d32f2f;
+    transform: scale(1.1);
+}
+
 .color-option {
     display: flex;
     justify-content: space-between;
@@ -4869,14 +4980,22 @@ body.frozen-state {
 }
 
 @media screen and (max-width: 768px) {
+    #colorCustomizationModal {
+        width: 100% !important;
+        height: 100vh !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+
     .color-modal-content {
         width: 100%;
-        margin: 0% auto;
-        max-height: 100%;
+        height: 100vh;
+        margin: 0;
+        max-height: 100vh;
+        border-radius: 0;
     }
 
     .color-modal-body {
-        max-height: 100%;
+        height: calc(100vh - 120px);
         padding: 15px;
         overflow-y: scroll;
     }
@@ -4902,12 +5021,12 @@ body.frozen-state {
 
 .cc-color-option {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+    padding: 6px 12px;
     background-color: #fafbfd;
-    padding: 8px 12px;
     border-radius: 6px;
+    gap: 12px;
 }
 
 .cc-color-option:hover {
@@ -4915,32 +5034,43 @@ body.frozen-state {
 }
 
 .cc-color-option label {
-    flex: 1;
     font-size: 14px;
     color: #555;
-    margin-right: 10px;
     font-weight: 500;
+    flex: 1;
 }
 
-.cc-color-option input[type="color"] {
-    width: 45px;
-    height: 28px;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
+/* Pickr color picker button */
+.color-picker-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: border-color 0.2s ease;
-    -webkit-appearance: none;
-    padding: 0;
 }
 
-.cc-color-option input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
+/* Override Pickr default styles */
+.pickr {
+    width: 32px;
+    height: 32px;
 }
 
-.cc-color-option input[type="color"]::-webkit-color-swatch,
-.cc-color-option input[type="color"]::-moz-color-swatch {
-    border: none;
+.pickr .pcr-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    transition: border-color 0.2s ease, transform 0.1s ease;
+}
+
+.pickr .pcr-button:hover {
+    border-color: var(--primary-color, #1760ff);
+    transform: scale(1.05);
+}
+
+.pickr .pcr-button:focus {
+    outline: none;
+    border-color: var(--primary-color, #1760ff);
+    box-shadow: 0 0 0 3px rgba(23, 96, 255, 0.1);
 }
 
 /* Draggable modal styles */
@@ -5654,43 +5784,39 @@ body.frozen-state {
 .color-with-alpha {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     width: 100%;
 }
 
 .color-with-alpha input[type="color"] {
-    min-width: 40px;
-    width: 40px;
-    height: 40px;
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
     padding: 0;
     border: 1px solid #ddd;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.alpha-slider {
-    flex: 1;
-    height: 8px;
-    appearance: none;
-    background: linear-gradient(to right, rgba(200, 200, 200, 0.2), rgba(200, 200, 200, 1));
+.alpha-input {
+    width: 50px;
+    height: 28px;
+    padding: 4px 6px;
+    border: 1px solid #ddd;
     border-radius: 4px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.alpha-input:focus {
     outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(23, 96, 255, 0.1);
 }
 
-.alpha-slider::-webkit-slider-thumb {
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--primary-color, #1760ff);
-    cursor: pointer;
-}
-
-.alpha-value {
-    min-width: 45px;
-    text-align: right;
-    font-size: 12px;
-    color: #666;
+.alpha-input::-webkit-inner-spin-button,
+.alpha-input::-webkit-outer-spin-button {
+    opacity: 1;
 }
 
 /* Mobile navbar button organization for backoffice mode */

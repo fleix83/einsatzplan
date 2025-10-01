@@ -23,6 +23,7 @@
             background: '#f5f7fd',
             backgroundFreeze: '#f5f7fd',
             backgroundPrimary: '#fffcf7',
+            logo: '#fffcf7',
             redShift: '#ff5252',
             orangeShift: '#ffab40',
             greenShift: '#4caf50',
@@ -68,6 +69,7 @@
                     --background-color: ${toRgba(colors.background)} !important;
                     --background-freeze-color: ${toRgba(colors.backgroundFreeze)} !important;
                     --background-primary: ${toRgba(colors.backgroundPrimary)} !important;
+                    --logo: ${toRgba(colors.logo)} !important;
                     --color-empty: ${toRgba(colors.redShift)} !important;
                     --color-single: ${toRgba(colors.orangeShift)} !important;
                     --color-full: ${toRgba(colors.greenShift)} !important;
@@ -147,6 +149,8 @@
     </script>
 
     <link rel="stylesheet" href="styles.css">
+    <!-- Pickr Color Picker Library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css">
     <script src="dateUtility.js" defer></script>
 </head>
 <body>
@@ -161,7 +165,7 @@
             <defs>
               <style>
                 .cls-1 {
-                  fill: var(--background-primary);
+                  fill: var(--logo);
                 }
               </style>
             </defs>
@@ -557,6 +561,8 @@
     <script src="js/auth.js"></script>
     <script src="js/holiday.js"></script>
     <script src="js/schreibdienst.js"></script>
+    <!-- Pickr Color Picker Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <script src="js/colorCustomization.js"></script>
     <!-- <script src="js/announcement.js"></script> -->
     <script src="js/customEvents.js"></script>

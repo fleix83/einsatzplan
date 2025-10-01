@@ -27,32 +27,121 @@ const SchreibdienstFeature = (function() {
         
         // Add styles
         styleEl.innerHTML = `
-            /* Schreibdienst event icon in day card */
+            /* Schreibdienst event display - matching provided image design */
+            .schreibdienst-event {
+                position: absolute;
+                bottom: 1px;
+                left: 0;
+                right: 0;
+                background-color: #ffffff;
+                border: 0px solid #ddd;
+                border-radius: 6px;
+                z-index: 5;
+                padding: 3px;
+                margin-bottom: 1px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                min-height: 32px;
+                width: 93%;
+                margin: auto;
+            }
+            
             .schreibdienst-event-icon {
-                position: absolute;
-                position: absolute;
                 width: 24px;
                 height: 24px;
-                background-color: white;
+                border: 0px solid #333;
                 border-radius: 50%;
+                background-color: #f7f3f3;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                flex-shrink: 0;
+                font-weight: bold;
                 font-size: 14px;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-                z-index: 5;
             }
             
-            /* Position for icon in E1 shift (left) */
-            .shift-left .schreibdienst-event-icon {
-                top: 5px;
-                right: 5px;
+            .schreibdienst-event-content {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+                flex-grow: 1;
+            }
+            
+            .schreibdienst-event-title {
+                font-weight: 600;
+                font-size: 10px;
+                line-height: 1.1;
+                color: #333;
+            }
+            
+            .schreibdienst-event-time {
+                font-size: 10px;
+                color: #666;
+                line-height: 1.1;
             }
 
-            /* Position for icon in E2 shift (right) */
-            .shift-right .schreibdienst-event-icon {
-                top: 5px;
-                right: 5px;
+            @media screen and (max-width: 768px) {
+                .schreibdienst-event {
+                    overflow: visible;
+                    background-color: transparent;
+                }
+                
+                /* Mobile calendar view - show only icon, hide text */
+                .schreibdienst-event-content {
+                    display: none;
+                }
+                
+                /* Mobile shift detail modal styling */
+                .shift-events-list {
+                    border-top: none !important;
+                    margin-top: 15px;
+                    padding-top: 0;
+                }
+                
+                .shift-event-title {
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #333;
+                    margin-bottom: 10px;
+                }
+                
+                .shift-event-content {
+                    background-color: white;
+                    border-radius: 6px;
+                    padding: 8px;
+                    margin-bottom: 8px;
+                }
+                
+                .shift-event-time {
+                    font-size: 13px;
+                    font-weight: bold;
+                    color: #333;
+                    margin-bottom: 4px;
+                }
+                
+                .shift-event-creator {
+                    font-size: 14px;
+                    color: var(--primary-color);
+                    font-style: normal;
+                }
+            }
+            
+            /* Override Schreibdienst background colors - remove blue backgrounds */
+            .shift-left.schreibdienst-single,
+            .shift-right.schreibdienst-single {
+                background: transparent !important;
+                color: inherit !important;
+            }
+            
+            .shift-left.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="false"],
+            .shift-right.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="false"],
+            .shift-left.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="true"],
+            .shift-right.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="true"],
+            .shift-left.schreibdienst-full[data-first-user-schreibdienst="false"][data-second-user-schreibdienst="true"],
+            .shift-right.schreibdienst-full[data-first-user-schreibdienst="false"][data-second-user-schreibdienst="true"] {
+                background: transparent !important;
+                color: inherit !important;
             }
             
             /* Schreibdienst modal styles */
@@ -183,7 +272,7 @@ const SchreibdienstFeature = (function() {
             }
             
             .schreibdienst-event-time {
-                font-size: 13px;
+                font-size: 10px;
                 color: #666;
             }
             
@@ -192,13 +281,6 @@ const SchreibdienstFeature = (function() {
                 font-style: italic;
                 color: #1760ff;
                 margin-left: 5px;
-            }
-            
-            .schreibdienst-event-hover-creator {
-                font-size: 12px;
-                font-style: italic;
-                color: #1760ff;
-                margin-top: 2px;
             }
             
             .schreibdienst-event-shift {
@@ -211,12 +293,25 @@ const SchreibdienstFeature = (function() {
             }
             
             .schreibdienst-delete-btn {
-                background: none;
-                border: none;
+                background: #fff;
+                border: 1px solid #ddd;
                 color: #f44336;
-                font-size: 18px;
+                font-size: 16px;
                 cursor: pointer;
                 margin-left: 8px;
+                width: 24px;
+                height: 24px;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s ease;
+            }
+            
+            .schreibdienst-delete-btn:hover {
+                background: #f44336;
+                color: white;
+                border-color: #f44336;
             }
             
             /* Schreibdienst icon button for user list */
@@ -244,29 +339,40 @@ const SchreibdienstFeature = (function() {
                 background-color: #4cc77a;
             }
             
-            /* Hover info panel schreibdienst events */
+            /* Hover info panel schreibdienst events - match shift user styling exactly */
             .hover-info-schreibdienst {
-                margin-top: 0px;
-                border-top: px solid rgba(0, 0, 0, 0.1);
-                padding-top: 0px;
-            }
-            
-            .schreibdienst-events-title {
-                font-size: 30px;
-                font-weight: bold;
-                margin-bottom: 5px;
-                color: #666;
-            }
-            
-            .schreibdienst-event-hover-item {
-                background-color: #f5f5f5;
-                padding: 6px 8px;
-                border-radius: 4px;
-                margin-bottom: 4px;
-                font-size: 15px;
+                margin: 15px 0;
+                padding: 10px;
+                border-radius: 6px;
+                cursor: pointer;
                 transition: all 0.2s ease;
                 background: var(--bg-white);
                 box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 37px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                width: fit-content;
+            }
+            
+            .hover-info-schreibdienst-icon {
+                width: 24px;
+                height: 24px;
+                border: 0px solid #333;
+                border-radius: 50%;
+                background-color: #f7f3f3;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-weight: bold;
+                font-size: 14px;
+            }
+            
+            .hover-info-schreibdienst-text {
+                font-size: 14px;
+                line-height: 1.2;
+                color: #333;
+                white-space: nowrap;
             }
         `;
         
@@ -283,9 +389,9 @@ const SchreibdienstFeature = (function() {
     }
     
     function updateEventIcons() {
-        // Remove existing icons
-        document.querySelectorAll('.schreibdienst-event-icon').forEach(icon => {
-            icon.remove();
+        // Remove existing Schreibdienst events
+        document.querySelectorAll('.schreibdienst-event').forEach(event => {
+            event.remove();
         });
         
         // Current year and month from globals
@@ -301,7 +407,7 @@ const SchreibdienstFeature = (function() {
         // Find all day cards
         const dayCards = document.querySelectorAll('.day-card');
         
-        // Add icons to day cards with events
+        // Add events to day cards
         dayCards.forEach(card => {
             // Get day, month, year from card
             const day = parseInt(card.dataset.day);
@@ -329,30 +435,58 @@ const SchreibdienstFeature = (function() {
                 }
             });
             
-            // Add icon to E1 shift if there are E1 events
+            // Add events to E1 shift if there are E1 events
             if (eventsByShift['E1'].length > 0) {
                 const shiftE1 = card.querySelector('.shift-left');
                 if (shiftE1) {
-                    const icon = document.createElement('div');
-                    icon.className = 'schreibdienst-event-icon e1-icon';
-                    icon.innerHTML = '<i class="bi bi-fonts"></i>';
-                    shiftE1.appendChild(icon);
+                    eventsByShift['E1'].forEach(event => {
+                        const eventElement = document.createElement('div');
+                        eventElement.className = 'schreibdienst-event';
+                        
+                        // Format time for display (HH.MM)
+                        const timeParts = event.time.split(':');
+                        const formattedTime = `${timeParts[0]}.${timeParts[1]}`;
+                        
+                        eventElement.innerHTML = `
+                            <div class="schreibdienst-event-icon">T</div>
+                            <div class="schreibdienst-event-content">
+                                <div class="schreibdienst-event-title">${event.details}</div>
+                                <div class="schreibdienst-event-time">${formattedTime}</div>
+                            </div>
+                        `;
+                        
+                        shiftE1.appendChild(eventElement);
+                    });
                 }
             }
             
-            // Add icon to E2 shift if there are E2 events
+            // Add events to E2 shift if there are E2 events  
             if (eventsByShift['E2'].length > 0) {
                 const shiftE2 = card.querySelector('.shift-right');
                 if (shiftE2) {
-                    const icon = document.createElement('div');
-                    icon.className = 'schreibdienst-event-icon e2-icon';
-                    icon.innerHTML = '<i class="bi bi-fonts"></i>';
-                    shiftE2.appendChild(icon);
+                    eventsByShift['E2'].forEach(event => {
+                        const eventElement = document.createElement('div');
+                        eventElement.className = 'schreibdienst-event';
+                        
+                        // Format time for display (HH.MM)
+                        const timeParts = event.time.split(':');
+                        const formattedTime = `${timeParts[0]}.${timeParts[1]}`;
+                        
+                        eventElement.innerHTML = `
+                            <div class="schreibdienst-event-icon">T</div>
+                            <div class="schreibdienst-event-content">
+                                <div class="schreibdienst-event-title">${event.details}</div>
+                                <div class="schreibdienst-event-time">${formattedTime}</div>
+                            </div>
+                        `;
+                        
+                        shiftE2.appendChild(eventElement);
+                    });
                 }
             }
         });
         
-        console.log('Schreibdienst event icons updated');
+        console.log('Schreibdienst events updated');
     }
     
     function createModal() {
@@ -366,39 +500,40 @@ const SchreibdienstFeature = (function() {
             <div id="schreibdienst-modal">
                 <div class="schreibdienst-modal-content">
                     <div class="schreibdienst-modal-header">
-                        <h2 class="schreibdienst-modal-title">Schreibdienst Events for <span id="schreibdienst-user-name"></span></h2>
+                        <h2 class="schreibdienst-modal-title">Schreibdienst Einsatz für <span id="schreibdienst-user-name"></span></h2>
                         <span class="schreibdienst-modal-close">&times;</span>
                     </div>
                     
                     <div class="schreibdienst-event-form">
                         <div class="schreibdienst-event-row">
                             <div class="schreibdienst-event-field">
-                                <label for="schreibdienst-event-details">Event Details</label>
-                                <input type="text" id="schreibdienst-event-details" placeholder="Enter event details...">
+                                <label for="schreibdienst-event-title">Titel</label>
+                                <input type="text" id="schreibdienst-event-title" value="SID">
                             </div>
                         </div>
                         <div class="schreibdienst-event-row">
                             <div class="schreibdienst-event-field">
-                                <label for="schreibdienst-event-date">Date</label>
-                                <input type="date" id="schreibdienst-event-date">
-                            </div>
-                            <div class="schreibdienst-event-field">
-                                <label for="schreibdienst-event-time">Time</label>
-                                <input type="time" id="schreibdienst-event-time">
-                            </div>
-                            <div class="schreibdienst-event-field">
-                                <label for="schreibdienst-event-shift">Shift</label>
-                                <select id="schreibdienst-event-shift">
-                                    <option value="E1">E1</option>
-                                    <option value="E2">E2</option>
+                                <label for="schreibdienst-event-user">Einsatz mit...</label>
+                                <select id="schreibdienst-event-user">
+                                    <!-- Will be populated with users -->
                                 </select>
                             </div>
                         </div>
-                        <button class="schreibdienst-add-btn">Add Schreibdienst Event</button>
+                        <div class="schreibdienst-event-row">
+                            <div class="schreibdienst-event-field">
+                                <label for="schreibdienst-event-date">Datum</label>
+                                <input type="date" id="schreibdienst-event-date">
+                            </div>
+                            <div class="schreibdienst-event-field">
+                                <label for="schreibdienst-event-time">Zeit</label>
+                                <input type="time" id="schreibdienst-event-time">
+                            </div>
+                        </div>
+                        <button class="schreibdienst-add-btn">Hinzufügen</button>
                     </div>
                     
                     <div class="schreibdienst-event-list">
-                        <div class="schreibdienst-event-list-title">Events</div>
+                        <div class="schreibdienst-event-list-title">Bestehende Einträge</div>
                         <div id="schreibdienst-event-items"></div>
                     </div>
                 </div>
@@ -419,7 +554,7 @@ const SchreibdienstFeature = (function() {
             modal.style.display = 'none';
         });
         
-        window.addEventListener('click', (e) => {
+        modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
@@ -514,8 +649,8 @@ const SchreibdienstFeature = (function() {
             // Create Schreibdienst button
             const btn = document.createElement('button');
             btn.className = 'schreibdienst-btn';
-            btn.innerHTML = '<i class="bi bi-fonts"></i>';
-            btn.title = 'Manage Schreibdienst Events';
+            btn.innerHTML = '<img src="schreibdienst.svg" alt="Schreibdienst" style="width: 16px; height: 16px;">';
+            btn.title = 'Schreibdienst Einsatz erstellen';
             btn.setAttribute('data-user-id', user.id);
             btn.style.display = 'block'; // Make visible for Schreibdienst users
             
@@ -557,13 +692,31 @@ const SchreibdienstFeature = (function() {
             userNameEl.textContent = user.name;
         }
         
-        // Clear form
-        const detailsInput = document.getElementById('schreibdienst-event-details');
+        // Set form defaults
+        const titleInput = document.getElementById('schreibdienst-event-title');
         const dateInput = document.getElementById('schreibdienst-event-date');
         const timeInput = document.getElementById('schreibdienst-event-time');
+        const userSelect = document.getElementById('schreibdienst-event-user');
         
-        if (detailsInput) detailsInput.value = '';
+        if (titleInput) titleInput.value = 'SID';
         if (timeInput) timeInput.value = '';
+        
+        // Populate user dropdown
+        if (userSelect && staticData.users) {
+            userSelect.innerHTML = '';
+            staticData.users
+                .filter(user => user.active)
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.id;
+                    option.textContent = user.name;
+                    if (user.id === userId) {
+                        option.selected = true;
+                    }
+                    userSelect.appendChild(option);
+                });
+        }
         
         // Set today's date
         if (dateInput) {
@@ -574,7 +727,7 @@ const SchreibdienstFeature = (function() {
             dateInput.value = `${year}-${month}-${day}`;
         }
         
-        // Update event list
+        // Update event list to show existing entries
         updateEventList();
         
         // Show modal
@@ -584,6 +737,22 @@ const SchreibdienstFeature = (function() {
         }
     }
     
+    // Removed addTimeChangeListener function since shift field was removed
+    
+    function determineShiftFromTime(time) {
+        if (!time) return '';
+        
+        // Parse time (HH:MM format)
+        const timeParts = time.split(':');
+        const hour = parseInt(timeParts[0]);
+        const minute = parseInt(timeParts[1]) || 0;
+        const totalMinutes = hour * 60 + minute;
+        const cutoffMinutes = 14 * 60; // 14:00 in minutes
+        
+        // Before 14:00 → E1, 14:00 and after → E2
+        return totalMinutes < cutoffMinutes ? 'E1' : 'E2';
+    }
+
     function updateEventList() {
         const listEl = document.getElementById('schreibdienst-event-items');
         if (!listEl || !currentUserId) return;
@@ -601,12 +770,16 @@ const SchreibdienstFeature = (function() {
                     // Get events for this day
                     const dayEvents = staticData.schreibdienstEvents[year][month][day];
                     
-                    
                     // Add each event with date info
                     dayEvents.forEach((event, index) => {
-                        // Find the creator's name
-                        const creator = staticData.users.find(u => u.id === event.userId);
-                        const creatorName = creator ? creator.name : 'Unknown';
+                        // Find the creator's name - use flexible comparison for ID
+                        const creator = staticData.users.find(u => u.id == event.userId);
+                        const creatorName = creator ? creator.name : 'Unbekannt';
+                        
+                        // Debug log to help troubleshoot
+                        if (!creator) {
+                            console.log('User not found for event:', event.userId, 'Available users:', staticData.users.map(u => ({id: u.id, name: u.name})));
+                        }
                         
                         events.push({
                             ...event,
@@ -633,7 +806,7 @@ const SchreibdienstFeature = (function() {
         });
         
         if (events.length === 0) {
-            listEl.innerHTML = '<p>No events scheduled</p>';
+            listEl.innerHTML = '<p>Keine Einträge vorhanden</p>';
             return;
         }
         
@@ -644,7 +817,7 @@ const SchreibdienstFeature = (function() {
             
             // Format date
             const dateObj = new Date(event.year, event.month - 1, event.day);
-            const formattedDate = dateObj.toLocaleDateString('en-US', {
+            const formattedDate = dateObj.toLocaleDateString('de-DE', {
                 weekday: 'short',
                 month: 'short',
                 day: 'numeric'
@@ -658,26 +831,26 @@ const SchreibdienstFeature = (function() {
                         ${event.details}
                     </div>
                     <div class="schreibdienst-event-time">
-                        ${formattedDate} at ${event.time}
-                        <span class="schreibdienst-event-creator">by ${event.creatorName}</span>
+                        ${formattedDate} um ${event.time}
+                        <span class="schreibdienst-event-creator">mit ${event.creatorName}</span>
                     </div>
                 </div>
             `;
             
-            // Add delete button only for events created by this user
-            if (event.userId === currentUserId) {
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'schreibdienst-delete-btn';
-                deleteBtn.innerHTML = '&times;';
-                deleteBtn.title = 'Delete event';
-                
-                // Add delete handler
-                deleteBtn.addEventListener('click', () => {
+            // Add delete button for all events (users can manage all Schreibdienst events)
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'schreibdienst-delete-btn';
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.title = 'Eintrag löschen';
+            
+            // Add delete handler with confirmation
+            deleteBtn.addEventListener('click', () => {
+                if (confirm(`Möchten Sie den Eintrag "${event.details}" am ${formattedDate} wirklich löschen?`)) {
                     SchreibdienstFeature.deleteEvent(event.year, event.month, event.day, event.index);
-                });
-                
-                eventItem.appendChild(deleteBtn);
-            }
+                }
+            });
+            
+            eventItem.appendChild(deleteBtn);
             
             listEl.appendChild(eventItem);
         });
@@ -729,40 +902,49 @@ const SchreibdienstFeature = (function() {
             // Call original function first
             originalUpdateHoverInfo(day, show);
             
-            // If not showing, we're done
-            if (!show) return;
-            
-            // Find hover panel
+            // Find hover panel for cleanup
             const hoverPanel = document.getElementById('hoverInfoPanel');
             if (!hoverPanel) return;
+            
+            // ALWAYS clean up existing Schreibdienst section first (critical fix)
+            const existingSection = hoverPanel.querySelector('.hover-info-schreibdienst');
+            if (existingSection) {
+                existingSection.remove();
+            }
+            
+            // If not showing, we're done (after cleanup)
+            if (!show) return;
             
             // Check if there are Schreibdienst events for this day
             const events = staticData.schreibdienstEvents?.[currentYear]?.[currentMonth]?.[day] || [];
             
-            // If no events, we're done
+            // If no events, we're done (after cleanup)
             if (events.length === 0) return;
             
-            // Find or create schreibdienst section
-            let schreibdienstSection = hoverPanel.querySelector('.hover-info-schreibdienst');
+            // Create new schreibdienst section
+            const schreibdienstSection = document.createElement('div');
+            schreibdienstSection.className = 'hover-info-schreibdienst';
             
-            if (!schreibdienstSection) {
-                schreibdienstSection = document.createElement('div');
-                schreibdienstSection.className = 'hover-info-schreibdienst';
-                
-                // Add to hover panel
-                const infoContent = hoverPanel.querySelector('.hover-info-content');
-                if (infoContent) {
-                    infoContent.appendChild(schreibdienstSection);
-                } else {
-                    hoverPanel.appendChild(schreibdienstSection);
-                }
+            // Insert AFTER the hover-info-content container (completely below all shift info)
+            const infoContent = hoverPanel.querySelector('.hover-info-content');
+            if (infoContent) {
+                // Insert as a sibling AFTER the content container
+                infoContent.parentNode.insertBefore(schreibdienstSection, infoContent.nextSibling);
+            } else {
+                // Fallback: add directly to hover panel
+                hoverPanel.appendChild(schreibdienstSection);
             }
             
             // Prepare events with creator names
             const eventsWithCreators = events.map(event => {
-                // Find the creator's name
-                const creator = staticData.users.find(u => u.id === event.userId);
-                const creatorName = creator ? creator.name : 'Unknown';
+                // Find the creator's name - use flexible comparison for ID
+                const creator = staticData.users.find(u => u.id == event.userId);
+                const creatorName = creator ? creator.name : 'Unbekannt';
+                
+                // Debug log if user not found
+                if (!creator) {
+                    console.log('Hover: User not found for event:', event.userId, 'Available users:', staticData.users.map(u => ({id: u.id, name: u.name})));
+                }
                 
                 return {
                     ...event,
@@ -770,17 +952,24 @@ const SchreibdienstFeature = (function() {
                 };
             });
             
-            // Clear and update content
+            // Clear and update content - compact single line design
+            const event = eventsWithCreators[0]; // Show first event
+            
+            // Make sure we have proper user data
+            let userName = event.creatorName;
+            if (!userName || userName === 'Unbekannt') {
+                // Try to find user by ID again
+                const user = staticData.users.find(u => u.id == event.userId);
+                userName = user ? user.name : 'Unbekannt';
+            }
+            
+            // Format time to shorter format (HH.MM)
+            const timeParts = event.time.split(':');
+            const shortTime = `${timeParts[0]}.${timeParts[1]}`;
+            
             schreibdienstSection.innerHTML = `
-                <div class="schreibdienst-events-title">Schreibdienst</div>
-                <div class="schreibdienst-events-list">
-                    ${eventsWithCreators.map(event => `
-                        <div class="schreibdienst-event-hover-item">
-                            <strong>${event.shift}</strong> ${event.time} - ${event.details}
-                            <div class="schreibdienst-event-hover-creator">by ${event.creatorName}</div>
-                        </div>
-                    `).join('')}
-                </div>
+                <div class="hover-info-schreibdienst-icon">T</div>
+                <div class="hover-info-schreibdienst-text">${shortTime} - ${event.details} mit ${userName}</div>
             `;
         };
     }
@@ -880,20 +1069,21 @@ const SchreibdienstFeature = (function() {
         addEvent: async function() {
             if (!currentUserId) return;
             
-            const detailsInput = document.getElementById('schreibdienst-event-details');
+            const titleInput = document.getElementById('schreibdienst-event-title');
             const dateInput = document.getElementById('schreibdienst-event-date');
             const timeInput = document.getElementById('schreibdienst-event-time');
-            const shiftInput = document.getElementById('schreibdienst-event-shift');
+            const userSelect = document.getElementById('schreibdienst-event-user');
             
-            if (!detailsInput || !dateInput || !timeInput || !shiftInput) return;
+            if (!titleInput || !dateInput || !timeInput || !userSelect) return;
             
-            const details = detailsInput.value.trim();
+            const title = titleInput.value.trim();
             const date = dateInput.value;
             const time = timeInput.value;
-            const shift = shiftInput.value;
+            const selectedUserId = userSelect.value;
+            const shift = determineShiftFromTime(time);
             
-            if (!details || !date || !time) {
-                alert('Please fill in all fields.');
+            if (!title || !date || !time || !selectedUserId) {
+                alert('Bitte füllen Sie alle Felder aus.');
                 return;
             }
             
@@ -913,8 +1103,8 @@ const SchreibdienstFeature = (function() {
                         date: date,
                         time: time,
                         shift_type: shift,
-                        details: details,
-                        user_id: currentUserId
+                        details: title,
+                        user_id: selectedUserId
                     })
                 });
                 
@@ -946,19 +1136,29 @@ const SchreibdienstFeature = (function() {
                 // Add event to local data
                 staticData.schreibdienstEvents[year][month][day].push({
                     id: createdEvent.id,
-                    details: details,
+                    details: title,
                     time: time,
                     shift: shift,
-                    userId: currentUserId
+                    userId: selectedUserId
                 });
                 
                 // Update UI
-                updateEventList();
                 updateEventIcons();
+                updateEventList();
                 
-                // Clear inputs
-                detailsInput.value = '';
+                // Reset inputs
+                titleInput.value = 'SID';
                 timeInput.value = '';
+                
+                // Keep modal open so user can see their event was added
+                
+                // Show success notification
+                if (typeof NotificationSystem !== 'undefined') {
+                    NotificationSystem.show({
+                        type: 'success',
+                        message: `Schreibdienst event "${title}" was successfully created.`
+                    });
+                }
                 
                 console.log('Schreibdienst event added successfully:', createdEvent);
             } catch (error) {
@@ -1003,8 +1203,8 @@ const SchreibdienstFeature = (function() {
                 }
                 
                 // Update UI
-                updateEventList();
                 updateEventIcons();
+                updateEventList();
                 
                 console.log('Schreibdienst event deleted successfully:', eventId);
             } catch (error) {

@@ -107,6 +107,20 @@ INSERT INTO `color_settings` (`id`, `name`, `value`, `created_by`, `created_at`,
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `color_presets`
+--
+
+CREATE TABLE `color_presets` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `colors` text NOT NULL COMMENT 'JSON blob with all color values',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_default` tinyint(1) DEFAULT 0 COMMENT 'System presets cannot be deleted'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `custom_events`
 --
 
@@ -376,6 +390,12 @@ ALTER TABLE `color_settings`
   ADD KEY `created_by` (`created_by`);
 
 --
+-- Indizes für die Tabelle `color_presets`
+--
+ALTER TABLE `color_presets`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `custom_events`
 --
 ALTER TABLE `custom_events`
@@ -457,6 +477,12 @@ ALTER TABLE `calendar_states`
 --
 ALTER TABLE `color_settings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT für Tabelle `color_presets`
+--
+ALTER TABLE `color_presets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT für Tabelle `custom_events`

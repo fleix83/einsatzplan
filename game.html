@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk Explorer - Collaborative Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 20px;
+            color: #000;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #000;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+
+        .accent {
+            color: #0066ff;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Challenge Card */
+        .challenge-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            min-height: 400px;
+            position: relative;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #0066ff;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .challenge-header {
+            margin-bottom: 25px;
+        }
+
+        .challenge-title {
+            font-size: 1.3em;
+            color: #000;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .scenario-box {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .selected-services {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 50px;
+            padding: 15px;
+            background: #fafafa;
+            border: 2px dashed #0066ff;
+            border-radius: 8px;
+            align-items: center;
+        }
+
+        .selected-service-tag {
+            background: #000;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: move;
+            transition: transform 0.2s;
+            font-size: 0.9em;
+        }
+
+        .selected-service-tag:hover {
+            transform: scale(1.05);
+        }
+
+        .remove-service {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .remove-service:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .placeholder-text {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Services Panel */
+        .services-panel {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            background: #fafafa;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #0066ff;
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .services-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .service-item {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            cursor: grab;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .service-item:hover {
+            background: white;
+            border-color: #0066ff;
+            transform: translateX(5px);
+        }
+
+        .service-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .service-name {
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .service-tag {
+            font-size: 0.75em;
+            background: #f0f0f0;
+            color: #666;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #0066ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0052cc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #333;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #fafafa;
+            border-color: #999;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            color: #000;
+            font-weight: 400;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5em;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        /* Confidence Rating */
+        .confidence-section {
+            margin: 20px 0;
+        }
+
+        .confidence-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .confidence-slider {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .confidence-value {
+            text-align: center;
+            font-size: 1.2em;
+            color: #0066ff;
+            font-weight: 500;
+        }
+
+        /* Inquiry Recap */
+        .inquiry-recap {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .inquiry-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .inquiry-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Reference Solution */
+        .reference-solution {
+            background: #0066ff;
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .solution-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .reference-services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .reference-service-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .reference-explanation {
+            font-size: 0.9em;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+
+        /* Peer Solutions */
+        .peer-solutions-section {
+            margin-top: 25px;
+        }
+
+        .peer-solutions-label {
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .peer-solution {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .peer-services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .peer-service-badge {
+            background: #f0f0f0;
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
+        .approval-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .approval-btn {
+            padding: 6px 20px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .approval-btn:hover {
+            background: #fafafa;
+        }
+
+        .approval-btn.approve:hover {
+            border-color: #0066ff;
+            color: #0066ff;
+            background: #f0f7ff;
+        }
+
+        .approval-btn.disapprove:hover {
+            border-color: #ff0066;
+            color: #ff0066;
+            background: #fff0f5;
+        }
+
+        .approval-btn.selected {
+            background: #0066ff;
+            color: white;
+            border-color: #0066ff;
+        }
+
+        .approval-btn.selected.disapprove {
+            background: #ff0066;
+            border-color: #ff0066;
+        }
+
+        /* Info Tooltip */
+        .info-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background: #0066ff;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 18px;
+            font-size: 0.8em;
+            cursor: help;
+            margin-left: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .services-panel {
+                order: 2;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Helpdesk <span class="accent">Explorer</span></h1>
+
+        <div class="main-layout">
+            <!-- Challenge Card -->
+            <div class="challenge-card">
+                <span class="status-badge">Aktiv</span>
+                
+                <div class="challenge-header">
+                    <h2 class="challenge-title">Anfrage #<span id="scenarioId">142</span></h2>
+                </div>
+
+                <div class="scenario-box" id="scenarioText">
+                    56-jähriger Mann, wohnhaft in Basel-Stadt, arbeitslos, Sozialhilfe, kann seine Rechnungen nicht mehr bezahlen. Er fragt nach Unterstützung oder Adressen.
+                </div>
+
+                <div class="selected-services" id="dropZone">
+                    <span class="placeholder-text">Services hier ablegen...</span>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="submitSolution()">
+                        Lösung einreichen
+                    </button>
+                    <button class="btn btn-secondary" onclick="skipScenario()">
+                        Überspringen
+                    </button>
+                </div>
+            </div>
+
+            <!-- Services Panel -->
+            <div class="services-panel">
+                <div class="search-box">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Suche...">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <div class="services-list" id="servicesList">
+                    <!-- Services will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Modal -->
+    <div class="modal" id="submitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-modal" onclick="closeModal('submitModal')">&times;</button>
+                <h3 class="modal-title">Lösung bewerten</h3>
+            </div>
+
+            <div class="confidence-section">
+                <label class="confidence-label">
+                    Wie sicher sind Sie mit Ihrer Antwort?
+                    <span class="info-icon" title="Diese Bewertung hilft uns, Wissenslücken zu identifizieren">?</span>
+                </label>
+                <input type="range" class="confidence-slider" id="confidenceSlider" min="0" max="100" value="50">
+                <div class="confidence-value"><span id="confidenceValue">50</span>%</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="showPeerReview()">
+                Weiter zur Peer-Review
+            </button>
+        </div>
+    </div>
+
+    <!-- Peer Review Modal -->
+    <div class="modal" id="peerReviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-modal" onclick="closeModal('peerReviewModal')">&times;</button>
+                <h3 class="modal-title">Lösungsvorschläge</h3>
+            </div>
+
+            <!-- Inquiry Recap -->
+            <div class="inquiry-recap">
+                <div class="inquiry-title">Anfrage #<span id="modalScenarioId">142</span></div>
+                <div class="inquiry-text" id="modalScenarioText">
+                    56-jähriger Mann, wohnhaft in Basel-Stadt, arbeitslos, Sozialhilfe, kann seine Rechnungen nicht mehr bezahlen. Er fragt nach Unterstützung oder Adressen.
+                </div>
+            </div>
+
+            <!-- Reference Solution -->
+            <div class="reference-solution">
+                <div class="solution-label">Referenzlösung</div>
+                <div class="reference-services" id="referenceServices">
+                    <span class="reference-service-badge">Stiftung Winterhilfe</span>
+                    <span class="reference-service-badge">PlusMinus Budget- und Schuldenberatung</span>
+                    <span class="reference-service-badge">Sozialhilfe Basel-Stadt</span>
+                </div>
+                <div class="reference-explanation">
+                    Diese Kombination bietet sofortige finanzielle Unterstützung (Winterhilfe), langfristige Schuldenberatung (PlusMinus) und Abklärung weiterer Sozialleistungen (Sozialhilfe).
+                </div>
+            </div>
+
+            <!-- Peer Solutions -->
+            <div class="peer-solutions-section">
+                <div class="peer-solutions-label">Team Lösungen (anonym)</div>
+                <div id="peerSolutions">
+                    <!-- Peer solutions will be populated here -->
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="nextScenario()" style="margin-top: 20px;">
+                Nächstes Szenario
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const services = [
+            { id: 1, name: 'Stiftung Winterhilfe', tags: ['#finanzielle-hilfe', '#notfall'] },
+            { id: 2, name: 'PlusMinus Budget- und Schuldenberatung', tags: ['#schulden', '#beratung'] },
+            { id: 3, name: 'Caritas Basel', tags: ['#sozialberatung', '#integration'] },
+            { id: 4, name: 'Sozialhilfe Basel-Stadt', tags: ['#sozialhilfe', '#grundsicherung'] },
+            { id: 5, name: 'RAV Basel-Stadt', tags: ['#arbeit', '#stellensuche'] },
+            { id: 6, name: 'Pro Senectute', tags: ['#senioren', '#beratung'] },
+            { id: 7, name: 'Rotes Kreuz Basel', tags: ['#gesundheit', '#notfall'] },
+            { id: 8, name: 'Heilsarmee', tags: ['#obdachlosigkeit', '#essen'] },
+            { id: 9, name: 'Contact Netz', tags: ['#sucht', '#beratung'] },
+            { id: 10, name: 'Familea', tags: ['#familie', '#kinder'] },
+            { id: 11, name: 'GGG Migration', tags: ['#migration', '#integration'] },
+            { id: 12, name: 'Tagesstruktur Basel', tags: ['#tagesstruktur', '#beschäftigung'] }
+        ];
+
+        const scenarios = [
+            {
+                id: 142,
+                text: "56-jähriger Mann, wohnhaft in Basel-Stadt, arbeitslos, Sozialhilfe, kann seine Rechnungen nicht mehr bezahlen. Er fragt nach Unterstützung oder Adressen.",
+                reference: ['Stiftung Winterhilfe', 'PlusMinus Budget- und Schuldenberatung', 'Sozialhilfe Basel-Stadt'],
+                explanation: "Diese Kombination bietet sofortige finanzielle Unterstützung (Winterhilfe), langfristige Schuldenberatung (PlusMinus) und Abklärung weiterer Sozialleistungen (Sozialhilfe)."
+            },
+            {
+                id: 143,
+                text: "Alleinerziehende Mutter mit 2 Kindern, kürzlich getrennt, sucht dringend Kinderbetreuung und finanzielle Unterstützung.",
+                reference: ['Familea', 'Caritas Basel', 'Sozialhilfe Basel-Stadt'],
+                explanation: "Familea bietet spezialisierte Unterstützung für Familien, Caritas kann bei der Erstberatung helfen, und die Sozialhilfe klärt finanzielle Ansprüche ab."
+            },
+            {
+                id: 144,
+                text: "Junger Erwachsener, 22 Jahre, Suchtproblematik, möchte Entzug machen und braucht Unterstützung bei der Wohnungssuche.",
+                reference: ['Contact Netz', 'Heilsarmee', 'Sozialhilfe Basel-Stadt'],
+                explanation: "Contact Netz ist spezialisiert auf Suchtberatung, die Heilsarmee kann bei der Wohnungssuche helfen, und die Sozialhilfe unterstützt finanziell."
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+        let selectedServices = [];
+        let draggedService = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderServices();
+            setupDragAndDrop();
+            setupSearch();
+            setupConfidenceSlider();
+        });
+
+        // Render services list
+        function renderServices() {
+            const container = document.getElementById('servicesList');
+            container.innerHTML = services.map(service => `
+                <div class="service-item" draggable="true" data-service-id="${service.id}">
+                    <div class="service-name">${service.name}</div>
+                    <div class="service-tags">
+                        ${service.tags.map(tag => `<span class="service-tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Setup drag and drop
+        function setupDragAndDrop() {
+            const dropZone = document.getElementById('dropZone');
+            const serviceItems = document.querySelectorAll('.service-item');
+
+            serviceItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+
+            dropZone.addEventListener('dragover', handleDragOver);
+            dropZone.addEventListener('drop', handleDrop);
+        }
+
+        function handleDragStart(e) {
+            draggedService = {
+                id: parseInt(e.target.dataset.serviceId),
+                name: e.target.querySelector('.service-name').textContent
+            };
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (draggedService && !selectedServices.find(s => s.id === draggedService.id)) {
+                selectedServices.push(draggedService);
+                updateSelectedServices();
+            }
+        }
+
+        function updateSelectedServices() {
+            const dropZone = document.getElementById('dropZone');
+            
+            if (selectedServices.length === 0) {
+                dropZone.innerHTML = '<span class="placeholder-text">Services hier ablegen...</span>';
+            } else {
+                dropZone.innerHTML = selectedServices.map(service => `
+                    <div class="selected-service-tag">
+                        ${service.name}
+                        <button class="remove-service" onclick="removeService(${service.id})">×</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function removeService(id) {
+            selectedServices = selectedServices.filter(s => s.id !== id);
+            updateSelectedServices();
+        }
+
+        // Search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const serviceItems = document.querySelectorAll('.service-item');
+                
+                serviceItems.forEach(item => {
+                    const name = item.querySelector('.service-name').textContent.toLowerCase();
+                    const tags = Array.from(item.querySelectorAll('.service-tag'))
+                        .map(tag => tag.textContent.toLowerCase()).join(' ');
+                    
+                    if (name.includes(searchTerm) || tags.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Confidence slider
+        function setupConfidenceSlider() {
+            const slider = document.getElementById('confidenceSlider');
+            const value = document.getElementById('confidenceValue');
+            
+            slider.addEventListener('input', function() {
+                value.textContent = this.value;
+            });
+        }
+
+        // Submit solution
+        function submitSolution() {
+            if (selectedServices.length === 0) {
+                alert('Bitte wählen Sie mindestens einen Service aus.');
+                return;
+            }
+            openModal('submitModal');
+        }
+
+        // Show peer review
+        function showPeerReview() {
+            closeModal('submitModal');
+            
+            const scenario = scenarios[currentScenarioIndex];
+            
+            // Update modal with scenario info
+            document.getElementById('modalScenarioId').textContent = scenario.id;
+            document.getElementById('modalScenarioText').textContent = scenario.text;
+            
+            // Update reference solution
+            document.getElementById('referenceServices').innerHTML = scenario.reference.map(service => 
+                `<span class="reference-service-badge">${service}</span>`
+            ).join('');
+            
+            document.querySelector('.reference-explanation').textContent = scenario.explanation;
+            
+            // Generate mock peer solutions
+            const peerSolutions = [
+                {
+                    services: ['Caritas Basel', 'RAV Basel-Stadt'],
+                    id: 'sol1'
+                },
+                {
+                    services: ['Stiftung Winterhilfe', 'Caritas Basel', 'Pro Senectute'],
+                    id: 'sol2'
+                },
+                {
+                    services: ['PlusMinus Budget- und Schuldenberatung', 'Sozialhilfe Basel-Stadt'],
+                    id: 'sol3'
+                }
+            ];
+            
+            const container = document.getElementById('peerSolutions');
+            container.innerHTML = peerSolutions.map((solution) => `
+                <div class="peer-solution">
+                    <div class="peer-services">
+                        ${solution.services.map(service => 
+                            `<span class="peer-service-badge">${service}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="approval-buttons">
+                        <button class="approval-btn approve" onclick="toggleApproval('${solution.id}', 'approve', this)">
+                            ✓ Zustimmen
+                        </button>
+                        <button class="approval-btn disapprove" onclick="toggleApproval('${solution.id}', 'disapprove', this)">
+                            ✗ Ablehnen
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            openModal('peerReviewModal');
+        }
+
+        // Toggle approval
+        function toggleApproval(solutionId, type, button) {
+            // Remove existing selections for this solution
+            const parent = button.parentElement;
+            parent.querySelectorAll('.approval-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selection to clicked button
+            button.classList.add('selected');
+            
+            // In a real app, this would send to backend
+            console.log(`Solution ${solutionId}: ${type}`);
+        }
+
+        // Skip scenario
+        function skipScenario() {
+            if (confirm('Möchten Sie dieses Szenario wirklich überspringen?')) {
+                nextScenario();
+            }
+        }
+
+        // Next scenario
+        function nextScenario() {
+            closeModal('peerReviewModal');
+            currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
+            const scenario = scenarios[currentScenarioIndex];
+            
+            document.getElementById('scenarioId').textContent = scenario.id;
+            document.getElementById('scenarioText').textContent = scenario.text;
+            
+            selectedServices = [];
+            updateSelectedServices();
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal on background click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
