@@ -1864,7 +1864,8 @@ function updateFrozenStateUI() {
             calendar.classList.add('calendar-frozen');
             
             // Set page title to include frozen indicator
-            document.title = `🔒 ${getMonthName(currentMonth)} ${currentYear} - Calendar Scheduler`;
+            document.title = `🔒 ${getMonthName(currentMonth)} ${currentYear} - Einsatzplan`;
+            
             
             // Disable shift assignment dropdowns for non-backoffice users
             if (!isBackofficeUser()) {
@@ -1889,7 +1890,8 @@ function updateFrozenStateUI() {
             calendar.classList.remove('calendar-frozen');
             
             // Reset page title
-            document.title = `Calendar Scheduler - ${getMonthName(currentMonth)} ${currentYear}`;
+            document.title = `Einsatzplan - ${getMonthName(currentMonth)} ${currentYear}`;
+            
             
             // Enable all shift assignment dropdowns
             const dayCards = calendar.querySelectorAll('.day-card');
@@ -1915,6 +1917,7 @@ function isBackofficeUser() {
         return false;
     }
 }
+
 
 // Function to add freeze toggle button to controls
 function addFreezeButton() {
@@ -2814,9 +2817,18 @@ function setupMobileMenu() {
       mobileAuthButton.addEventListener('click', () => {
         // Toggle authentication state (same as main auth button)
         if (AuthManager.isAuthenticated()) {
+          console.log('Mobile logout clicked - calling logout and stopping execution');
+          // Set flag immediately to prevent any further execution
+          window._logoutInProgress = true;
           AuthManager.logout();
+          return; // Stop execution immediately after logout
         } else {
-            AuthManager.showLoginDialog();
+          // Check if logout is in progress to prevent showLoginDialog
+          if (window._logoutInProgress) {
+            console.log('Logout in progress, ignoring showLoginDialog call');
+            return;
+          }
+          AuthManager.showLoginDialog();
         }
         closeSidebar(); // Close the sidebar after action
       });
@@ -3336,12 +3348,12 @@ function updateDayCard(day) {
     
     if (customEvents.length > 0) {
         customEvents.forEach(event => {
-            // Parse time and determine if it's before 14:30
+            // Parse time and determine if it's before 14:00
             const timeParts = event.time.split(':');
             const hour = parseInt(timeParts[0]);
             const minute = parseInt(timeParts[1]);
             const totalMinutes = hour * 60 + minute;
-            const cutoffMinutes = 14 * 60 + 30; // 14:30 in minutes
+            const cutoffMinutes = 14 * 60; // 14:00 in minutes
             
             // Format time for display
             const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
@@ -3356,10 +3368,10 @@ function updateDayCard(day) {
             
             // Add to appropriate shift based on time
             if (totalMinutes < cutoffMinutes && shiftLeft) {
-                // Event before 14:30 - add to E1 (shift-left)
+                // Event before 14:00 - add to E1 (shift-left)
                 shiftLeft.appendChild(eventElement);
             } else if (shiftRight) {
-                // Event after 14:30 - add to E2 (shift-right)
+                // Event at/after 14:00 - add to E2 (shift-right)
                 shiftRight.appendChild(eventElement);
             }
         });
@@ -4014,14 +4026,29 @@ function showMobileModal(day, shiftType, shiftElement) {
                 </div>
                 ${e1Events.length > 0 ? `
                     <div class="shift-events-list">
-                        <div class="shift-events-title">Schreibdienst Events</div>
                         ${e1Events.map(event => {
-                            const creator = staticData.users.find(u => u.id === event.userId);
+                            // More robust user finding with debugging
+                            const creator = staticData.users.find(u => u.id == event.userId);
+                            
+                            // Debug log if user not found
+                            if (!creator) {
+                                console.log('Mobile E1: User not found for event:', {
+                                    eventUserId: event.userId,
+                                    eventUserIdType: typeof event.userId,
+                                    availableUsers: staticData.users.map(u => ({id: u.id, idType: typeof u.id, name: u.name}))
+                                });
+                            }
+                            
+                            // Format time to HH.MM format
+                            const timeParts = event.time.split(':');
+                            const formattedTime = `${timeParts[0]}.${timeParts[1]}`;
                             return `
                                 <div class="shift-event-item">
-                                    <div class="shift-event-time">${event.time}</div>
-                                    <div class="shift-event-details">${event.details}</div>
-                                    <div class="shift-event-creator">by ${creator ? creator.name : 'Unknown'}</div>
+                                    <div class="shift-event-title">Schreibdienst Einsatz</div>
+                                    <div class="shift-event-content">
+                                        <div class="shift-event-time">${formattedTime} - ${event.details}</div>
+                                        <div class="shift-event-creator">bei ${creator ? creator.name : 'Unbekannt'}</div>
+                                    </div>
                                 </div>
                             `;
                         }).join('')}
@@ -4052,14 +4079,29 @@ function showMobileModal(day, shiftType, shiftElement) {
                 </div>
                 ${e2Events.length > 0 ? `
                     <div class="shift-events-list">
-                        <div class="shift-events-title">Schreibdienst Events</div>
                         ${e2Events.map(event => {
-                            const creator = staticData.users.find(u => u.id === event.userId);
+                            // More robust user finding with debugging
+                            const creator = staticData.users.find(u => u.id == event.userId);
+                            
+                            // Debug log if user not found
+                            if (!creator) {
+                                console.log('Mobile E2: User not found for event:', {
+                                    eventUserId: event.userId,
+                                    eventUserIdType: typeof event.userId,
+                                    availableUsers: staticData.users.map(u => ({id: u.id, idType: typeof u.id, name: u.name}))
+                                });
+                            }
+                            
+                            // Format time to HH.MM format
+                            const timeParts = event.time.split(':');
+                            const formattedTime = `${timeParts[0]}.${timeParts[1]}`;
                             return `
                                 <div class="shift-event-item">
-                                    <div class="shift-event-time">${event.time}</div>
-                                    <div class="shift-event-details">${event.details}</div>
-                                    <div class="shift-event-creator">by ${creator ? creator.name : 'Unknown'}</div>
+                                    <div class="shift-event-title">Schreibdienst Einsatz</div>
+                                    <div class="shift-event-content">
+                                        <div class="shift-event-time">${formattedTime} - ${event.details}</div>
+                                        <div class="shift-event-creator">bei ${creator ? creator.name : 'Unbekannt'}</div>
+                                    </div>
                                 </div>
                             `;
                         }).join('')}
@@ -4391,6 +4433,33 @@ function initializeLegendModal() {
         if (event.key === 'Escape') {
             hideLegendModal();
         }
+    });
+
+    // Initialize legend tabs
+    initializeLegendTabs();
+}
+
+function initializeLegendTabs() {
+    const tabs = document.querySelectorAll('.legend-tab');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const targetTab = this.dataset.tab;
+
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.legend-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.legend-tab-content').forEach(c => c.classList.remove('active'));
+
+            // Add active class to clicked tab
+            this.classList.add('active');
+
+            // Show corresponding content
+            const contentId = targetTab + 'Tab';
+            const content = document.getElementById(contentId);
+            if (content) {
+                content.classList.add('active');
+            }
+        });
     });
 }
 

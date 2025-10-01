@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Einsatzplan Kalender</title>
+    <title>Einsatzplan</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
     <script src="dateUtility.js"></script>
 </head>
@@ -264,64 +265,142 @@
         <div class="legend-modal-content">
             <button class="legend-close-button" id="legendCloseButton">×</button>
             <h2>Legende</h2>
-            
-            <div class="legend-sections">
-                <div class="legend-section">
-                    <h3>Einsätze alle</h3>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-full"></div>
-                            <span>Doppelt besetzt</span>
+
+            <!-- Tab Navigation -->
+            <div class="legend-tabs">
+                <button class="legend-tab active" data-tab="farben">Farben</button>
+                <button class="legend-tab" data-tab="anleitung">Anleitung</button>
+            </div>
+
+            <!-- Tab Content: Farben -->
+            <div class="legend-tab-content active" id="farbenTab">
+                <div class="legend-sections">
+                    <div class="legend-section">
+                        <h3>Einsätze alle</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-full"></div>
+                                <span>Doppelt besetzt</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-single"></div>
+                                <span>Einfach besetzt</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-starter"></div>
+                                <span>Starter einfach besetzt</span>
+                            </div>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-single"></div>
-                            <span>Einfach besetzt</span>
+                    </div>
+
+                    <div class="legend-section">
+                        <h3>Einsätze individuell, Klick auf User</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-individual-full"></div>
+                                <span>Individueller Einsatz doppelt besetzt</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-individual-single"></div>
+                                <span>Individueller Einsatz einfach besetzt</span>
+                            </div>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-starter"></div>
-                            <span>Starter einfach besetzt</span>
+                    </div>
+
+                    <div class="legend-section">
+                        <h3>Ferien Balken über Einsatz</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-holiday-2"></div>
+                                <span>max 2 Freiwillige in Ferien</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-holiday-4"></div>
+                                <span>max 4 Freiwillige in Ferien</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-holiday-more"></div>
+                                <span>über 4 Freiwillige in Ferien</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="legend-section">
+                        <h3>Namen auf Smartphone ein/ausblenden</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <img src="namen_icon.svg" class="legend-icon" alt="Namen Icon">
+                                <span>Auf roten Hintergrund tippen</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="legend-section">
-                    <h3>Einsätze individuell, Klick auf User</h3>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-individual-full"></div>
-                            <span>Individueller Einsatz doppelt besetzt</span>
+            </div>
+
+            <!-- Tab Content: Anleitung -->
+            <div class="legend-tab-content" id="anleitungTab">
+                <div class="anleitung-content">
+                    <div class="anleitung-section">
+                        <h3>Einsatz eintragen</h3>
+
+                        <div class="anleitung-subsection">
+                            <h4>Am Computer (grosser Bildschirm):</h4>
+                            <ol>
+                                <li>Klicke auf deinen Wunscheinsatz</li>
+                                <li>Wähle deinen Namen aus der Liste</li>
+                                <li>Klicke auf "Speichern"</li>
+                            </ol>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-individual-single"></div>
-                            <span>Individueller Einsatz einfach besetzt</span>
+
+                        <div class="anleitung-subsection">
+                            <h4>Auf dem Smartphone:</h4>
+                            <ol>
+                                <li>Klicke auf deinen Wunscheinsatz</li>
+                                <li>Wähle deinen Namen aus der Liste</li>
+                                <li>Fertig! (Speichern nicht nötig)</li>
+                            </ol>
+                        </div>
+
+                        <div class="anleitung-subsection">
+                            <h4>Austragen:</h4>
+                            <ol>
+                                <li>Klicke auf den kleinen blauen Text "Austragen" unter deinem Namen</li>
+                                <li>Dann auf "Speichern" klicken</li>
+                            </ol>
                         </div>
                     </div>
-                </div>
-                
-                <div class="legend-section">
-                    <h3>Ferien Balken über Einsatz</h3>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-holiday-2"></div>
-                            <span>max 2 Freiwillige in Ferien</span>
+
+                    <div class="anleitung-section">
+                        <h3>Einsätze anzeigen</h3>
+
+                        <div class="anleitung-subsection">
+                            <h4>Am Computer:</h4>
+                            <p>Klicke links auf einen Namen → die Einsätze werden gelb hervorgehoben</p>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-holiday-4"></div>
-                            <span>max 4 Freiwillige in Ferien</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color legend-color-holiday-more"></div>
-                            <span>über 4 Freiwillige in Ferien</span>
+
+                        <div class="anleitung-subsection">
+                            <h4>Auf dem Smartphone:</h4>
+                            <ol>
+                                <li>Klicke oben rechts auf das Menu</li>
+                                <li>Dann auf den gewünschten Namen</li>
+                            </ol>
                         </div>
                     </div>
-                </div>
-                
-                <div class="legend-section">
-                    <h3>Namen auf Smartphone anzeigen</h3>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <img src="namen_icon.svg" class="legend-icon" alt="Namen Icon">
-                            <span>Auf roten Hintergrund tippen</span>
+
+                    <div class="anleitung-section">
+                        <h3>Ferien eintragen</h3>
+
+                        <div class="anleitung-subsection">
+                            <ol>
+                                <li>Klicke in der Liste links auf das Sonnenschirm-Symbol neben deinem Namen</li>
+                                <li>Trage deine Ferien ein</li>
+                                <li>Sie erscheinen dann blau über dem Kalender</li>
+                            </ol>
+                        </div>
+
+                        <div class="anleitung-subsection">
+                            <h4>Ferien löschen:</h4>
+                            <p>Im Ferien-Menu auf das rote Kreuzchen klicken</p>
                         </div>
                     </div>
                 </div>
