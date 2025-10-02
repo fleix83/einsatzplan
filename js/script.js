@@ -3376,7 +3376,28 @@ function updateDayCard(day) {
             }
         });
     }
-    
+
+    // Handle double assignment icons
+    // Remove any existing icons first
+    const existingE1Icon = shiftLeft?.querySelector('.double-assignment-icon');
+    const existingE2Icon = shiftRight?.querySelector('.double-assignment-icon');
+    existingE1Icon?.remove();
+    existingE2Icon?.remove();
+
+    // Add icon to E1 if it has exactly 2 users
+    if (shiftLeft && e1Users.length === 2) {
+        const iconE1 = document.createElement('div');
+        iconE1.className = 'double-assignment-icon';
+        shiftLeft.appendChild(iconE1);
+    }
+
+    // Add icon to E2 if it has exactly 2 users
+    if (shiftRight && e2Users.length === 2) {
+        const iconE2 = document.createElement('div');
+        iconE2.className = 'double-assignment-icon';
+        shiftRight.appendChild(iconE2);
+    }
+
     // Handle user names display if enabled
     if (showUserNames) {
         renderUserNamesInShifts(shiftLeft, e1Users, 'E1');
