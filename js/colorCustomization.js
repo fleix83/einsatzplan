@@ -271,8 +271,6 @@ const ColorCustomization = {
 
             this.pickrInstances[config.key] = pickr;
         });
-
-        console.log('Pickr color pickers initialized:', Object.keys(this.pickrInstances));
     },
 
     /**
@@ -565,6 +563,7 @@ const ColorCustomization = {
                         <h2>Farben anpassen</h2>
                         <button class="color-modal-close">×</button>
                     </div>
+                    <div id="colorSaveStatus" class="color-save-status"></div>
                     <div class="color-modal-body">
                         <div class="color-preset-section">
                             <h3>Farbschemas</h3>
@@ -578,7 +577,10 @@ const ColorCustomization = {
                                 <button id="deletePresetBtn" class="preset-delete-btn" style="display: none;" title="Schema löschen">&times;</button>
                             </div>
 
-                            <button id="savePresetBtn" class="button-secondary save-preset-trigger">Neues Schema speichern</button>
+                            <div class="preset-action-buttons">
+                                <button id="savePresetBtn" class="button-secondary save-preset-trigger">Als Schema speichern</button>
+                                <button id="applyColorsTopBtn" class="button-primary apply-colors-btn">Anwenden</button>
+                            </div>
 
                             <div id="savePresetForm" class="save-preset-form" style="display: none;">
                                 <input type="text" id="presetNameInput" placeholder="Schema-Name eingeben..." maxlength="100">
@@ -662,10 +664,8 @@ const ColorCustomization = {
                     </div>
 
                     <div class="color-actions">
-                        <button id="saveColorsBtn" class="button-primary">Änderungen speichern</button>
+                        <button id="saveColorsBtn" class="button-primary">Anwenden</button>
                     </div>
-
-                    <div id="colorSaveStatus" class="color-save-status"></div>
                 </div>
             `;
 
@@ -685,6 +685,7 @@ const ColorCustomization = {
             });
             
             document.getElementById('saveColorsBtn').addEventListener('click', () => this.saveColorPreferences());
+            document.getElementById('applyColorsTopBtn').addEventListener('click', () => this.saveColorPreferences());
 
             // Setup preset functionality
             this.setupPresetEventListeners();
@@ -708,7 +709,7 @@ const ColorCustomization = {
         }
 
         this.loadColorPreferences().then(() => {
-            this.updateColorInputs();
+            // Pickr instances are already initialized with correct colors
             if (statusElement && statusElement.textContent === 'Farben werden geladen...') {
                 statusElement.textContent = '';
             }
@@ -1121,7 +1122,7 @@ const ColorCustomization = {
      */
     saveColorPreset: async function(name) {
         try {
-            const colors = this.getCurrentColorsFromForm();
+            const colors = this.getColorValuesFromPickr();
 
             const response = await fetch('api/color_presets.php', {
                 method: 'POST',
