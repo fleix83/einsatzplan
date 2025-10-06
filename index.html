@@ -212,7 +212,7 @@
 
 <!-- Mobile Legend Link - Fixed Position -->
 <a href="#" class="mobile-legend-link-fixed" id="mobileLegendButton">
-    Legende
+    Anleitung
 </a>
 
 <button class="mobile-menu-button" id="mobileMenuButton">
@@ -326,7 +326,7 @@
                 <span class="toggle-text">Namen anzeigen</span>
             </button>
             <button class="legend-toggle-button" id="legendToggleButton">
-                <span class="toggle-text">Legende</span>
+                <span class="toggle-text">Anleitung</span>
             </button>
         </div>
         <div class="calendar" id="calendar"></div>
@@ -409,81 +409,16 @@
     <div class="legend-modal" id="legendModal">
         <div class="legend-modal-content">
             <button class="legend-close-button" id="legendCloseButton">×</button>
-            <h2>Legende</h2>
+            <h2>Anleitung</h2>
 
             <!-- Tab Navigation -->
             <div class="legend-tabs">
-                <button class="legend-tab active" data-tab="farben">Farben</button>
-                <button class="legend-tab" data-tab="anleitung">Anleitung</button>
-            </div>
-
-            <!-- Tab Content: Farben -->
-            <div class="legend-tab-content active" id="farbenTab">
-                <div class="legend-sections">
-                    <div class="legend-section">
-                        <h3>Einsätze alle</h3>
-                        <div class="legend-items">
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-full"></div>
-                                <span>Doppelt besetzt</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-single"></div>
-                                <span>Einfach besetzt</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-starter"></div>
-                                <span>Starter einfach besetzt</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="legend-section">
-                        <h3>Einsätze individuell, Klick auf User</h3>
-                        <div class="legend-items">
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-individual-full"></div>
-                                <span>Individueller Einsatz doppelt besetzt</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-individual-single"></div>
-                                <span>Individueller Einsatz einfach besetzt</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="legend-section">
-                        <h3>Ferien Balken über Einsatz</h3>
-                        <div class="legend-items">
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-holiday-2"></div>
-                                <span>max 2 Freiwillige in Ferien</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-holiday-4"></div>
-                                <span>max 4 Freiwillige in Ferien</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color legend-color-holiday-more"></div>
-                                <span>über 4 Freiwillige in Ferien</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="legend-section">
-                        <h3>Namen auf Smartphone ein/ausblenden</h3>
-                        <div class="legend-items">
-                            <div class="legend-item">
-                                <img src="namen_icon.svg" class="legend-icon" alt="Namen Icon">
-                                <span>Auf roten Hintergrund tippen</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button class="legend-tab active" data-tab="anleitung">Anleitung</button>
+                <button class="legend-tab" data-tab="farben">Legende</button>
             </div>
 
             <!-- Tab Content: Anleitung -->
-            <div class="legend-tab-content" id="anleitungTab">
+            <div class="legend-tab-content active" id="anleitungTab">
                 <div class="anleitung-content">
                     <div class="anleitung-section">
                         <h3>Einsatz eintragen</h3>
@@ -546,6 +481,71 @@
                         <div class="anleitung-subsection">
                             <h4>Ferien löschen:</h4>
                             <p>Im Ferien-Menu auf das rote Kreuzchen klicken</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Farben -->
+            <div class="legend-tab-content" id="farbenTab">
+                <div class="legend-sections">
+                    <div class="legend-section">
+                        <h3>Einsätze alle</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-full"></div>
+                                <span>Doppelt besetzt</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-single"></div>
+                                <span>Einfach besetzt</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-starter"></div>
+                                <span>Starter einfach besetzt</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="legend-section">
+                        <h3>Einsätze individuell, Klick auf User</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-individual-full"></div>
+                                <span>Individueller Einsatz doppelt besetzt</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-individual-single"></div>
+                                <span>Individueller Einsatz einfach besetzt</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="legend-section">
+                        <h3>Ferien Balken über Einsatz</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-holiday-2"></div>
+                                <span>max 2 Freiwillige in Ferien</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-holiday-4"></div>
+                                <span>max 4 Freiwillige in Ferien</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color legend-color-holiday-more"></div>
+                                <span>über 4 Freiwillige in Ferien</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="legend-section">
+                        <h3>Namen auf Smartphone ein/ausblenden</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <img src="namen_icon.svg" class="legend-icon" alt="Namen Icon">
+                                <span>Auf roten Hintergrund tippen</span>
+                            </div>
                         </div>
                     </div>
                 </div>

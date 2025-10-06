@@ -669,16 +669,20 @@ body.frozen-state {
 /* Double assignment icon */
 .double-assignment-icon {
     position: absolute;
-    top: 3px;
-    right: 3px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 26px;
     height: 26px;
     background-color: var(--background-primary);
-    border-radius: 50%;
-    background-image: url('hands.svg');
-    background-size: 17px 17px;
-    background-position: center;
-    background-repeat: no-repeat;
+    -webkit-mask-image: url('hands.svg');
+    mask-image: url('hands.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
     z-index: 10;
     pointer-events: none;
 }
@@ -3589,7 +3593,10 @@ body.frozen-state {
         cursor: pointer;
         text-decoration: none;
         transition: all 0.2s ease;
-        line-height: 34px; /* Center vertically with avatar */
+        line-height: 25px;
+        background: #ee6361;
+        padding: 5px 6px;
+        border-radius: 12px;
     }
 
     .mobile-legend-link-fixed:hover {
@@ -5959,9 +5966,9 @@ body.frozen-state {
 
 /* Desktop Legend Toggle Button */
 .legend-toggle-button {
-    background: rgb(13 7 7 / 5%);
+    background: var(--color-full);
     border: none;
-    color: #838080;
+    color: white;
     font-size: 16px;
     font-family: inherit;
     cursor: pointer;
