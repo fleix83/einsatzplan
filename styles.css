@@ -3248,11 +3248,11 @@ body.frozen-state {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 0 6px 0 6px;
+    background-color: var(--hover-bg-single);
+    color: #828080;
+    font-size: 13px;
+    padding: 15px 13px 15px 18px;
+    border-radius: 0 6px 0 34px;
     font-weight: bold;
 }
 
@@ -5037,15 +5037,41 @@ body.frozen-state {
     #colorCustomizationModal {
         width: 100% !important;
         height: 100vh !important;
-        background-color: rgba(0, 0, 0, 0.1) !important;
+        background-color: transparent !important;
+        pointer-events: auto !important; /* Enable clicks for close-on-outside functionality */
+    }
+
+    /* Create clickable overlay that covers everything except the 60px gap */
+    #colorCustomizationModal::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 60px;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 10000;
+        pointer-events: auto;
     }
 
     .color-modal-content {
-        width: 100%;
-        height: 100vh;
-        margin: 0;
+        width: calc(100% - 60px) !important;
+        height: 100vh !important;
+        margin: 0 !important;
         max-height: 100vh;
         border-radius: 0;
+        position: fixed !important;
+        left: 60px !important;
+        right: 0 !important;
+        top: 0 !important;
+        z-index: 10001 !important; /* Above detailed-card and overlay to prevent conflicts */
+        pointer-events: auto !important; /* Re-enable clicks on the modal itself */
+    }
+
+    /* Hide mobile-names-toggle-overlay when color modal is open */
+    #colorCustomizationModal[style*="display: block"] ~ .mobile-names-toggle-overlay,
+    body.color-modal-open .mobile-names-toggle-overlay {
+        display: none !important;
     }
 
     .color-modal-body {
@@ -5064,6 +5090,30 @@ body.frozen-state {
 
     .color-actions button {
         padding: 8px 16px;
+    }
+
+    /* Disable drag cursor on mobile */
+    .color-modal-header {
+        cursor: default !important;
+    }
+
+    /* Ensure Pickr color picker popup appears above modal content */
+    .pcr-app {
+        z-index: 10002 !important;
+    }
+
+    /* Ensure dropdown appears above name display and other elements */
+    .preset-dropdown,
+    .color-modal-content select,
+    .color-preset-section select {
+        position: relative;
+        z-index: 10003 !important;
+    }
+
+    /* Ensure the preset section has proper stacking */
+    .color-preset-section {
+        position: relative;
+        z-index: 10002 !important;
     }
 }
 

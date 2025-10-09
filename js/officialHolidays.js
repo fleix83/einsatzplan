@@ -100,9 +100,9 @@ const OfficialHolidaysFeature = (function() {
                 .official-holiday-label {
                     position: static !important;
                     display: block !important;
-                    margin-bottom: 8px !important;
+                    margin-bottom: 0px !important;
                     z-index: auto !important;
-                    margin-top: 38px !important;
+                    margin-top: 36px !important;
                 }
             }
             
@@ -163,11 +163,11 @@ const OfficialHolidaysFeature = (function() {
                 border-radius: 3px;
                 margin-top: 52px;
                 font-weight: 600;
-                font-size: 12px;
+                font-size: 9px;
                 color: #ffffff;
                 background-color: #3a6d99;
                 width: 100%;
-                padding: 4px 5px;
+                padding: 4px 2px;
             }
             
             .official-holiday-input,

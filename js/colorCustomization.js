@@ -117,12 +117,18 @@ const ColorCustomization = {
     makeColorModalDraggable: function() {
         const modal = document.getElementById('colorCustomizationModal');
         if (!modal) return;
-        
+
         const modalContent = modal.querySelector('.color-modal-content');
         const header = modal.querySelector('.color-modal-header');
-        
+
         if (!modalContent || !header) return;
-        
+
+        // Skip draggable functionality on mobile devices (768px or less)
+        if (window.innerWidth <= 768) {
+            console.log('Skipping draggable modal on mobile');
+            return;
+        }
+
         // Make sure the content is properly positioned
         // Position the modal content with fixed positioning instead of absolute
         modalContent.style.position = 'fixed';
@@ -130,7 +136,7 @@ const ColorCustomization = {
         modalContent.style.left = '50%';
         modalContent.style.transform = 'translateX(-50%)';
         modalContent.style.margin = '0';
-        
+
         // Make the header look draggable
         header.style.cursor = 'move';
         
@@ -673,14 +679,17 @@ const ColorCustomization = {
 
             // Add event listeners
             modal.querySelector('.color-modal-close').addEventListener('click', () => {
-                modal.style.display = 'none';
-                this.applyColorPreferences();
+                this.closeColorModal();
             });
-            
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                    this.applyColorPreferences();
+
+            // Click outside to close (works on both desktop and mobile)
+            modal.addEventListener('click', (e) => {
+                // Close if clicking on the modal background (not the content)
+                if (e.target === modal || e.target.classList.contains('color-modal-content') === false && !modal.querySelector('.color-modal-content').contains(e.target)) {
+                    // Only close if we clicked the backdrop, not inside the modal content
+                    if (e.target === modal) {
+                        this.closeColorModal();
+                    }
                 }
             });
             
@@ -717,9 +726,28 @@ const ColorCustomization = {
 
         document.getElementById('colorCustomizationModal').style.display = 'block';
 
+        // Add class to body to hide mobile-names-toggle-overlay on mobile
+        document.body.classList.add('color-modal-open');
+
         setTimeout(() => {
             this.makeColorModalDraggable();
         }, 200);
+    },
+
+    /**
+     * Close color customization modal
+     */
+    closeColorModal: function() {
+        const modal = document.getElementById('colorCustomizationModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+
+        // Remove class from body to show mobile-names-toggle-overlay again
+        document.body.classList.remove('color-modal-open');
+
+        // Apply color preferences (revert any unsaved changes)
+        this.applyColorPreferences();
     },
 
     /**
