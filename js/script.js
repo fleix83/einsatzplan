@@ -1719,6 +1719,9 @@ async function initializeApp() {
         
         // Update URL to match current view
         updateUrlParams();
+
+        // Initialize names toggle button state and body class
+        updateNamesToggleButton();
     } catch (error) {
         console.error('Error initializing application:', error);
         // Show error message to user
@@ -2449,6 +2452,14 @@ function updateNamesToggleButton() {
         if (textElement) {
             textElement.textContent = showUserNames ? 'Namen ausblenden' : 'Namen anzeigen';
         }
+    }
+
+    // Toggle body class to hide/show additional elements via CSS
+    // When names are VISIBLE, hide other elements for a cleaner view
+    if (showUserNames) {
+        document.body.classList.add('names-visible');
+    } else {
+        document.body.classList.remove('names-visible');
     }
 }
 

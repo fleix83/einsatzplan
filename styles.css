@@ -6716,3 +6716,19 @@ body.frozen-state {
         width: 100px;
     }
 }
+
+/* Hide elements when names are VISIBLE - toggled by name display button */
+/* When user shows names, hide other visual elements for a cleaner view */
+body.names-visible .double-assignment-icon,
+body.names-visible .shift-custom-event,
+body.names-visible .backoffice-holiday-stripe,
+body.names-visible .mobile-custom-events,
+body.names-visible .mobile-holidays-section,
+body.names-visible .shift-events-list {
+    display: none !important;
+}
+
+/* Ensure specialist dots remain visible even when names are shown */
+body.names-visible .specialist-event-indicator {
+    display: block !important;
+}
