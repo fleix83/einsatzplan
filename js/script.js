@@ -1012,6 +1012,7 @@ async function updateUserProperty(userId, property, value) {
         const apiPropertyMap = {
             'isStarter': 'is_starter',
             'isSchreibdienst': 'is_schreibdienst',
+            'isSpecialist': 'is_specialist',
             'role': 'role',
             'active': 'active'
         };
@@ -1052,7 +1053,7 @@ async function updateUserProperty(userId, property, value) {
         const userIndex = staticData.users.findIndex(u => u.id === userId);
         if (userIndex !== -1) {
             // Convert to boolean for flag properties
-            if (property === 'isStarter' || property === 'isSchreibdienst') {
+            if (property === 'isStarter' || property === 'isSchreibdienst' || property === 'isSpecialist') {
                 staticData.users[userIndex][property] = value === true || value === 'true' || value === 1;
             } else {
                 staticData.users[userIndex][property] = value;
@@ -1060,8 +1061,8 @@ async function updateUserProperty(userId, property, value) {
             
             console.log(`Lokale Daten für Benutzer ${userId} aktualisiert:`, staticData.users[userIndex]);
             
-            // If this is a flag change that affects colors, update all day cards
-            if (property === 'isStarter' || property === 'isSchreibdienst') {
+            // If this is a flag change that affects colors or display, update all day cards
+            if (property === 'isStarter' || property === 'isSchreibdienst' || property === 'isSpecialist') {
                 console.log(`Flag ${property} auf ${staticData.users[userIndex][property]} geändert, alle Tageskarten werden aktualisiert...`);
                 
                 // Force immediate refresh of all day cards
@@ -1155,6 +1156,13 @@ async function updateUserSchreibdienst(userId, isSchreibdienst) {
     // Convert checkbox boolean to integer for API if needed
     const value = typeof isSchreibdienst === 'boolean' ? isSchreibdienst : !!isSchreibdienst;
     await updateUserProperty(userId, 'isSchreibdienst', value);
+}
+
+// Update user specialist flag (using the general function)
+async function updateUserSpecialist(userId, isSpecialist) {
+    // Convert checkbox boolean to integer for API if needed
+    const value = typeof isSpecialist === 'boolean' ? isSpecialist : !!isSpecialist;
+    await updateUserProperty(userId, 'isSpecialist', value);
 }
 
 // Function to ensure schedule data exists for a day
@@ -1651,7 +1659,16 @@ async function initializeApp() {
         } else {
             console.warn('🏖️ HolidayFeature not found during initialization');
         }
-        
+
+        // Initialize Specialist Events Feature
+        if (typeof SpecialistEventsFeature !== 'undefined') {
+            console.log('[SPECIALIST] Initializing SpecialistEventsFeature');
+            await SpecialistEventsFeature.init();
+            console.log('[SPECIALIST] SpecialistEventsFeature initialized');
+        } else {
+            console.warn('[SPECIALIST] SpecialistEventsFeature not found during initialization');
+        }
+
         // Force another setupUI call to ensure button visibility is correct
         console.log('initializeApp: Calling setupUI again to ensure proper button visibility');
         setupUI();
@@ -2892,13 +2909,34 @@ function updateUserList() {
                 </div>
             `;
 
-            // Add holiday button
+            // Add specialist button first (only if user is specialist)
+            if (user.isSpecialist) {
+                const specialistBtn = document.createElement('button');
+                specialistBtn.className = 'specialist-btn';
+                specialistBtn.innerHTML = 'S';
+                specialistBtn.title = 'Specialist Einsätze verwalten';
+                specialistBtn.setAttribute('data-user-id', user.id);
+
+                // Add click handler for the specialist button
+                specialistBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent triggering the user selection
+                    if (typeof SpecialistEventsFeature !== 'undefined' && SpecialistEventsFeature.openSpecialistEventModal) {
+                        SpecialistEventsFeature.openSpecialistEventModal(user.id);
+                    } else {
+                        console.error('SpecialistEventsFeature is not available');
+                    }
+                });
+
+                userItem.appendChild(specialistBtn);
+            }
+
+            // Add holiday button after specialist button
             const holidayBtn = document.createElement('button');
             holidayBtn.className = 'holiday-btn';
             holidayBtn.innerHTML = '🏖️';
             holidayBtn.title = 'Ferien verwalten';
             holidayBtn.setAttribute('data-user-id', user.id);
-             
+
             // Add click handler for the holiday button
             holidayBtn.addEventListener('click', (e) => {
                 e.stopPropagation(); // Prevent triggering the user selection
@@ -2908,7 +2946,7 @@ function updateUserList() {
                     console.error('HolidayFeature is not available');
                 }
             });
-             
+
             userItem.appendChild(holidayBtn);
 
             // Add starter indicator (yellow dot) if applicable
@@ -3637,14 +3675,19 @@ function updateUserTable() {
                     </div>
                     <div class="flag-dropdown">
                         <label class="flag-option">
-                            <input type="checkbox" class="user-starter" 
+                            <input type="checkbox" class="user-starter"
                                    ${user.isStarter ? 'checked' : ''}>
                             <span>Starter</span>
                         </label>
                         <label class="flag-option">
-                            <input type="checkbox" class="user-schreibdienst" 
+                            <input type="checkbox" class="user-schreibdienst"
                                    ${user.isSchreibdienst ? 'checked' : ''}>
                             <span>Schreibdienst</span>
+                        </label>
+                        <label class="flag-option">
+                            <input type="checkbox" class="user-specialist"
+                                   ${user.isSpecialist ? 'checked' : ''}>
+                            <span>Specialist</span>
                         </label>
                     </div>
                 </div>
@@ -3673,7 +3716,15 @@ function updateUserTable() {
                 updateUserSchreibdienst(user.id, e.target.checked);
             });
         }
-        
+
+        // Specialist checkbox handler
+        const specialistCheckbox = row.querySelector('.user-specialist');
+        if (specialistCheckbox) {
+            specialistCheckbox.addEventListener('change', function(e) {
+                updateUserSpecialist(user.id, e.target.checked);
+            });
+        }
+
         // Make flag select toggleable
         const flagSelect = row.querySelector('.flag-select');
         if (flagSelect) {
@@ -3700,6 +3751,7 @@ function getFlagLabels(user) {
     const flags = [];
     if (user.isStarter) flags.push('Starter');
     if (user.isSchreibdienst) flags.push('Schreibdienst');
+    if (user.isSpecialist) flags.push('Specialist');
     return flags.length ? flags.join(', ') : 'No flags';
 }
 
@@ -3920,18 +3972,53 @@ function updateHoverInfo(day, show = true) {
         }
     }
 
+    // Add specialist events to E1 and E2 displays (mixed with shift users)
+    // Events before 14:00 go to E1, events at/after 14:00 go to E2
+    const specialistEvents = staticData.specialistEvents?.[currentYear]?.[currentMonth]?.[day] || [];
+
+    if (specialistEvents.length > 0) {
+        const cutoffMinutes = 14 * 60; // 14:00 in minutes
+
+        specialistEvents.forEach(event => {
+            // Parse time to determine which shift
+            const timeParts = event.time.split(':');
+            const hour = parseInt(timeParts[0]);
+            const minute = parseInt(timeParts[1]);
+            const totalMinutes = hour * 60 + minute;
+
+            // Format time for display
+            const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
+
+            const specialistDiv = document.createElement('div');
+            specialistDiv.className = 'shift-user';
+            specialistDiv.style.backgroundColor = 'white';
+            specialistDiv.style.color = 'var(--specialist, #984afe)';
+            specialistDiv.style.fontWeight = 'bold';
+            specialistDiv.textContent = `${event.userName} ${formattedTime}`;
+
+            // Add to appropriate shift based on time
+            if (totalMinutes < cutoffMinutes && e1Display) {
+                // Event before 14:00 - add to E1
+                e1Display.appendChild(specialistDiv);
+            } else if (e2Display) {
+                // Event at/after 14:00 - add to E2
+                e2Display.appendChild(specialistDiv);
+            }
+        });
+    }
+
     // Show the panel with the fade-in effect
     hoverPanel.classList.add('visible');
 
-    
+
     // Position the panel near the current day
     const dayCards = document.querySelectorAll('.day-card');
     const currentDayCard = Array.from(dayCards).find(card => parseInt(card.dataset.day) === day);
-    
+
     if (currentDayCard) {
         const rect = currentDayCard.getBoundingClientRect();
         const calendarRect = document.getElementById('calendar').getBoundingClientRect();
-        
+
         // Position the panel near but not directly on top of the day card
         // hoverPanel.style.top = `${rect.top - hoverPanel.offsetHeight - 10}px`;
         // hoverPanel.style.left = `${rect.left}px`;
@@ -4002,16 +4089,16 @@ function showMobileModal(day, shiftType, shiftElement) {
     // Get Schreibdienst events for this day
     let e1Events = [];
     let e2Events = [];
-    
+
     try {
         // Get all events for this day from schreibdienstEvents
-        if (staticData.schreibdienstEvents && 
-            staticData.schreibdienstEvents[currentYear] && 
-            staticData.schreibdienstEvents[currentYear][currentMonth] && 
+        if (staticData.schreibdienstEvents &&
+            staticData.schreibdienstEvents[currentYear] &&
+            staticData.schreibdienstEvents[currentYear][currentMonth] &&
             staticData.schreibdienstEvents[currentYear][currentMonth][day]) {
-            
+
             const dayEvents = staticData.schreibdienstEvents[currentYear][currentMonth][day];
-            
+
             // Separate events by shift
             e1Events = dayEvents.filter(event => event.shift === 'E1');
             e2Events = dayEvents.filter(event => event.shift === 'E2');
@@ -4019,6 +4106,27 @@ function showMobileModal(day, shiftType, shiftElement) {
     } catch (error) {
         console.error('Error accessing Schreibdienst events:', error);
     }
+
+    // Get Specialist events for this day
+    const specialistEvents = staticData.specialistEvents?.[currentYear]?.[currentMonth]?.[day] || [];
+
+    // Separate specialist events by shift time (14:00 cutoff)
+    const cutoffMinutes = 14 * 60; // 14:00 in minutes
+    const e1SpecialistEvents = [];
+    const e2SpecialistEvents = [];
+
+    specialistEvents.forEach(event => {
+        const timeParts = event.time.split(':');
+        const hour = parseInt(timeParts[0]);
+        const minute = parseInt(timeParts[1]);
+        const totalMinutes = hour * 60 + minute;
+
+        if (totalMinutes < cutoffMinutes) {
+            e1SpecialistEvents.push(event);
+        } else {
+            e2SpecialistEvents.push(event);
+        }
+    });
 
     // Build infoContainer content with Schreibdienst events included
     infoContainer.innerHTML = `
@@ -4029,7 +4137,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E1[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="1" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
                                 `<option value="${user.id}" ${dayData.E1[0] == user.id ? 'selected' : ''}>${user.name}</option>`
                             ).join('')}
                         </select>
@@ -4038,13 +4146,27 @@ function showMobileModal(day, shiftType, shiftElement) {
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E1[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="2" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
                                 `<option value="${user.id}" ${dayData.E1[1] == user.id ? 'selected' : ''}>${user.name}</option>`
                             ).join('')}
                         </select>
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E1[1] ? 'inline' : 'none'};">Austragen</span>
                     </div>
                 </div>
+                ${e1SpecialistEvents.length > 0 ? `
+                    <div class="specialist-events-list">
+                        ${e1SpecialistEvents.map(event => {
+                            // Format time to HH.MM format
+                            const timeParts = event.time.split(':');
+                            const formattedTime = `${timeParts[0]}.${timeParts[1]}`;
+                            return `
+                                <div class="specialist-event-mobile-item">
+                                    ${event.userName} ${formattedTime}h
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                ` : ''}
                 ${e1Events.length > 0 ? `
                     <div class="shift-events-list">
                         ${e1Events.map(event => {
@@ -4082,7 +4204,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E2[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="1" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
                                 `<option value="${user.id}" ${dayData.E2[0] == user.id ? 'selected' : ''}>${user.name}</option>`
                             ).join('')}
                         </select>
@@ -4091,13 +4213,27 @@ function showMobileModal(day, shiftType, shiftElement) {
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E2[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="2" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => 
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
                                 `<option value="${user.id}" ${dayData.E2[1] == user.id ? 'selected' : ''}>${user.name}</option>`
                             ).join('')}
                         </select>
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E2[1] ? 'inline' : 'none'};">Austragen</span>
                     </div>
                 </div>
+                ${e2SpecialistEvents.length > 0 ? `
+                    <div class="specialist-events-list">
+                        ${e2SpecialistEvents.map(event => {
+                            // Format time to HH.MM format
+                            const timeParts = event.time.split(':');
+                            const formattedTime = `${timeParts[0]}.${timeParts[1]}`;
+                            return `
+                                <div class="specialist-event-mobile-item">
+                                    ${event.userName} ${formattedTime}h
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                ` : ''}
                 ${e2Events.length > 0 ? `
                     <div class="shift-events-list">
                         ${e2Events.map(event => {

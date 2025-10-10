@@ -41,23 +41,23 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if ($isAdmin) {
             // Admin view - include reset token information
             $stmt = $conn->prepare("
-                SELECT id, name, email, role, is_starter, is_schreibdienst, active, max_shifts_per_week,
+                SELECT id, name, email, role, is_starter, is_schreibdienst, is_specialist, active, max_shifts_per_week,
                        reset_token, reset_token_expires,
-                       CASE 
+                       CASE
                            WHEN reset_token IS NOT NULL AND reset_token_expires > NOW() THEN 'active'
                            WHEN reset_token IS NOT NULL AND reset_token_expires <= NOW() THEN 'expired'
                            ELSE 'none'
                        END as reset_status
-                FROM users 
-                WHERE active = 1 
+                FROM users
+                WHERE active = 1
                 ORDER BY name
             ");
         } else {
             // Public view - basic info only
             $stmt = $conn->prepare("
-                SELECT id, name, role, is_starter, is_schreibdienst, active, max_shifts_per_week 
-                FROM users 
-                WHERE active = 1 
+                SELECT id, name, role, is_starter, is_schreibdienst, is_specialist, active, max_shifts_per_week
+                FROM users
+                WHERE active = 1
                 ORDER BY name
             ");
         }
@@ -84,6 +84,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 'role' => $row['role'],
                 'isStarter' => (bool)$row['is_starter'],
                 'isSchreibdienst' => (bool)$row['is_schreibdienst'],
+                'isSpecialist' => (bool)$row['is_specialist'],
                 'active' => (bool)$row['active'],
                 'maxShiftsPerWeek' => $row['max_shifts_per_week']
             ];
@@ -210,39 +211,41 @@ switch ($_SERVER['REQUEST_METHOD']) {
             // Hash the password for Backoffice users
             $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
             
-            $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, is_starter, is_schreibdienst) VALUES (?, ?, ?, ?, ?, ?)");
-            
+            $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, is_starter, is_schreibdienst, is_specialist) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
             if (!$stmt) {
                 http_response_code(500);
                 echo json_encode(['error' => 'Failed to prepare statement: ' . $conn->error]);
                 exit;
             }
-            
+
             // Set parameters
             $name = $data['name'];
             $email = $data['email'];
             $role = 'Backoffice';
             $isStarter = isset($data['isStarter']) ? (int)$data['isStarter'] : 0;
             $isSchreibdienst = isset($data['isSchreibdienst']) ? (int)$data['isSchreibdienst'] : 0;
-            
-            $stmt->bind_param("ssssii", $name, $email, $hashedPassword, $role, $isStarter, $isSchreibdienst);
+            $isSpecialist = isset($data['isSpecialist']) ? (int)$data['isSpecialist'] : 0;
+
+            $stmt->bind_param("ssssiii", $name, $email, $hashedPassword, $role, $isStarter, $isSchreibdienst, $isSpecialist);
         } else {
             // Regular users (Freiwillige) without password
-            $stmt = $conn->prepare("INSERT INTO users (name, role, is_starter, is_schreibdienst) VALUES (?, ?, ?, ?)");
-            
+            $stmt = $conn->prepare("INSERT INTO users (name, role, is_starter, is_schreibdienst, is_specialist) VALUES (?, ?, ?, ?, ?)");
+
             if (!$stmt) {
                 http_response_code(500);
                 echo json_encode(['error' => 'Failed to prepare statement: ' . $conn->error]);
                 exit;
             }
-            
+
             // Set parameters
             $name = $data['name'];
             $role = isset($data['role']) ? $data['role'] : 'Freiwillige';
             $isStarter = isset($data['isStarter']) ? (int)$data['isStarter'] : 0;
             $isSchreibdienst = isset($data['isSchreibdienst']) ? (int)$data['isSchreibdienst'] : 0;
-            
-            $stmt->bind_param("ssii", $name, $role, $isStarter, $isSchreibdienst);
+            $isSpecialist = isset($data['isSpecialist']) ? (int)$data['isSpecialist'] : 0;
+
+            $stmt->bind_param("ssiii", $name, $role, $isStarter, $isSchreibdienst, $isSpecialist);
         }
         
         if (!$stmt->execute()) {
@@ -314,6 +317,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             'role' => 's',  // string
             'is_starter' => 'i',  // integer (boolean)
             'is_schreibdienst' => 'i', // integer (boolean)
+            'is_specialist' => 'i', // integer (boolean)
             'active' => 'i', // integer (boolean)
             'max_shifts_per_week' => 'i' // integer
         ];
