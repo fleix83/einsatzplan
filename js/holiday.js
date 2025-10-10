@@ -81,22 +81,32 @@ const HolidayFeature = (function() {
                 color: white;
                 padding: 4px 6px;
                 border-radius: 3px;
-                font-size: 12px;
+                font-size: 10px;
                 font-weight: 600;
                 text-shadow: none;
                 width: 100%;
-                -webkit-line-clamp: 2; 
+                -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 white-space: nowrap;
                 overflow: hidden;
-                text-overflow: ellipsis;  
-                line-clamp: 2;  
+                text-overflow: ellipsis;
+                line-clamp: 2;
+            }
+
+            /* Hide mobile text on desktop */
+            .backoffice-holiday-text-mobile {
+                display: none;
             }
 
             @media screen and (max-width: 768px) {
+                /* Hide desktop text on mobile */
+                .backoffice-holiday-text-desktop {
+                    display: none;
+                }
 
-            .backoffice-holiday-text {
-                 font-size: 9px
+                /* Show mobile text on mobile */
+                .backoffice-holiday-text-mobile {
+                    display: inline;
                 }
             }
             
@@ -364,36 +374,51 @@ async function loadHolidays() {
             
             // Add backoffice stripes to bottom if needed
             if (backofficeHolidays.length > 0) {
-                // Create text for all backoffice users on holiday
-                const holidayText = backofficeHolidays.map(bh => `Ferien ${bh.userName}`).join(', ');
-                
+                // Create tooltip text with all backoffice users on holiday
+                const tooltipText = backofficeHolidays.map(bh => `Ferien ${bh.userName}`).join(', ');
+                // Create display texts (desktop and mobile versions)
+                const desktopText = 'Ferien Backoffice';
+                const mobileText = 'Ferien BO';
+
                 // Add stripe to left shift
                 if (shiftLeft) {
                     const backofficeStripeLeft = document.createElement('div');
                     backofficeStripeLeft.className = 'backoffice-holiday-stripe left-backoffice-stripe';
-                    backofficeStripeLeft.title = holidayText; // Tooltip for overflow
-                    
-                    // Create span with white background for the text
-                    const textSpan = document.createElement('span');
-                    textSpan.className = 'backoffice-holiday-text';
-                    textSpan.textContent = holidayText;
-                    backofficeStripeLeft.appendChild(textSpan);
-                    
+                    backofficeStripeLeft.title = tooltipText; // Tooltip shows all names
+
+                    // Create desktop text span
+                    const desktopSpan = document.createElement('span');
+                    desktopSpan.className = 'backoffice-holiday-text backoffice-holiday-text-desktop';
+                    desktopSpan.textContent = desktopText;
+                    backofficeStripeLeft.appendChild(desktopSpan);
+
+                    // Create mobile text span
+                    const mobileSpan = document.createElement('span');
+                    mobileSpan.className = 'backoffice-holiday-text backoffice-holiday-text-mobile';
+                    mobileSpan.textContent = mobileText;
+                    backofficeStripeLeft.appendChild(mobileSpan);
+
                     shiftLeft.appendChild(backofficeStripeLeft);
                 }
-                
+
                 // Add stripe to right shift
                 if (shiftRight) {
                     const backofficeStripeRight = document.createElement('div');
                     backofficeStripeRight.className = 'backoffice-holiday-stripe right-backoffice-stripe';
-                    backofficeStripeRight.title = holidayText; // Tooltip for overflow
-                    
-                    // Create span with white background for the text
-                    const textSpan = document.createElement('span');
-                    textSpan.className = 'backoffice-holiday-text';
-                    textSpan.textContent = holidayText;
-                    backofficeStripeRight.appendChild(textSpan);
-                    
+                    backofficeStripeRight.title = tooltipText; // Tooltip shows all names
+
+                    // Create desktop text span
+                    const desktopSpan = document.createElement('span');
+                    desktopSpan.className = 'backoffice-holiday-text backoffice-holiday-text-desktop';
+                    desktopSpan.textContent = desktopText;
+                    backofficeStripeRight.appendChild(desktopSpan);
+
+                    // Create mobile text span
+                    const mobileSpan = document.createElement('span');
+                    mobileSpan.className = 'backoffice-holiday-text backoffice-holiday-text-mobile';
+                    mobileSpan.textContent = mobileText;
+                    backofficeStripeRight.appendChild(mobileSpan);
+
                     shiftRight.appendChild(backofficeStripeRight);
                 }
             }
