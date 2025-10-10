@@ -1155,19 +1155,6 @@ body.frozen-state {
     flex-shrink: 0;
 }
 
-/* Holiday indicator dot */
-.holiday-indicator-dot {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    background-size: 4px 4px;
-    background-image: repeating-linear-gradient(-45deg, #2e9dff 0, #2e9dff 1px, #ffffff 0, #ffffff 50%);
-    margin-right: 7px;
-    display: none;
-    flex-shrink: 0;
-}
-
 /* Schreibdienst flag */
 .schreibdienst-flag {
     font-size: 0.8em;

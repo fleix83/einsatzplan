@@ -2957,13 +2957,6 @@ function updateUserList() {
                 userItem.querySelector('.user-item-content').append(starterIndicator);
             }
 
-            // Add holiday indicator dot (hidden by default)
-            const holidayDot = document.createElement('span');
-            holidayDot.className = 'holiday-indicator-dot';
-            holidayDot.dataset.userId = user.id;
-            holidayDot.title = 'Benutzer ist im Urlaub';
-            userItem.querySelector('.user-item-content').appendChild(holidayDot);
-
             // Add Schreibdienst flag if applicable (keeping this as text)
             if (user.isSchreibdienst) {
                 const schreibdienstFlag = document.createElement('span');
@@ -3823,13 +3816,6 @@ function createDayCard(day) {
         if (!isMobile()) {
             updateHoverInfo(day, true);
             updateCurrentDayDisplay(day);
-            
-            // Show holiday indicators for users on holiday
-            const usersOnHoliday = getUsersOnHolidayForDate(currentYear, currentMonth, day);
-            usersOnHoliday.forEach(userId => {
-                const dot = document.querySelector(`.holiday-indicator-dot[data-user-id="${userId}"]`);
-                if (dot) dot.style.display = 'inline-block';
-            });
         }
     });
     
@@ -3837,11 +3823,6 @@ function createDayCard(day) {
         if (!isMobile()) {
             updateHoverInfo(day, false);
             updateCurrentDayDisplay(); // Reset to default
-            
-            // Hide all holiday indicators
-            document.querySelectorAll('.holiday-indicator-dot').forEach(dot => {
-                dot.style.display = 'none';
-            });
         }
     });
 
@@ -4446,36 +4427,6 @@ function showMobileModal(day, shiftType, shiftElement) {
     // Finally, show modal and overlay
     modal.classList.add('active');
     overlay.classList.add('active');
-} 
-
-// Get users who are on holiday for a specific date
-function getUsersOnHolidayForDate(year, month, day) {
-    const usersOnHoliday = [];
-    
-    // Check if staticData and holidays exist
-    if (!staticData || !staticData.holidays) {
-        return usersOnHoliday;
-    }
-    
-    // Format the target date as YYYY-MM-DD for string comparison
-    const targetDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    
-    // Iterate through all users' holidays
-    Object.keys(staticData.holidays).forEach(userIdKey => {
-        const userHolidays = staticData.holidays[userIdKey];
-        if (!userHolidays) return;
-        
-        // Check each holiday period for this user
-        userHolidays.forEach(holiday => {
-            // Use string comparison for YYYY-MM-DD format dates
-            if (targetDateStr >= holiday.start && targetDateStr <= holiday.end) {
-                // Convert userIdKey back to number for consistency with existing code
-                usersOnHoliday.push(parseInt(userIdKey));
-            }
-        });
-    });
-    
-    return usersOnHoliday;
 }
 
 // Get detailed holiday information for mobile modal display
