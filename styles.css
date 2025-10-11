@@ -3574,7 +3574,7 @@ body.frozen-state {
         display: block;
         position: fixed;
         top: 11px;
-        right: 60px; /* 15px (avatar margin) + 34px (avatar width) + 11px (spacing) */
+        right: 153px; /* Moved left to make room for Feedback button */
         z-index: 1600; /* Same as avatar to work above overlay */
         color: white;
         font-size: 15px;
@@ -6017,7 +6017,6 @@ body.frozen-state {
     gap: 6px;
     padding: 5px 12px;
     border-top-left-radius: 0px;
-    border-bottom-right-radius: 12px;
     transition: all 0.2s ease;
 }
 
