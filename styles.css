@@ -68,7 +68,6 @@ body.frozen-state {
 .app-container {
     display: flex;
     gap: 20px;
-    position: relative;
 }
 
 /* Top Navbar Styles */
@@ -6080,7 +6079,7 @@ body.frozen-state {
 
 /* Mobile Names Toggle Overlay */
 .mobile-names-toggle-overlay {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0;
     right: 0;
