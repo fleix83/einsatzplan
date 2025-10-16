@@ -587,6 +587,11 @@ body.frozen-state {
     bottom: 24px;
 }
 
+/* Specialist Events within Shifts - Hidden, only dot indicator is visible */
+.shift-specialist-event {
+    display: none;
+}
+
 .shift-left.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="false"].dimmed,
 .shift-right.schreibdienst-full[data-first-user-schreibdienst="true"][data-second-user-schreibdienst="false"].dimmed,
 .shift-left.schreibdienst-full[data-first-user-schreibdienst="false"][data-second-user-schreibdienst="true"].dimmed,
@@ -671,7 +676,7 @@ body.frozen-state {
 /* Double assignment icon */
 .double-assignment-icon {
     position: absolute;
-    top: 50%;
+    top: 62%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 26px;
@@ -1074,6 +1079,52 @@ body.frozen-state {
 }
 
 .mobile-custom-event-title {
+    font-size: 14px;
+    color: #333;
+    flex: 1;
+    margin-left: 10px;
+}
+
+/* Mobile Specialist Events */
+.mobile-specialist-events {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.mobile-specialist-events-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.mobile-specialist-events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mobile-specialist-event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 3px solid var(--color-specialist, #984afe);
+}
+
+.mobile-specialist-event-time {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-specialist, #984afe);
+    min-width: 60px;
+}
+
+.mobile-specialist-event-title {
     font-size: 14px;
     color: #333;
     flex: 1;
@@ -6739,8 +6790,10 @@ body.frozen-state {
 /* When user shows names, hide other visual elements for a cleaner view */
 body.names-visible .double-assignment-icon,
 body.names-visible .shift-custom-event,
+body.names-visible .shift-specialist-event,
 body.names-visible .backoffice-holiday-stripe,
 body.names-visible .mobile-custom-events,
+body.names-visible .mobile-specialist-events,
 body.names-visible .mobile-holidays-section,
 body.names-visible .shift-events-list {
     display: none !important;

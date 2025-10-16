@@ -3381,13 +3381,13 @@ function updateDayCard(day) {
     
     // Add custom events to appropriate shifts based on time
     const customEvents = staticData.customEvents?.[currentYear]?.[currentMonth]?.[day] || [];
-    
+
     // Clear any existing custom event elements
     const existingE1Events = shiftLeft?.querySelectorAll('.shift-custom-event');
     const existingE2Events = shiftRight?.querySelectorAll('.shift-custom-event');
     existingE1Events?.forEach(el => el.remove());
     existingE2Events?.forEach(el => el.remove());
-    
+
     if (customEvents.length > 0) {
         customEvents.forEach(event => {
             // Parse time and determine if it's before 14:00
@@ -3396,10 +3396,10 @@ function updateDayCard(day) {
             const minute = parseInt(timeParts[1]);
             const totalMinutes = hour * 60 + minute;
             const cutoffMinutes = 14 * 60; // 14:00 in minutes
-            
+
             // Format time for display
             const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
-            
+
             // Create event element
             const eventElement = document.createElement('div');
             eventElement.className = 'shift-custom-event';
@@ -3407,7 +3407,7 @@ function updateDayCard(day) {
                  <div class="shift-custom-event-title">${event.title}</div>
                 <div class="shift-custom-event-time">${formattedTime}</div>
             `;
-            
+
             // Add to appropriate shift based on time
             if (totalMinutes < cutoffMinutes && shiftLeft) {
                 // Event before 14:00 - add to E1 (shift-left)
@@ -3418,6 +3418,9 @@ function updateDayCard(day) {
             }
         });
     }
+
+    // Note: Specialist event indicators (dots) are handled by SpecialistEventsFeature.updateSpecialistEventIndicators()
+    // No need to create hidden label elements here
 
     // Handle double assignment icons
     // Remove any existing icons first
@@ -4285,6 +4288,28 @@ function showMobileModal(day, shiftType, shiftElement) {
             </div>
         `;
         infoContainer.innerHTML += customEventsSection;
+    }
+
+    // Add specialist events section (variable already declared at line 4147)
+    if (specialistEvents.length > 0) {
+        const specialistEventsSection = `
+            <div class="mobile-specialist-events">
+                <div class="mobile-specialist-events-title">Specialist Einsätze</div>
+                <div class="mobile-specialist-events-list">
+                    ${specialistEvents.map(event => {
+                        const timeParts = event.time.split(':');
+                        const formattedTime = `${timeParts[0]}.${timeParts[1]}h`;
+                        return `
+                            <div class="mobile-specialist-event-item">
+                                <div class="mobile-specialist-event-time">${formattedTime}</div>
+                                <div class="mobile-specialist-event-title">${event.title}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+        infoContainer.innerHTML += specialistEventsSection;
     }
 
     // Add holidays section

@@ -61,7 +61,7 @@ const SpecialistEventsFeature = (function() {
             /* Specialist event indicator styles - circular dot under shift indicator */
             .specialist-event-indicator {
                 position: absolute;
-                top: 4px;
+                top: 7px;
                 right: 46%;
                 transform: translateX(-50%);
                 width: 13px;
@@ -562,16 +562,6 @@ const SpecialistEventsFeature = (function() {
         });
 
         console.log('[SPECIALIST] Indicators updated');
-
-        // Also update day cards to show specialist events
-        if (typeof updateDayCard === 'function') {
-            dayCards.forEach(card => {
-                const day = parseInt(card.dataset.day);
-                if (!isNaN(day)) {
-                    updateDayCard(day);
-                }
-            });
-        }
     }
 
     // Add a specialist event

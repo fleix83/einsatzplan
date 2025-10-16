@@ -68,7 +68,7 @@ const HolidayFeature = (function() {
                 background-color: #ffffff00 !important;
                 opacity: 0.8 !important;
                 background-size: 10px 10px !important;
-                background-image: repeating-linear-gradient(-45deg, #3a6d99 0, #3a6d99 3px, #ffffff00 0, #ffffff00 50%) !important;
+                background-image: repeating-linear-gradient(-45deg, #3a6d99 0, #3a6d99 1px, #ffffff00 0, #ffffff00 50%) !important;
             }
             
             /* Holiday modal styles */
