@@ -987,7 +987,7 @@ body.frozen-state {
 /* Backoffice users in holidays section with blue diagonal stripes */
 .holiday-user.backoffice-holiday-user {
     background: #ffffff;
-    background-image: repeating-linear-gradient(-45deg, #3a6d99 0, #3a6d99 2px, #ffffff 0, #ffffff 8px);
+    background-image: repeating-linear-gradient(-45deg, #3a6d99 0, #3a6d99 1px, #ffffff 0, #ffffff 8px);
     background-size: 12px 12px;
 }
 
