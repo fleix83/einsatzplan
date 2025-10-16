@@ -17,6 +17,7 @@ const ColorCustomization = {
         orangeShift: '#ffab40',
         greenShift: '#4caf50',
         starterShift: '#ffd700',
+        specialistShift: '#984afe',
         schreibdienstSingle: '#64b5f6',
         schreibdienstFull: '#1976d2',
         hoverBg: '#ffed75',
@@ -230,6 +231,7 @@ const ColorCustomization = {
             orangeShiftPicker: { color: currentColors.orangeShift, key: 'orangeShift' },
             greenShiftPicker: { color: currentColors.greenShift, key: 'greenShift' },
             starterShiftPicker: { color: currentColors.starterShift, key: 'starterShift' },
+            specialistShiftPicker: { color: currentColors.specialistShift, key: 'specialistShift' },
             schreibdienstSinglePicker: { color: currentColors.schreibdienstSingle, key: 'schreibdienstSingle' },
             schreibdienstFullPicker: { color: currentColors.schreibdienstFull, key: 'schreibdienstFull' },
             selectedBgPicker: { color: currentColors.selectedBg, key: 'selectedBg' },
@@ -359,6 +361,7 @@ const ColorCustomization = {
                 --color-single: ${toRgba(colors.orangeShift)} !important;
                 --color-full: ${toRgba(colors.greenShift)} !important;
                 --color-starter: ${toRgba(colors.starterShift)} !important;
+                --color-specialist: ${toRgba(colors.specialistShift)} !important;
                 --color-schreibdienst: ${toRgba(colors.schreibdienstSingle)} !important;
                 --hover-bg: ${toRgba(colors.hoverBg)} !important;
                 --selected-bg: ${toRgba(colors.selectedBg)} !important;
@@ -378,6 +381,7 @@ const ColorCustomization = {
             .shift-left.orange, .shift-right.orange { background-color: var(--color-single) !important; }
             .shift-left.green, .shift-right.green { background-color: var(--color-full) !important; }
             .shift-left.starter, .shift-right.starter { background-color: var(--color-starter) !important; }
+            .shift-left.specialist, .shift-right.specialist { background-color: var(--color-specialist) !important; }
             .shift-left.schreibdienst-single, .shift-right.schreibdienst-single { background-color: var(--color-schreibdienst) !important; }
             
             /* Handle schreibdienst-full specifically if different from single */
@@ -638,6 +642,10 @@ const ColorCustomization = {
                         <div class="cc-color-option">
                             <div class="color-picker-button" id="starterShiftPicker"></div>
                             <label>Starter</label>
+                        </div>
+                        <div class="cc-color-option">
+                            <div class="color-picker-button" id="specialistShiftPicker"></div>
+                            <label>Spezialist</label>
                         </div>
                         <div class="cc-color-option">
                             <div class="color-picker-button" id="schreibdienstSinglePicker"></div>

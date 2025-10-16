@@ -3912,21 +3912,24 @@ function updateHoverInfo(day, show = true) {
     const e2Display = hoverPanel.querySelector('[data-shift="E2"]');
 
     if (e1Display) {
-        e1Display.innerHTML = e1Users.length ? 
-            e1Users.map(name => `<div class="shift-user">${name}</div>`).join('') : 
+        e1Display.innerHTML = e1Users.length ?
+            e1Users.map(name => `<div class="shift-user">${name}</div>`).join('') :
             '<div class="shift-user">Einsatz unbelegt</div>';
     }
 
     if (e2Display) {
-        e2Display.innerHTML = e2Users.length ? 
-            e2Users.map(name => `<div class="shift-user">${name}</div>`).join('') : 
+        e2Display.innerHTML = e2Users.length ?
+            e2Users.map(name => `<div class="shift-user">${name}</div>`).join('') :
             '<div class="shift-user">Einsatz unbelegt</div>';
     }
 
     // Add holidays display
     const holidayData = getHolidaysForDate(currentYear, currentMonth, day);
-    const allHolidayUsers = [...holidayData.freiwillige, ...holidayData.backoffice];
-    
+    // Mark backoffice users before combining
+    const markedFreiwillige = holidayData.freiwillige.map(user => ({...user, isBackoffice: false}));
+    const markedBackoffice = holidayData.backoffice.map(user => ({...user, isBackoffice: true}));
+    const allHolidayUsers = [...markedFreiwillige, ...markedBackoffice];
+
     if (allHolidayUsers.length > 0) {
         // Check if holidays section already exists
         let holidaysSection = hoverPanel.querySelector('.hover-info-holidays');
@@ -3949,9 +3952,10 @@ function updateHoverInfo(day, show = true) {
             <div class="holidays-columns">
                 ${columns.map(column => `
                     <div class="holidays-column">
-                        ${column.map(user => `
-                            <div class="holiday-user">${user.userName}</div>
-                        `).join('')}
+                        ${column.map(user => {
+                            const backofficeClass = user.isBackoffice ? ' backoffice-holiday-user' : '';
+                            return `<div class="holiday-user${backofficeClass}"><span class="holiday-user-text">${user.userName}</span></div>`;
+                        }).join('')}
                     </div>
                 `).join('')}
             </div>
@@ -3983,8 +3987,8 @@ function updateHoverInfo(day, show = true) {
 
             const specialistDiv = document.createElement('div');
             specialistDiv.className = 'shift-user';
-            specialistDiv.style.backgroundColor = 'white';
-            specialistDiv.style.color = 'var(--specialist, #984afe)';
+            specialistDiv.style.backgroundColor = 'var(--color-specialist, #984afe)';
+            specialistDiv.style.color = 'black';
             specialistDiv.style.fontWeight = 'bold';
             specialistDiv.textContent = `${event.userName} ${formattedTime}`;
 

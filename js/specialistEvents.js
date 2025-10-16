@@ -67,7 +67,7 @@ const SpecialistEventsFeature = (function() {
                 width: 13px;
                 height: 13px;
                 border-radius: 50%;
-                background-color: var(--specialist, #984afe);
+                background-color: var(--color-specialist, #984afe);
                 z-index: 10;
                 cursor: pointer;
             }
@@ -104,7 +104,7 @@ const SpecialistEventsFeature = (function() {
                 margin-left: 4px;
                 margin-right: 4px;
                 font-weight: bold;
-                color: var(--specialist, #984afe);
+                color: var(--color-specialist, #984afe);
             }
 
             .specialist-btn:hover {
@@ -296,7 +296,7 @@ const SpecialistEventsFeature = (function() {
 
             .specialist-event-mobile-item {
                 background-color: #ffffff;
-                color: var(--specialist, #984afe);
+                color: var(--color-specialist, #984afe);
                 font-size: 0.9rem;
                 font-weight: bold;
                 padding: 10px 5px;
