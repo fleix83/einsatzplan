@@ -6303,6 +6303,10 @@ body.frozen-state {
     background: var(--color-starter);
 }
 
+.legend-color-specialist {
+    background: var(--color-specialist);
+}
+
 .legend-color-individual-full {
     background: #ffd000b5;
 }

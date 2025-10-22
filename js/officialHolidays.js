@@ -163,7 +163,7 @@ const OfficialHolidaysFeature = (function() {
                 border-radius: 3px;
                 margin-top: 52px;
                 font-weight: 600;
-                font-size: 9px;
+                font-size: 8px;
                 color: #ffffff;
                 background-color: #3a6d99;
                 width: 100%;
