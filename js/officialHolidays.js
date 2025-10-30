@@ -103,6 +103,7 @@ const OfficialHolidaysFeature = (function() {
                     margin-bottom: 0px !important;
                     z-index: auto !important;
                     margin-top: 36px !important;
+                    font-size: 8px !important;
                 }
             }
             
@@ -163,7 +164,7 @@ const OfficialHolidaysFeature = (function() {
                 border-radius: 3px;
                 margin-top: 52px;
                 font-weight: 600;
-                font-size: 8px;
+                font-size: 10px;
                 color: #ffffff;
                 background-color: #3a6d99;
                 width: 100%;
