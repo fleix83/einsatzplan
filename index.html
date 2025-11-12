@@ -662,6 +662,24 @@
         </div>
     </div> -->
 
+    <!-- Shift Lock Confirmation Modal -->
+    <div class="modal-overlay" id="lockConfirmOverlay" style="display: none;"></div>
+    <div class="lock-confirm-modal" id="lockConfirmModal" style="display: none;">
+        <div class="lock-confirm-content">
+            <div class="lock-confirm-header">
+                <h3>Einsatz ändern?</h3>
+            </div>
+            <div class="lock-confirm-body">
+                <p id="lockConfirmMessage"></p>
+                <p class="lock-confirm-question">Möchtest Du diese Änderung wirklich vornehmen?</p>
+            </div>
+            <div class="lock-confirm-actions">
+                <button class="lock-confirm-cancel" id="lockConfirmCancel">Abbrechen</button>
+                <button class="lock-confirm-yes" id="lockConfirmYes">Ja, ändern</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Landscape Orientation Overlay for Mobile -->
     <div class="landscape-orientation-overlay">
         <div class="landscape-message-container">

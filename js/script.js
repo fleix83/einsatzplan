@@ -7,6 +7,58 @@ let hoveredUserId = null;
 let selectedUserId = null;
 let showUserNames = false; // Track if user names should be displayed in shifts
 
+// Lock management helper functions
+function isShiftLocked(lockedTimestamp) {
+    if (!lockedTimestamp) return false;
+
+    const lockedTime = new Date(lockedTimestamp);
+    const now = new Date();
+    const minutesElapsed = (now - lockedTime) / 1000 / 60;
+
+    return minutesElapsed > 5;
+}
+
+function showLockConfirmation(userName) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('lockConfirmModal');
+        const overlay = document.getElementById('lockConfirmOverlay');
+        const messageEl = document.getElementById('lockConfirmMessage');
+        const yesBtn = document.getElementById('lockConfirmYes');
+        const cancelBtn = document.getElementById('lockConfirmCancel');
+
+        // Set the message
+        messageEl.textContent = `Dieser Einsatz ist bereits von ${userName} belegt.`;
+
+        // Show modal
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+
+        // Create click handlers
+        const handleYes = () => {
+            cleanup();
+            resolve(true);
+        };
+
+        const handleCancel = () => {
+            cleanup();
+            resolve(false);
+        };
+
+        const cleanup = () => {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+            yesBtn.removeEventListener('click', handleYes);
+            cancelBtn.removeEventListener('click', handleCancel);
+            overlay.removeEventListener('click', handleCancel);
+        };
+
+        // Attach event listeners
+        yesBtn.addEventListener('click', handleYes);
+        cancelBtn.addEventListener('click', handleCancel);
+        overlay.addEventListener('click', handleCancel);
+    });
+}
+
 // Notification System
 const NotificationSystem = {
     container: null,
@@ -675,11 +727,16 @@ async function loadScheduleData(year, month) {
         // Initialize structure if needed
         if (!staticData.schedules[year]) staticData.schedules[year] = {};
         staticData.schedules[year][month] = {};
-        
+
+        // Initialize shifts metadata structure if needed
+        if (!staticData.shifts) staticData.shifts = {};
+        if (!staticData.shifts[year]) staticData.shifts[year] = {};
+        if (!staticData.shifts[year][month]) staticData.shifts[year][month] = {};
+
         // Format the data from API to match our expected structure
         data.forEach(shift => {
             const day = new Date(shift.date).getDate();
-            
+
             if (!staticData.schedules[year][month][day]) {
                 staticData.schedules[year][month][day] = {
                     E1: ["", ""],
@@ -690,19 +747,31 @@ async function loadScheduleData(year, month) {
                     }
                 };
             }
-            
+
+            // Store shift metadata (including lock timestamps) separately
+            if (!staticData.shifts[year][month][day]) {
+                staticData.shifts[year][month][day] = {};
+            }
+
+            const shiftMetadata = {
+                user1_locked_at: shift.user1_locked_at || null,
+                user2_locked_at: shift.user2_locked_at || null
+            };
+
             if (shift.shift_type === 'E1') {
                 // Normalize user IDs to strings for consistent type matching
                 staticData.schedules[year][month][day].E1[0] = shift.user1_id ? String(shift.user1_id) : "";
                 staticData.schedules[year][month][day].E1[1] = shift.user2_id ? String(shift.user2_id) : "";
                 staticData.schedules[year][month][day].notes.E1[0] = shift.note1 || "";
                 staticData.schedules[year][month][day].notes.E1[1] = shift.note2 || "";
+                staticData.shifts[year][month][day].E1 = shiftMetadata;
             } else if (shift.shift_type === 'E2') {
                 // Normalize user IDs to strings for consistent type matching
                 staticData.schedules[year][month][day].E2[0] = shift.user1_id ? String(shift.user1_id) : "";
                 staticData.schedules[year][month][day].E2[1] = shift.user2_id ? String(shift.user2_id) : "";
                 staticData.schedules[year][month][day].notes.E2[0] = shift.note1 || "";
                 staticData.schedules[year][month][day].notes.E2[1] = shift.note2 || "";
+                staticData.shifts[year][month][day].E2 = shiftMetadata;
             }
         });
         
@@ -1204,23 +1273,24 @@ async function ensureScheduleDataExists(day) {
 }
 
 // Update shift when user selection changes
-async function updateShift(day, shift, position, userId, note) {
+async function updateShift(day, shift, position, userId, note, forceEdit = false) {
     try {
-        console.log(`Updating shift: day=${day}, shift=${shift}, position=${position}, userId=${userId}`);
-        
+        console.log(`Updating shift: day=${day}, shift=${shift}, position=${position}, userId=${userId}, force=${forceEdit}`);
+
         // Format the date to YYYY-MM-DD
         const date = new Date(Date.UTC(currentYear, currentMonth - 1, day, 12, 0, 0));
         const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD format
-        
+
         // Prepare data for API
         const shiftData = {
             date: formattedDate,
             shift_type: shift,
             position: position + 1, // Convert 0-based to 1-based
             user_id: userId,
-            note: note || ''
+            note: note || '',
+            force: forceEdit
         };
-        
+
         // Use server-compatible authentication with token in URL
         const url = AuthManager.addTokenToUrl('api/shifts.php');
         const response = await AuthManager.fetchWithAuth(url, {
@@ -1230,9 +1300,26 @@ async function updateShift(day, shift, position, userId, note) {
             },
             body: JSON.stringify(shiftData)
         });
-        
+
         if (!response.ok) {
             const errorData = await response.json();
+
+            // Check if this is a lock error (HTTP 423)
+            if (response.status === 423 && errorData.error === 'locked') {
+                // Show confirmation dialog
+                const confirmed = await showLockConfirmation(errorData.user_name);
+
+                if (confirmed) {
+                    // Retry with force flag
+                    return await updateShift(day, shift, position, userId, note, true);
+                } else {
+                    // User cancelled - reload shifts to reset UI
+                    await loadScheduleData(currentYear, currentMonth);
+                    await refreshShiftUI(day, false);
+                    return;
+                }
+            }
+
             throw new Error(errorData.error || 'Fehler beim Aktualisieren der Schicht');
         }
         
@@ -2596,20 +2683,32 @@ function showShiftDetailModal(shiftElement, day, shiftType) {
         emptyOption.value = '';
         emptyOption.textContent = 'Eintragen';
         emptyOption.className = 'shift-empty';
-        
+
         select.innerHTML = '';
         select.appendChild(emptyOption);
-        
+
         let isAssigned = false;
+        const currentUserId = dayData[shiftType][index];
+
+        // Get lock timestamp for this position
+        const shiftData = staticData.shifts?.[currentYear]?.[currentMonth]?.[day]?.[shiftType];
+        const lockTimestamp = shiftData ? (index === 0 ? shiftData.user1_locked_at : shiftData.user2_locked_at) : null;
+
         staticData.users.forEach(user => {
             if (!user.active) return;
-            
+
             const option = document.createElement('option');
             option.value = user.id;
-            option.textContent = user.name;
+
+            // Check if this user is currently assigned and locked
+            const isThisUser = currentUserId === user.id;
+            const isLocked = isThisUser && isShiftLocked(lockTimestamp);
+
+            // Add lock emoji if locked
+            option.textContent = isLocked ? `🔒 ${user.name}` : user.name;
             option.className = 'shift-assigned';
-            
-            if (dayData[shiftType][index] === user.id) {
+
+            if (isThisUser) {
                 option.selected = true;
                 isAssigned = true;
             }
@@ -4127,6 +4226,11 @@ function showMobileModal(day, shiftType, shiftElement) {
         }
     });
 
+    // Get lock timestamps for E1
+    const e1Data = staticData.shifts?.[currentYear]?.[currentMonth]?.[day]?.E1;
+    const e1Pos1Locked = e1Data && isShiftLocked(e1Data.user1_locked_at);
+    const e1Pos2Locked = e1Data && isShiftLocked(e1Data.user2_locked_at);
+
     // Build infoContainer content with Schreibdienst events included
     infoContainer.innerHTML = `
         <div class="shift-columns">
@@ -4136,18 +4240,24 @@ function showMobileModal(day, shiftType, shiftElement) {
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E1[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="1" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
-                                `<option value="${user.id}" ${dayData.E1[0] == user.id ? 'selected' : ''}>${user.name}</option>`
-                            ).join('')}
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
+                                const isSelected = dayData.E1[0] == user.id;
+                                const isLocked = isSelected && e1Pos1Locked;
+                                const lockIcon = isLocked ? '🔒 ' : '';
+                                return `<option value="${user.id}" ${isSelected ? 'selected' : ''}>${lockIcon}${user.name}</option>`;
+                            }).join('')}
                         </select>
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E1[0] ? 'inline' : 'none'};">Austragen</span>
                     </div>
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E1[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="2" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
-                                `<option value="${user.id}" ${dayData.E1[1] == user.id ? 'selected' : ''}>${user.name}</option>`
-                            ).join('')}
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
+                                const isSelected = dayData.E1[1] == user.id;
+                                const isLocked = isSelected && e1Pos2Locked;
+                                const lockIcon = isLocked ? '🔒 ' : '';
+                                return `<option value="${user.id}" ${isSelected ? 'selected' : ''}>${lockIcon}${user.name}</option>`;
+                            }).join('')}
                         </select>
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E1[1] ? 'inline' : 'none'};">Austragen</span>
                     </div>
@@ -4203,18 +4313,26 @@ function showMobileModal(day, shiftType, shiftElement) {
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E2[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="1" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
-                                `<option value="${user.id}" ${dayData.E2[0] == user.id ? 'selected' : ''}>${user.name}</option>`
-                            ).join('')}
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
+                                const isSelected = dayData.E2[0] == user.id;
+                                const e2Data = staticData.shifts?.[currentYear]?.[currentMonth]?.[day]?.E2;
+                                const isLocked = isSelected && e2Data && isShiftLocked(e2Data.user1_locked_at);
+                                const lockIcon = isLocked ? '🔒 ' : '';
+                                return `<option value="${user.id}" ${isSelected ? 'selected' : ''}>${lockIcon}${user.name}</option>`;
+                            }).join('')}
                         </select>
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E2[0] ? 'inline' : 'none'};">Austragen</span>
                     </div>
                     <div class="mobile-shift-user-container">
                         <select class="mobile-user-select ${dayData.E2[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="2" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
-                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user =>
-                                `<option value="${user.id}" ${dayData.E2[1] == user.id ? 'selected' : ''}>${user.name}</option>`
-                            ).join('')}
+                            ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
+                                const isSelected = dayData.E2[1] == user.id;
+                                const e2Data = staticData.shifts?.[currentYear]?.[currentMonth]?.[day]?.E2;
+                                const isLocked = isSelected && e2Data && isShiftLocked(e2Data.user2_locked_at);
+                                const lockIcon = isLocked ? '🔒 ' : '';
+                                return `<option value="${user.id}" ${isSelected ? 'selected' : ''}>${lockIcon}${user.name}</option>`;
+                            }).join('')}
                         </select>
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E2[1] ? 'inline' : 'none'};">Austragen</span>
                     </div>
