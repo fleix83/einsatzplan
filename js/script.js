@@ -4495,7 +4495,7 @@ function showMobileModal(day, shiftType, shiftElement) {
     if (isFrozen) {
         infoContainer.innerHTML += `
             <div class="frozen-message" style="margin-top: 15px;">
-                Dieser Monat ist gesperrt. Einteilungen können nicht geändert werden.
+                Monat gesperrt. Einsätze können nicht geändert werden.
             </div>
         `;
     }
@@ -4515,8 +4515,15 @@ function showMobileModal(day, shiftType, shiftElement) {
     if (isFrozen) {
         dateTab.innerHTML += ' <span style="margin-left: 5px;">🔒</span>';
     }
-    
+
     modal.appendChild(dateTab);
+
+    // Add frozen-modal class to the modal if frozen
+    if (isFrozen) {
+        modal.classList.add('frozen-modal');
+    } else {
+        modal.classList.remove('frozen-modal');
+    }
 
     // Add close button to the mobile modal (reusing modal-close style)
     if (!modal.querySelector('.mobile-shift-close-btn')) {

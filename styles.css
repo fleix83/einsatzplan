@@ -2941,6 +2941,21 @@ body.frozen-state {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 0 0 2px rgba(23, 96, 255, 0.1);
 }
 
+/* Frozen/disabled mobile dropdowns styling */
+.mobile-shift-modal.frozen-modal .mobile-user-select,
+.mobile-user-select:disabled {
+    background-color: #f5f7fd;
+    border-color: #e0e5f5;
+    opacity: 0.8;
+    cursor: not-allowed;
+    color: #666;
+    pointer-events: none;
+}
+
+.mobile-shift-modal.frozen-modal .mobile-user-select:disabled {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}
+
 .mobile-shift-remove-link {
     color: #1769aa;
     font-size: 12px;
