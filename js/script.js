@@ -2319,7 +2319,7 @@ function showExportModal() {
 function populateUserDropdowns() {
     document.querySelectorAll('.user-select').forEach(select => {
         const currentValue = select.value;
-        select.innerHTML = '<option value="">Select user</option>';
+        select.innerHTML = '<option value="">Eintragen</option>';
         
         // Sort users alphabetically by name
         const sortedUsers = [...staticData.users].sort((a, b) => 
@@ -2786,7 +2786,7 @@ function showReadOnlyShiftModal(shiftElement, day, shiftType) {
     // Update user selects - make them disabled
     const selects = modal.querySelectorAll('.user-select');
     selects.forEach((select, index) => {
-        select.innerHTML = '<option value="">Select user</option>';
+        select.innerHTML = '<option value="">Eintragen</option>';
         staticData.users.forEach(user => {
             if (!user.active) return;
             
