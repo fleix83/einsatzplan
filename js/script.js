@@ -4196,8 +4196,7 @@ function showMobileModal(day, shiftType, shiftElement) {
     ensureScheduleDataExists(day);
     const dayData = staticData.schedules[currentYear][currentMonth][day];
 
-    // Check if calendar is frozen for this month
-    const isCalendarFrozen = staticData.calendarStates?.[currentYear]?.[currentMonth]?.frozen || false;
+    // Check if calendar is frozen for this month (use global variable, not staticData)
     const isFrozen = isCalendarFrozen && !isBackofficeUser();
 
     // Get Schreibdienst events for this day
@@ -4249,6 +4248,7 @@ function showMobileModal(day, shiftType, shiftElement) {
 
     // Build infoContainer content with Schreibdienst events included
     infoContainer.innerHTML = `
+        ${isFrozen ? '<div class="frozen-message">Monat gesperrt. Einsätze können nicht geändert werden.</div>' : ''}
         <div class="shift-columns">
             <div class="shift-column">
                 <div class="shift-column-title">E1</div>
@@ -4491,15 +4491,6 @@ function showMobileModal(day, shiftType, shiftElement) {
 
     // isFrozen already defined above
     
-    // Add frozen month message if needed
-    if (isFrozen) {
-        infoContainer.innerHTML += `
-            <div class="frozen-message" style="margin-top: 15px;">
-                Monat gesperrt. Einsätze können nicht geändert werden.
-            </div>
-        `;
-    }
-
     // The dropdowns are now integrated into the main info display above
     // No separate dropdown section needed
     detailContainer.innerHTML = '';

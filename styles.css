@@ -2948,8 +2948,17 @@ body.frozen-state {
     border-color: #e0e5f5;
     opacity: 0.8;
     cursor: not-allowed;
-    color: #666;
     pointer-events: none;
+}
+
+/* Keep assigned names green for visibility */
+.mobile-shift-modal.frozen-modal .mobile-user-select.shift-assigned:disabled {
+    color: #4CAF50;
+}
+
+/* Empty slots stay gray */
+.mobile-shift-modal.frozen-modal .mobile-user-select.shift-empty:disabled {
+    color: #999;
 }
 
 .mobile-shift-modal.frozen-modal .mobile-user-select:disabled {
@@ -4339,17 +4348,20 @@ body.frozen-state {
     }
 
     .frozen-message {
-        background-color: #e7efff;
+        background-color: #ffffff;
         color: var(--primary-color);
         padding: 12px 16px;
-        border-radius: 8px;
-        margin: 0 0 20px 0;
+        border-radius: 20px;
+        margin: 63px 0 20px 0;
         font-size: 14px;
         text-align: center;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-left: 4px solid var(--primary-color);
+        border: 1px solid var(--primary-color);
+        max-width: 550px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .frozen-message::before {
