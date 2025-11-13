@@ -1316,13 +1316,13 @@ async function updateShift(day, shift, position, userId, note, forceEdit = false
                     // User cancelled - reload shifts to reset UI
                     await loadScheduleData(currentYear, currentMonth);
                     await refreshShiftUI(day, false);
-                    return;
+                    return false; // Return false to indicate cancellation
                 }
             }
 
             throw new Error(errorData.error || 'Fehler beim Aktualisieren der Schicht');
         }
-        
+
         // Update local data
         ensureScheduleDataExists(day);
         // Normalize userId to string for consistent type matching
@@ -1331,17 +1331,19 @@ async function updateShift(day, shift, position, userId, note, forceEdit = false
         if (typeof note !== 'undefined') {
             staticData.schedules[currentYear][currentMonth][day].notes[shift][position] = note;
         }
-        
+
         // Update UI with full refresh to ensure names are displayed correctly
         // Using refreshShiftUI instead of just updateDayCard for complete refresh
         // Don't show notification for automatic updates (only when user clicks "Speichern")
         await refreshShiftUI(day, false);
-        
+
         console.log(`Updated shift ${shift} position ${position+1} for ${formattedDate} to user ${userId}`);
+        return true; // Return true to indicate success
     } catch (error) {
         console.error('Error updating shift:', error);
         // Show error to user
         NotificationSystem.error(`Fehler beim Aktualisieren der Schicht: ${error.message}`);
+        return false; // Return false on error
     }
 }
 
@@ -2717,7 +2719,10 @@ function showShiftDetailModal(shiftElement, day, shiftType) {
         
         // Add CSS class to select based on assignment status
         select.className = `user-select ${isAssigned ? 'shift-assigned' : 'shift-empty'}`;
-        
+
+        // Store the original value for reverting on cancel
+        select.setAttribute('data-original-value', currentUserId || '');
+
         // Update data attributes
         select.dataset.shift = shiftType;
         select.dataset.position = index + 1;
@@ -3275,15 +3280,26 @@ function setupShiftDetailModal() {
     
     // User selection change handler
     modal.querySelectorAll('.user-select').forEach(select => {
-        select.addEventListener('change', (e) => {
+        select.addEventListener('change', async (e) => {
             const shift = e.target.dataset.shift;
             const position = parseInt(e.target.dataset.position) - 1;
-            
+
+            // Store original value BEFORE calling updateShift
+            const originalValue = e.target.getAttribute('data-original-value') || '';
+
             ensureScheduleDataExists(currentDay);
-            
+
             // Update shift with the selected user
-            updateShift(currentDay, shift, position, e.target.value, 
+            const success = await updateShift(currentDay, shift, position, e.target.value,
                 staticData.schedules[currentYear][currentMonth][currentDay].notes[shift][position]);
+
+            // If updateShift returned false (user cancelled), revert the dropdown
+            if (success === false) {
+                e.target.value = originalValue;
+            } else {
+                // Update the stored original value for next time
+                e.target.setAttribute('data-original-value', e.target.value);
+            }
         });
     });
     
@@ -4238,7 +4254,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                 <div class="shift-column-title">E1</div>
                 <div class="mobile-shift-user-assignments">
                     <div class="mobile-shift-user-container">
-                        <select class="mobile-user-select ${dayData.E1[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="1" ${isFrozen ? 'disabled' : ''}>
+                        <select class="mobile-user-select ${dayData.E1[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="1" data-original-value="${dayData.E1[0] || ''}" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
                             ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
                                 const isSelected = dayData.E1[0] == user.id;
@@ -4250,7 +4266,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E1[0] ? 'inline' : 'none'};">Austragen</span>
                     </div>
                     <div class="mobile-shift-user-container">
-                        <select class="mobile-user-select ${dayData.E1[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="2" ${isFrozen ? 'disabled' : ''}>
+                        <select class="mobile-user-select ${dayData.E1[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E1" data-position="2" data-original-value="${dayData.E1[1] || ''}" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
                             ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
                                 const isSelected = dayData.E1[1] == user.id;
@@ -4311,7 +4327,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                 <div class="shift-column-title">E2</div>
                 <div class="mobile-shift-user-assignments">
                     <div class="mobile-shift-user-container">
-                        <select class="mobile-user-select ${dayData.E2[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="1" ${isFrozen ? 'disabled' : ''}>
+                        <select class="mobile-user-select ${dayData.E2[0] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="1" data-original-value="${dayData.E2[0] || ''}" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
                             ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
                                 const isSelected = dayData.E2[0] == user.id;
@@ -4324,7 +4340,7 @@ function showMobileModal(day, shiftType, shiftElement) {
                         <span class="mobile-shift-remove-link" style="display: ${dayData.E2[0] ? 'inline' : 'none'};">Austragen</span>
                     </div>
                     <div class="mobile-shift-user-container">
-                        <select class="mobile-user-select ${dayData.E2[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="2" ${isFrozen ? 'disabled' : ''}>
+                        <select class="mobile-user-select ${dayData.E2[1] ? 'shift-assigned' : 'shift-empty'}" data-shift="E2" data-position="2" data-original-value="${dayData.E2[1] || ''}" ${isFrozen ? 'disabled' : ''}>
                             <option value="" class="shift-empty">Eintragen</option>
                             ${staticData.users.filter(u => u.role === 'Freiwillige').map(user => {
                                 const isSelected = dayData.E2[1] == user.id;
@@ -4516,27 +4532,42 @@ function showMobileModal(day, shiftType, shiftElement) {
         select.addEventListener('change', async (e) => {
             const shift = e.target.dataset.shift;
             const position = parseInt(e.target.dataset.position) - 1;
-            
+
+            // Store original value BEFORE calling updateShift
+            const originalValue = e.target.getAttribute('data-original-value') || '';
+
             console.log(`Mobile: Attempting to update shift: ${shift}, position: ${position}, value: ${e.target.value}`);
-            
+
             // Make sure we have valid data
             if (!shift || isNaN(position)) {
                 console.error('Invalid shift or position data', { shift, position });
                 return;
             }
-            
+
             // Update shift with new user (now properly awaited)
-            await updateShift(day, shift, position, e.target.value, 
+            const success = await updateShift(day, shift, position, e.target.value,
                         dayData.notes?.[shift]?.[position] || '');
-            
-            // Update the visual state and "Austragen" link visibility
-            const isAssigned = e.target.value ? true : false;
-            e.target.className = `mobile-user-select ${isAssigned ? 'shift-assigned' : 'shift-empty'}`;
-            
-            // Update "Austragen" link visibility
-            const removeLink = e.target.parentElement.querySelector('.mobile-shift-remove-link');
-            if (removeLink) {
-                removeLink.style.display = isAssigned ? 'inline' : 'none';
+
+            // If cancelled, revert
+            if (success === false) {
+                e.target.value = originalValue;
+                const isAssigned = originalValue ? true : false;
+                e.target.className = `mobile-user-select ${isAssigned ? 'shift-assigned' : 'shift-empty'}`;
+
+                const removeLink = e.target.parentElement.querySelector('.mobile-shift-remove-link');
+                if (removeLink) {
+                    removeLink.style.display = isAssigned ? 'inline' : 'none';
+                }
+            } else {
+                // Update stored value and visual state
+                e.target.setAttribute('data-original-value', e.target.value);
+                const isAssigned = e.target.value ? true : false;
+                e.target.className = `mobile-user-select ${isAssigned ? 'shift-assigned' : 'shift-empty'}`;
+
+                const removeLink = e.target.parentElement.querySelector('.mobile-shift-remove-link');
+                if (removeLink) {
+                    removeLink.style.display = isAssigned ? 'inline' : 'none';
+                }
             }
         });
     });
