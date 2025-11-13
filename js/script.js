@@ -2809,7 +2809,7 @@ function showReadOnlyShiftModal(shiftElement, day, shiftType) {
     if (!modal.querySelector('.frozen-message')) {
         const frozenMsg = document.createElement('div');
         frozenMsg.className = 'frozen-message';
-        frozenMsg.innerHTML = 'This month is frozen. Shift assignments cannot be changed.';
+        frozenMsg.innerHTML = 'Monat gesperrt. Einsatz kann nicht geändert werden.';
         modal.querySelector('.shift-detail-header').after(frozenMsg);
     } else {
         modal.querySelector('.frozen-message').style.display = 'block';
