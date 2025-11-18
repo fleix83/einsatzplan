@@ -81,7 +81,7 @@ body.frozen-state {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.0);
     z-index: 1500;
     height: 60px;
-    min-width: 15%;
+    width: fit-content;
     /* border-bottom-right-radius: 40px; */
     overflow: visible;
     border-bottom: 5px solid white;
@@ -93,24 +93,29 @@ body.frozen-state {
     background-color: #ffffff;
     /* background-image: linear-gradient(to right, #f1f5ff, #ffffff); */
     /* border-bottom: 2px solid #ffffff; */
-    width: 40%;
     border-bottom-left-radius: 0;
 }
 
 .navbar-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 15px;
     height: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    width: fit-content;
 }
 
 .navbar-controls {
     display: flex;
     gap: 10px;
     align-items: center;
+}
+
+.navbar-controls [style*="display: none"],
+.navbar-controls [style*="display:none"] {
+    display: none !important;
+    width: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-controls select {
@@ -194,14 +199,16 @@ body.frozen-state {
         height: 50px;
         left: 0%;
         border-bottom-left-radius: 0px;
+        width: fit-content;
     }
 
     .navbar-container {
         padding: 0 15px;
+        width: fit-content;
     }
 
     .navbar-controls {
-        gap: 5px;
+        gap: 8px;
     }
 
     .navbar-controls select {
@@ -4411,9 +4418,7 @@ body.frozen-state {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     z-index: 1;
     height: 64px;
-    /* min-width: 314px; */
-    /* max-width: 656px; */
-    width: 31%;
+    width: fit-content;
     border-radius: 20px;
     overflow: visible;
     border-bottom: 0px solid var(--primary-color);
@@ -4430,7 +4435,7 @@ body.frozen-state {
     background-color: #ffffff;
     background-image: linear-gradient(to right, #f5f9ff, #ffffff);
     background: var(--background-primary);
-    width: 55%;
+    width: fit-content;
     right: 20px;
     border-radius: 20px;
     /* border-bottom-left-radius: 20px; */
@@ -4438,13 +4443,11 @@ body.frozen-state {
 }
 
 .navbar-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 15px;
     height: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    width: fit-content;
 }
 
 .navbar-controls {
@@ -4580,6 +4583,10 @@ body.frozen-state {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.navbar-auth:empty {
+    display: none;
 }
 
 .navbar-auth .auth-button {

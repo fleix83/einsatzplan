@@ -2493,14 +2493,17 @@ function setupEventListeners() {
     // Export Modal
     document.getElementById('exportCalendar').addEventListener('click', showExportModal);
     
-    // User management modal
-    document.getElementById('manageUsers').addEventListener('click', () => {
-        document.getElementById('userModal').style.display = 'block';
-        updateUserTable();
-        
-        // Initialize form AFTER the modal is displayed
-        setTimeout(() => initializeUserForm(), 100);
-    });
+    // User management modal (navbar version - may not exist)
+    const manageUsersBtn = document.getElementById('manageUsers');
+    if (manageUsersBtn) {
+        manageUsersBtn.addEventListener('click', () => {
+            document.getElementById('userModal').style.display = 'block';
+            updateUserTable();
+
+            // Initialize form AFTER the modal is displayed
+            setTimeout(() => initializeUserForm(), 100);
+        });
+    }
 
     // Mobile version if it exists
     if (document.getElementById('mobileManageUsers')) {
