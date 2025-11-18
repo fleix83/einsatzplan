@@ -581,9 +581,60 @@ function updateUrlParams() {
     const url = new URL(window.location.href);
     url.searchParams.set('year', currentYear);
     url.searchParams.set('month', currentMonth);
-    
+
     // Update URL without reloading the page
     window.history.pushState({}, '', url);
+}
+
+// Function to navigate months using chevron buttons
+function navigateMonth(direction) {
+    console.log('navigateMonth called with direction:', direction, 'current:', { currentMonth, currentYear });
+
+    if (direction === 'prev') {
+        currentMonth--;
+        if (currentMonth < 1) {
+            currentMonth = 12;
+            currentYear--;
+        }
+    } else if (direction === 'next') {
+        currentMonth++;
+        if (currentMonth > 12) {
+            currentMonth = 1;
+            currentYear++;
+        }
+    }
+
+    // Clamp year to valid range (2025-2030)
+    if (currentYear < 2025) currentYear = 2025;
+    if (currentYear > 2030) currentYear = 2030;
+
+    console.log('After navigation:', { currentMonth, currentYear });
+
+    // Update the display
+    updateDateDisplay();
+
+    // Update hidden selects for compatibility
+    document.getElementById('yearSelect').value = currentYear;
+    document.getElementById('monthSelect').value = currentMonth;
+}
+
+// Function to update the date display text
+function updateDateDisplay() {
+    console.log('updateDateDisplay called');
+    const monthNames = GermanDateFormatter ?
+        GermanDateFormatter.months :
+        ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+         'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+    const displayText = monthNames[currentMonth - 1] + ' ' + currentYear;
+    const monthYearText = document.getElementById('monthYearText');
+    console.log('monthYearText element:', monthYearText, 'displayText:', displayText);
+    if (monthYearText) {
+        monthYearText.textContent = displayText;
+        console.log('Updated display to:', displayText);
+    } else {
+        console.warn('monthYearText element not found!');
+    }
 }
 
 // Initialize data from API instead of localStorage
@@ -1709,7 +1760,10 @@ async function initializeApp() {
             currentMonth = params.month;
             document.getElementById('monthSelect').value = params.month;
         }
-        
+
+        // Update the date navigator display
+        updateDateDisplay();
+
         // Set up UI and event handlers
         setupUI();
         
@@ -2362,12 +2416,61 @@ function populateUserDropdowns() {
 
 // Set up event listeners for controls and modals
 function setupEventListeners() {
+    // Date Navigator Chevron Buttons
+    const prevMonthBtn = document.getElementById('prevMonthBtn');
+    const nextMonthBtn = document.getElementById('nextMonthBtn');
+
+    console.log('Setting up date navigator buttons:', { prevMonthBtn, nextMonthBtn });
+
+    if (prevMonthBtn) {
+        prevMonthBtn.addEventListener('click', async (e) => {
+            console.log('Previous month clicked');
+            e.preventDefault();
+            e.stopPropagation();
+            navigateMonth('prev');
+            await updateCalendar();
+            updateUrlParams();
+
+            // Update holiday stripes after month change
+            if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
+                setTimeout(() => HolidayFeature.updateHolidayStripes(), 100);
+            }
+        });
+    }
+
+    if (nextMonthBtn) {
+        nextMonthBtn.addEventListener('click', async (e) => {
+            console.log('Next month clicked');
+            e.preventDefault();
+            e.stopPropagation();
+            navigateMonth('next');
+            await updateCalendar();
+            updateUrlParams();
+
+            // Update holiday stripes after month change
+            if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
+                setTimeout(() => HolidayFeature.updateHolidayStripes(), 100);
+            }
+        });
+    }
+
+    // Optional: Click on date display to show month/year pickers
+    const dateDisplay = document.getElementById('dateDisplay');
+    if (dateDisplay) {
+        dateDisplay.addEventListener('click', () => {
+            // Show hidden selects temporarily or show a picker modal
+            // For now, we'll trigger the select elements
+            document.getElementById('monthSelect').focus();
+        });
+    }
+
     // Year selection
     document.getElementById('yearSelect').addEventListener('change', async (e) => {
         currentYear = parseInt(e.target.value);
+        updateDateDisplay(); // Update the display text
         await updateCalendar();
         updateUrlParams();
-        
+
         // Update holiday stripes after year change
         if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
             setTimeout(() => HolidayFeature.updateHolidayStripes(), 100);
@@ -2377,9 +2480,10 @@ function setupEventListeners() {
     // Month selection
     document.getElementById('monthSelect').addEventListener('change', async (e) => {
         currentMonth = parseInt(e.target.value);
+        updateDateDisplay(); // Update the display text
         await updateCalendar();
         updateUrlParams();
-        
+
         // Update holiday stripes after month change
         if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
             setTimeout(() => HolidayFeature.updateHolidayStripes(), 100);

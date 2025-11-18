@@ -4494,6 +4494,88 @@ body.frozen-state {
     margin-right: 6px;
 }
 
+/* Date Navigator Styles */
+.date-navigator {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background-color: var(--background-primary);
+    border: 1px solid #e0e6f0;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.date-navigator:hover {
+    border-color: #d0d8e0;
+}
+
+.date-nav-button {
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #2d3748;
+    font-size: 20px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: 0;
+    flex-shrink: 0;
+    pointer-events: auto;
+    z-index: 100;
+}
+
+.date-nav-button:hover {
+    background-color: #c8c7c733;
+    /* Keep default chevron color */
+}
+
+.date-nav-button:active {
+    background-color: #a8a7a755;
+}
+
+.date-nav-button.prev {
+    /* Border removed */
+}
+
+.date-nav-button.next {
+    /* Border removed */
+}
+
+.chevron-icon {
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-display {
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+#monthYearText {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3748;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.date-display:hover #monthYearText {
+    /* Removed color change - keeping default text color */
+}
+
 .navbar-auth {
     display: flex;
     align-items: center;

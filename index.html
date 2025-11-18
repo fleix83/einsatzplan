@@ -35,7 +35,7 @@
             selectedBg: '#ffed75',
             hoverBgSingle: '#fff3cd',
             selectedBgSingle: '#fff3cd',
-            buttonNavBg: '#f3f3f3',
+            buttonNavBg: 'rgba(255, 235, 205, 1)',
             buttonNavBgHover: '#e8e8e8'
         };
 
@@ -290,8 +290,20 @@
             <div class="top-navbar">
                 <div class="navbar-container">
                         <div class="navbar-controls">
-                <select id="yearSelect" class="year"></select>
-                <select id="monthSelect"></select>
+                <div class="date-navigator">
+                    <button type="button" class="date-nav-button prev" id="prevMonthBtn" title="Vorheriger Monat" onclick="console.log('TEST: prevMonth clicked'); document.getElementById('monthYearText').textContent = 'TEST_PREV'; return false;">
+                        <span class="chevron-icon">‹</span>
+                    </button>
+                    <div class="date-display" id="dateDisplay">
+                        <span id="monthYearText">Januar 2025</span>
+                    </div>
+                    <button type="button" class="date-nav-button next" id="nextMonthBtn" title="Nächster Monat" onclick="console.log('TEST: nextMonth clicked'); document.getElementById('monthYearText').textContent = 'TEST_NEXT'; return false;">
+                        <span class="chevron-icon">›</span>
+                    </button>
+                </div>
+                <!-- Hidden selects for picker fallback -->
+                <select id="yearSelect" class="year" style="display: none;"></select>
+                <select id="monthSelect" style="display: none;"></select>
                 <button class="button-nav" id="exportCalendar" title="Kalender Export">
                     <span class="button-icon">📅</span>
                 </button>
