@@ -199,7 +199,7 @@ body.frozen-state {
         height: 50px;
         left: 0%;
         border-bottom-left-radius: 0px;
-        width: fit-content;
+        width: 72%;
     }
 
     .navbar-container {
@@ -4502,7 +4502,7 @@ body.frozen-state {
     display: flex;
     align-items: center;
     gap: 0;
-    background-color: var(--background-primary);
+    background-color: #f3ece3;
     border: 1px solid #e0e6f0;
     border-radius: 8px;
     padding: 0;
@@ -4515,7 +4515,7 @@ body.frozen-state {
 }
 
 .date-nav-button {
-    background: transparent;
+    background: #f3ece3;
     border: none;
     width: 36px;
     height: 36px;
@@ -4686,7 +4686,7 @@ body.frozen-state {
 @media screen and (max-width: 768px) {
     .top-navbar {
         height: 56px;
-        width: 79%;
+        width: 72%;
         border-radius: 0px;
         top: 143px;
         border-radius: 40px;
@@ -4831,6 +4831,9 @@ body.frozen-state {
     flex: none !important;
 }
 
+.navbar-controls .button-nav {
+    background: #f3ece3 !important;
+}
 
 /* Ensure icons are dark for all navbar buttons (since background is light gray) */
 .button-nav .button-icon,
