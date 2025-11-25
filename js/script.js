@@ -637,6 +637,235 @@ function updateDateDisplay() {
     }
 }
 
+// Month/Year Picker Module
+const MonthYearPicker = {
+    pickerYear: currentYear,
+    isVisible: false,
+
+    init() {
+        console.log('MonthYearPicker.init() called');
+        const monthGrid = document.getElementById('monthGrid');
+        const pickerYearPrev = document.getElementById('pickerYearPrev');
+        const pickerYearNext = document.getElementById('pickerYearNext');
+
+        if (!monthGrid || !pickerYearPrev || !pickerYearNext) {
+            console.warn('MonthYearPicker elements not found');
+            return;
+        }
+
+        // Generate month buttons
+        const monthNames = GermanDateFormatter ?
+            GermanDateFormatter.months :
+            ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+             'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+        monthNames.forEach((monthName, index) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'month-btn';
+            btn.dataset.month = index + 1;
+            btn.textContent = monthName.substring(0, 3); // First 3 letters
+            btn.addEventListener('click', () => this.selectMonth(index + 1));
+            monthGrid.appendChild(btn);
+        });
+
+        // Year navigation event listeners
+        pickerYearPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.navigateYear('prev');
+        });
+
+        pickerYearNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.navigateYear('next');
+        });
+
+        // Close picker on outside click
+        document.addEventListener('click', (e) => {
+            const picker = document.getElementById('monthYearPicker');
+            const dateDisplay = document.getElementById('dateDisplay');
+
+            if (this.isVisible &&
+                picker &&
+                !picker.contains(e.target) &&
+                !dateDisplay.contains(e.target)) {
+                this.hide();
+            }
+        });
+
+        // Close picker on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isVisible) {
+                this.hide();
+            }
+        });
+
+        // Prevent picker clicks from bubbling
+        const picker = document.getElementById('monthYearPicker');
+        if (picker) {
+            picker.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        console.log('MonthYearPicker initialized with', monthNames.length, 'months');
+    },
+
+    show() {
+        console.log('MonthYearPicker.show() called');
+        const picker = document.getElementById('monthYearPicker');
+        if (!picker) {
+            console.warn('Picker element not found');
+            return;
+        }
+
+        // Sync picker year with current year
+        this.pickerYear = currentYear;
+        document.getElementById('pickerYearDisplay').textContent = this.pickerYear;
+
+        // Update month grid highlighting
+        this.updateMonthGrid();
+
+        // Position and show picker
+        picker.style.display = 'block';
+        this.positionPicker();
+
+        // Trigger transition
+        setTimeout(() => {
+            picker.style.opacity = '1';
+            picker.style.transform = 'translateY(0)';
+        }, 10);
+
+        this.isVisible = true;
+        console.log('Picker displayed');
+    },
+
+    hide() {
+        console.log('MonthYearPicker.hide() called');
+        const picker = document.getElementById('monthYearPicker');
+        if (!picker) return;
+
+        // Fade out
+        picker.style.opacity = '0';
+        picker.style.transform = 'translateY(-4px)';
+
+        // Hide after transition
+        setTimeout(() => {
+            picker.style.display = 'none';
+            this.isVisible = false;
+        }, 200);
+    },
+
+    async selectMonth(month) {
+        console.log('MonthYearPicker.selectMonth() called with month:', month);
+
+        // Update global state
+        currentMonth = month;
+        currentYear = this.pickerYear;
+
+        // Update date display
+        updateDateDisplay();
+
+        // Update hidden selects for compatibility
+        document.getElementById('yearSelect').value = currentYear;
+        document.getElementById('monthSelect').value = currentMonth;
+
+        // Refresh calendar
+        await updateCalendar();
+
+        // Update URL params
+        updateUrlParams();
+
+        // Update holiday stripes if available
+        if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
+            setTimeout(() => HolidayFeature.updateHolidayStripes(), 100);
+        }
+
+        // Hide picker
+        this.hide();
+
+        console.log('Calendar updated to:', currentMonth, currentYear);
+    },
+
+    navigateYear(direction) {
+        console.log('MonthYearPicker.navigateYear() called with direction:', direction);
+
+        if (direction === 'prev' && this.pickerYear > 2025) {
+            this.pickerYear--;
+        } else if (direction === 'next' && this.pickerYear < 2030) {
+            this.pickerYear++;
+        }
+
+        // Update year display
+        document.getElementById('pickerYearDisplay').textContent = this.pickerYear;
+
+        // Update month grid highlighting
+        this.updateMonthGrid();
+
+        // Update button states
+        const prevBtn = document.getElementById('pickerYearPrev');
+        const nextBtn = document.getElementById('pickerYearNext');
+
+        if (prevBtn) {
+            prevBtn.disabled = this.pickerYear <= 2025;
+        }
+        if (nextBtn) {
+            nextBtn.disabled = this.pickerYear >= 2030;
+        }
+
+        console.log('Picker year changed to:', this.pickerYear);
+    },
+
+    updateMonthGrid() {
+        console.log('MonthYearPicker.updateMonthGrid() called');
+        const monthButtons = document.querySelectorAll('.month-btn');
+
+        monthButtons.forEach(btn => {
+            const btnMonth = parseInt(btn.dataset.month);
+
+            // Highlight if this is the current month and picker is showing current year
+            if (btnMonth === currentMonth && this.pickerYear === currentYear) {
+                btn.classList.add('current');
+            } else {
+                btn.classList.remove('current');
+            }
+        });
+    },
+
+    positionPicker() {
+        const dateDisplay = document.getElementById('dateDisplay');
+        const picker = document.getElementById('monthYearPicker');
+
+        if (!dateDisplay || !picker) {
+            console.warn('Elements for positioning not found');
+            return;
+        }
+
+        const rect = dateDisplay.getBoundingClientRect();
+        const pickerWidth = 280;
+
+        // Position below date display
+        picker.style.top = `${rect.bottom + 8}px`;
+
+        // Center horizontally under date display
+        let left = rect.left + (rect.width / 2) - (pickerWidth / 2);
+
+        // Check right boundary
+        if (left + pickerWidth > window.innerWidth - 20) {
+            left = window.innerWidth - pickerWidth - 20;
+        }
+
+        // Check left boundary
+        if (left < 20) {
+            left = 20;
+        }
+
+        picker.style.left = `${left}px`;
+
+        console.log('Picker positioned at:', { top: picker.style.top, left: picker.style.left });
+    }
+};
+
 // Initialize data from API instead of localStorage
 async function initializeData() {
     try {
@@ -1786,6 +2015,7 @@ async function initializeApp() {
         // Continue with other UI setup
         addFreezeButton();
         setupEventListeners();
+        MonthYearPicker.init();
         setupMobileMenu();
         updateUserList();
         initializeDeleteConfirmation();
@@ -2457,10 +2687,9 @@ function setupEventListeners() {
     // Optional: Click on date display to show month/year pickers
     const dateDisplay = document.getElementById('dateDisplay');
     if (dateDisplay) {
-        dateDisplay.addEventListener('click', () => {
-            // Show hidden selects temporarily or show a picker modal
-            // For now, we'll trigger the select elements
-            document.getElementById('monthSelect').focus();
+        dateDisplay.addEventListener('click', (e) => {
+            e.stopPropagation();
+            MonthYearPicker.show();
         });
     }
 

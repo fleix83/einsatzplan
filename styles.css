@@ -4579,6 +4579,138 @@ body.frozen-state {
     /* Removed color change - keeping default text color */
 }
 
+/* Month/Year Picker Dropdown */
+.month-year-picker {
+    display: none;
+    position: fixed;
+    background-color: #f3ece3;
+    border: 1px solid #e0e6f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    z-index: 9999;
+    min-width: 280px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.month-year-picker.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.month-year-picker-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Year Selector */
+.year-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px;
+    border-bottom: 1px solid #e0e6f0;
+    margin-bottom: 4px;
+}
+
+.year-nav-btn {
+    background: transparent;
+    border: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #2d3748;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.year-nav-btn:hover {
+    background-color: #c8c7c733;
+}
+
+.year-nav-btn:active {
+    background-color: #a8a7a755;
+}
+
+.year-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.year-display {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    user-select: none;
+}
+
+/* Month Grid */
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.month-btn {
+    background: transparent;
+    border: 1px solid #e0e6f0;
+    border-radius: 6px;
+    padding: 10px 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.month-btn:hover {
+    background-color: #c8c7c733;
+    border-color: #d0d8e0;
+}
+
+.month-btn:active {
+    background-color: #a8a7a755;
+}
+
+.month-btn.current {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.month-btn.current:hover {
+    background-color: #1257e0;
+    border-color: #1257e0;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .month-year-picker {
+        min-width: 260px;
+        padding: 14px;
+    }
+
+    .month-grid {
+        gap: 6px;
+    }
+
+    .month-btn {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+}
+
 .navbar-auth {
     display: flex;
     align-items: center;
