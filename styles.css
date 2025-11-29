@@ -194,7 +194,7 @@ body.frozen-state {
 }
 
 /* Mobile adjustments for navbar */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .top-navbar {
         height: 50px;
         left: 0%;
@@ -290,7 +290,7 @@ body.frozen-state {
     margin: -60px 0 0 78px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
 
 .logo-container {
     margin: -12px 0 12px 0px
@@ -311,7 +311,7 @@ body.frozen-state {
 
 
 /* Panle Logo Mobile */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
 
 .panel-logo {
     width: 120px;
@@ -866,7 +866,7 @@ body.frozen-state {
     height: 80px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .hover-info-container {
         display: none !important;
     }
@@ -1632,7 +1632,7 @@ body.frozen-state {
 }
 
 /* Responsive adjustments */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .checkbox-cell {
         padding: 8px;
     }
@@ -1646,7 +1646,7 @@ body.frozen-state {
 
 
 /* Mobile Responsive Layout */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
 
     body {
         padding: 0px;
@@ -2106,7 +2106,7 @@ body.frozen-state {
     box-shadow: 0 0 0 2px rgba(23, 96, 255, 0.1);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .shift-detail-modal {
         position: fixed;
         bottom: 0;
@@ -2294,7 +2294,7 @@ body.frozen-state {
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .day-card.today {
         outline: 2px solid #ff5252;
         outline-offset: 7px;
@@ -2394,7 +2394,7 @@ body.frozen-state {
     text-align: left;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .current-day-display {
         margin-bottom: 62px;
         justify-content: flex-end;
@@ -2561,7 +2561,7 @@ body.frozen-state {
     padding-bottom: 8px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .shift-overview {
         display: flex;
         gap: 10px;
@@ -2712,7 +2712,7 @@ body.frozen-state {
     to { width: 0; }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .notification-container {
         top: 65px;
         right: 10px;
@@ -2783,7 +2783,7 @@ body.frozen-state {
     background: #d32f2f;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .header-container {
         flex-direction: column;
         align-items: flex-start;
@@ -3292,7 +3292,7 @@ body.frozen-state {
     margin-bottom: 5px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .export-modal-content {
     background-color: #ffffff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -3447,7 +3447,7 @@ body.frozen-state {
     background-color: #0a4bd4; /* Consider var(--primary-dark) */
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .freeze-banner {
         padding: 8px;
         font-size: 14px;
@@ -3462,7 +3462,7 @@ body.frozen-state {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .day-card.frozen:hover::after {
         display: none;
     }
@@ -3505,7 +3505,7 @@ body.frozen-state {
     margin-right: 5px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .freeze-banner {
         padding: 8px 10px;
         font-size: 14px;
@@ -3551,7 +3551,7 @@ body.frozen-state {
     display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .button-freeze {
         width: 36px;
         height: 36px;
@@ -3560,7 +3560,7 @@ body.frozen-state {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .top-navbar {
       height: 50px;
       left: 0;
@@ -4301,7 +4301,7 @@ body.frozen-state {
     color: #a0aec0;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .shift-detail-modal {
         position: fixed;
         bottom: 0;
@@ -4695,7 +4695,7 @@ body.frozen-state {
 }
 
 /* Mobile Responsive */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .month-year-picker {
         min-width: 260px;
         padding: 14px;
@@ -4815,7 +4815,7 @@ body.frozen-state {
     background-color: lightgrey);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .top-navbar {
         height: 56px;
         width: 72%;
@@ -5344,7 +5344,7 @@ body.frozen-state {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     #colorCustomizationModal {
         width: 100% !important;
         height: 100vh !important;
@@ -5428,7 +5428,7 @@ body.frozen-state {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .navbar-controls #colorCustomizeBtn {
         display: none;
     }
@@ -5546,7 +5546,7 @@ body.frozen-state {
 
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
 .top-navbar.backoffice-mode {
     background-color: #ffffff;
     /* background-image: linear-gradient(to right, #f1f5ff, #ffffff); */
@@ -5755,7 +5755,7 @@ body.frozen-state {
 }
 
 /* Mobile responsive styles */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .announcement-text-container {
         margin-top: 20px;
         margin-bottom: 20px;
@@ -5952,7 +5952,7 @@ body.frozen-state {
 }
 
 /* Hide on mobile */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .auth-link-container {
         display: none;
     }
@@ -6047,7 +6047,7 @@ body.frozen-state {
 }
 
 /* Responsive adjustments */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .footer-container {
         flex-direction: column;
         align-items: flex-start;
@@ -6142,7 +6142,7 @@ body.frozen-state {
     border-collapse: collapse;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
  .user-table {
  font-size: 12px;
     }
@@ -6235,7 +6235,7 @@ body.frozen-state {
 }
 
 /* Mobile navbar button organization for backoffice mode */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     /* Hide most buttons from top navbar on mobile, keep only freeze button */
     .top-navbar.backoffice-mode .navbar-controls .button-export,
     .top-navbar.backoffice-mode .navbar-controls .button-secondary,
@@ -6380,7 +6380,7 @@ body.frozen-state {
 }
 
 /* Mobile responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 819px) {
     /* Hide desktop toggle buttons container on mobile */
     .toggle-buttons-container {
         display: none; /* Hide both buttons on mobile - background touch will handle toggle */
@@ -6419,7 +6419,7 @@ body.frozen-state {
 }
 
 /* Show overlay only on mobile devices */
-@media (max-width: 768px) {
+@media (max-width: 819px) {
     .mobile-names-toggle-overlay {
         display: block;
     }
@@ -6693,7 +6693,7 @@ body.frozen-state {
 }
 
 /* Mobile responsive styles for legend modal */
-@media (max-width: 768px) {
+@media (max-width: 819px) {
     .legend-modal-content {
         position: absolute;
         top: 0;
@@ -6826,9 +6826,162 @@ body.frozen-state {
 }
 
 /* Show overlay only on mobile devices in landscape orientation */
-@media screen and (max-width: 768px) and (orientation: landscape) {
+@media screen and (max-width: 819px) and (orientation: landscape) {
     .landscape-orientation-overlay {
         display: flex !important;
+    }
+}
+
+/* ============================================
+   iPad Optimization Styles
+   ============================================ */
+
+/* iPad Landscape: Desktop-like layout, proportionally resized */
+@media screen and (min-width: 820px) and (max-width: 1365px) and (orientation: landscape) {
+
+    body {
+        padding: 70px 30px;
+    }
+
+    /* Header - move down a bit (was -40px moving up) */
+    .header,
+    .logo-container {
+        margin-top: -20px;
+    }
+
+    /* Date display group - no extra margin */
+    .date-display,
+    .current-date-display {
+        margin-top: 0;
+    }
+
+    /* Top navbar - move UP slightly */
+    .top-navbar {
+        height: 55px;
+        margin-top: 4px;
+    }
+
+    /* Date navigator - vertical alignment fix */
+    .date-navigator {
+        display: flex;
+        align-items: center;
+    }
+
+    #monthYearText {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Keep desktop flex layout */
+    .app-container {
+        flex-direction: row;
+        gap: 18px;
+    }
+
+    /* Sidebar - narrower than desktop, moved DOWN more */
+    .user-list-panel {
+        width: 200px; /* Desktop is 250px */
+        padding: 18px;
+        margin-top: 220px;
+    }
+
+    /* Calendar stays in desktop grid mode */
+    .calendar {
+        /* Keep desktop grid-template-columns */
+        padding: 30px;
+        gap: 8px;
+        column-gap: 15px;
+    }
+
+    /* Proportionally smaller day cards */
+    .day-card {
+        min-height: 65px; /* Desktop is 72px */
+        padding: 8px;
+    }
+
+    /* Allow landscape on iPad */
+    .landscape-orientation-overlay {
+        display: none !important;
+    }
+}
+
+/* iPad Portrait: Sidebar + Mobile calendar side-by-side */
+@media screen and (min-width: 820px) and (max-width: 1179px) and (orientation: portrait) {
+
+    body {
+        padding: 80px 25px;
+    }
+
+    /* Horizontal layout: sidebar left, calendar right */
+    .app-container {
+        flex-direction: row;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    /* Narrow left sidebar - moved down, no background */
+    .user-list-panel {
+        position: relative;
+        width: 190px;
+        padding: 15px 10px;
+        margin-top: 220px; /* Move down 40px more (was 180px) */
+        background: transparent; /* Remove background */
+        border-radius: 0;
+        box-shadow: none; /* Remove shadow */
+        overflow-y: auto;
+        right: auto;
+        flex-shrink: 0;
+    }
+
+    /* Hide mobile elements */
+    .close-sidebar,
+    .mobile-menu-button {
+        display: none !important;
+    }
+
+    .user-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .user-item {
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+
+    /* Calendar: Use mobile layout (narrow, vertical) */
+    .calendar {
+        grid-template-columns: repeat(5, minmax(50px, 1fr)); /* Mobile grid */
+        gap: 15px;
+        column-gap: 15px;
+        padding: 35px 18px;
+        font-size: 14px;
+        border-radius: 15px;
+        flex: 1;
+        margin-top: 0;
+    }
+
+    /* Mobile-style day cards */
+    .day-card {
+        min-height: 130px;
+        padding: 5px;
+        margin-bottom: 30px;
+    }
+
+    /* Keep mobile shift container (vertical) */
+    .shift-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* Navbar - 50% width, aligned right with 20px margin */
+    .top-navbar {
+        height: 60px;
+        width: 50%;
+        left: auto;
+        right: 20px; /* 20px margin from right */
+        margin-top: -10px;
     }
 }
 
@@ -7004,7 +7157,7 @@ body.frozen-state {
 }
 
 /* Mobile responsive styles for export modal */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 819px) {
     .export-modal-content {
         width: 100%;
         height: 100%;
@@ -7150,7 +7303,7 @@ body.names-visible .specialist-event-indicator {
 }
 
 /* Mobile adjustments */
-@media (max-width: 768px) {
+@media (max-width: 819px) {
     .lock-confirm-modal {
         min-width: 90%;
         max-width: 90%;
