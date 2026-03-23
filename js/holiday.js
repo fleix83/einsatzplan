@@ -456,11 +456,11 @@ async function loadHolidays() {
                         <div class="holiday-date-row">
                             <div class="holiday-date-group">
                                 <label class="holiday-date-label" for="holiday-start">Startdatum</label>
-                                <input type="date" id="holiday-start" class="holiday-date-input">
+                                <input type="text" id="holiday-start" class="holiday-date-input" placeholder="dd.mm.yyyy" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
                             </div>
                             <div class="holiday-date-group">
                                 <label class="holiday-date-label" for="holiday-end">Enddatum</label>
-                                <input type="date" id="holiday-end" class="holiday-date-input">
+                                <input type="text" id="holiday-end" class="holiday-date-input" placeholder="dd.mm.yyyy" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
                             </div>
                         </div>
                         <button class="holiday-add-btn">Ferien hinzufügen</button>
@@ -632,10 +632,12 @@ async function loadHolidays() {
             updateHolidayList();
             updateHolidayStripes();
             
-            // Clear inputs
+            // Clear inputs and reset to text type for placeholder
             startInput.value = '';
+            startInput.type = 'text';
             endInput.value = '';
-            
+            endInput.type = 'text';
+
             console.log('Holiday added successfully:', createdHoliday);
         } catch (error) {
             console.error('Error adding holiday:', error);
@@ -700,21 +702,11 @@ async function loadHolidays() {
             userNameEl.textContent = user.name;
         }
         
-        // Clear form
+        // Clear form and reset to text type for placeholder
         const startInput = document.getElementById('holiday-start');
         const endInput = document.getElementById('holiday-end');
-        if (startInput) startInput.value = '';
-        if (endInput) endInput.value = '';
-        
-        // Set default dates (today to a week from now)
-        if (startInput && endInput) {
-            const today = new Date();
-            const nextWeek = new Date();
-            nextWeek.setDate(today.getDate() + 7);
-            
-            startInput.value = today.toISOString().split('T')[0];
-            endInput.value = nextWeek.toISOString().split('T')[0];
-        }
+        if (startInput) { startInput.value = ''; startInput.type = 'text'; }
+        if (endInput) { endInput.value = ''; endInput.type = 'text'; }
         
         // Update holiday list
         updateHolidayList();
