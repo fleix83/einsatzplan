@@ -3585,8 +3585,8 @@ body.frozen-state {
       display: none!important;
     }
 
-    .backoffice-mode .navbar-controls #exportCalendar {
-      display: none;
+    .backoffice-mode .navbar-controls #myShiftsBtn {
+      /* My Shifts button stays visible for all users */
     }
 
     .month-title {
@@ -6183,16 +6183,19 @@ body.frozen-state {
     .mobile-menu-buttons #mobileManageUsers,
     .mobile-menu-buttons #mobileCustomEventBtn,
     .mobile-menu-buttons #mobileOfficialHolidayBtn,
-    .mobile-menu-buttons #mobileExportCalendar,
     .mobile-menu-buttons #mobileColorCustomizeBtn {
         display: none !important;
     }
-    
+
+    /* My Shifts button always visible */
+    .mobile-menu-buttons #mobileMyShiftsBtn {
+        display: flex !important;
+    }
+
     /* Show mobile menu buttons only for backoffice users */
     .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileManageUsers,
     .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileCustomEventBtn,
     .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileOfficialHolidayBtn,
-    .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileExportCalendar,
     .user-list-panel.backoffice-mode .mobile-menu-buttons #mobileColorCustomizeBtn {
         display: flex !important;
     }
@@ -7248,4 +7251,92 @@ body.names-visible .specialist-event-indicator {
         width: 100%;
         padding: 12px;
     }
+}
+
+/* ========== My Shifts Dropdown ========== */
+
+.my-shifts-dropdown {
+    position: fixed;
+    z-index: 1000;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-height: 300px;
+    overflow-y: auto;
+    width: 220px;
+    padding: 8px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.my-shifts-dropdown.hidden {
+    display: none;
+}
+
+.my-shifts-dropdown-header {
+    padding: 10px 16px 6px;
+    font-size: 12px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.my-shifts-dropdown-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s ease;
+}
+
+.my-shifts-dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+.my-shifts-dropdown-item.selected {
+    background: #fff3cd;
+    font-weight: 600;
+}
+
+.my-shifts-dropdown-item.my-shifts-change {
+    color: #999;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 4px;
+    padding-bottom: 10px;
+}
+
+.my-shifts-dropdown-item.my-shifts-change:hover {
+    color: #666;
+    background: #fafafa;
+}
+
+/* My Shifts button active state */
+.button-nav.my-shifts-active {
+    background: #ffed74 !important;
+}
+
+/* Long-press visual feedback */
+.button-nav.long-press-active {
+    transform: scale(0.92);
+    transition: transform 0.15s ease;
+}
+
+/* Sidebar export button */
+.sidebar-export {
+    padding: 12px 10px;
+    border-top: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.sidebar-export .button-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+}
+
+.sidebar-export-label {
+    font-size: 13px;
+    color: #666;
 }

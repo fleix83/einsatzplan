@@ -6,11 +6,11 @@ date_default_timezone_set('Europe/Zurich');
 
 // Determine the correct configuration file to use
 $configFilePath = dirname(__FILE__) . '/config.php';
-$legacyConfigFile = dirname(__FILE__) . '/api/config.php';
+$legacyConfigFile = dirname(__FILE__) . '/../api/config.php';
 
 // First try to load the new config file
-if (file_exists($configFile)) {
-    require_once($configFile);
+if (file_exists($configFilePath)) {
+    require_once($configFilePath);
 }
 // If new config doesn't exist, try the legacy file
 else if (file_exists($legacyConfigFile)) {

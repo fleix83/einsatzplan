@@ -5,7 +5,208 @@ let currentMonth = (new Date()).getMonth() + 1;
 let selectedDay = null;
 let hoveredUserId = null;
 let selectedUserId = null;
+let myShiftsUserId = localStorage.getItem('myShiftsUserId') || null;
+let myShiftsActive = false;
 let showUserNames = false; // Track if user names should be displayed in shifts
+
+// ========== My Shifts Feature ==========
+
+function initMyShiftsButton() {
+    const desktopBtn = document.getElementById('myShiftsBtn');
+    const mobileBtn = document.getElementById('mobileMyShiftsBtn');
+
+    [desktopBtn, mobileBtn].forEach(btn => {
+        if (!btn) return;
+
+        let longPressTimer = null;
+        let isLongPress = false;
+
+        // Touch long-press detection
+        btn.addEventListener('touchstart', (e) => {
+            isLongPress = false;
+            btn.classList.add('long-press-active');
+            longPressTimer = setTimeout(() => {
+                isLongPress = true;
+                btn.classList.remove('long-press-active');
+                showMyShiftsDropdown(btn);
+            }, 500);
+        }, { passive: true });
+
+        btn.addEventListener('touchend', (e) => {
+            clearTimeout(longPressTimer);
+            btn.classList.remove('long-press-active');
+            if (!isLongPress) {
+                e.preventDefault();
+                handleMyShiftsTap(btn);
+            }
+        });
+
+        btn.addEventListener('touchmove', () => {
+            clearTimeout(longPressTimer);
+            btn.classList.remove('long-press-active');
+        }, { passive: true });
+
+        // Desktop click (no long-press needed, right-click or just click)
+        btn.addEventListener('click', (e) => {
+            // Skip if touch event already handled
+            if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+            handleMyShiftsTap(btn);
+        });
+
+        // Desktop: right-click to change user
+        btn.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showMyShiftsDropdown(btn);
+        });
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('myShiftsDropdown');
+        if (dropdown && !dropdown.classList.contains('hidden') &&
+            !dropdown.contains(e.target) &&
+            !e.target.closest('#myShiftsBtn') &&
+            !e.target.closest('#mobileMyShiftsBtn')) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    // Close dropdown on touch outside
+    document.addEventListener('touchstart', (e) => {
+        const dropdown = document.getElementById('myShiftsDropdown');
+        if (dropdown && !dropdown.classList.contains('hidden') &&
+            !dropdown.contains(e.target) &&
+            !e.target.closest('#myShiftsBtn') &&
+            !e.target.closest('#mobileMyShiftsBtn')) {
+            dropdown.classList.add('hidden');
+        }
+    }, { passive: true });
+}
+
+function handleMyShiftsTap(anchorBtn) {
+    if (!myShiftsUserId) {
+        showMyShiftsDropdown(anchorBtn);
+        return;
+    }
+
+    if (myShiftsActive) {
+        myShiftsActive = false;
+        selectedUserId = null;
+    } else {
+        myShiftsActive = true;
+        selectedUserId = myShiftsUserId;
+    }
+    updateMyShiftsButtonState();
+    updateUserList();
+    updateCalendarHighlights();
+}
+
+function showMyShiftsDropdown(anchorEl) {
+    let dropdown = document.getElementById('myShiftsDropdown');
+    if (!dropdown) {
+        dropdown = document.createElement('div');
+        dropdown.id = 'myShiftsDropdown';
+        dropdown.className = 'my-shifts-dropdown hidden';
+        document.body.appendChild(dropdown);
+    }
+
+    // Get active volunteers
+    const volunteers = (staticData?.users || [])
+        .filter(u => u.active && u.role === 'Freiwillige')
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    let html = '<div class="my-shifts-dropdown-header">Wer bist du?</div>';
+
+    if (myShiftsUserId) {
+        html += '<div class="my-shifts-dropdown-item my-shifts-change" data-action="clear">Auswahl aufheben</div>';
+    }
+
+    volunteers.forEach(user => {
+        const selectedClass = user.id === myShiftsUserId ? ' selected' : '';
+        html += `<div class="my-shifts-dropdown-item${selectedClass}" data-user-id="${user.id}">${user.name}</div>`;
+    });
+
+    dropdown.innerHTML = html;
+
+    // Position below the button
+    const rect = anchorEl.getBoundingClientRect();
+    dropdown.style.top = (rect.bottom + 4) + 'px';
+
+    // Center dropdown under button, but keep it on screen
+    const dropdownWidth = 220;
+    let left = rect.left + (rect.width / 2) - (dropdownWidth / 2);
+    left = Math.max(8, Math.min(left, window.innerWidth - dropdownWidth - 8));
+    dropdown.style.left = left + 'px';
+
+    dropdown.classList.remove('hidden');
+
+    // Click handlers for items
+    dropdown.querySelectorAll('.my-shifts-dropdown-item[data-user-id]').forEach(item => {
+        item.addEventListener('click', () => {
+            myShiftsUserId = item.dataset.userId;
+            localStorage.setItem('myShiftsUserId', myShiftsUserId);
+            myShiftsActive = true;
+            selectedUserId = myShiftsUserId;
+            dropdown.classList.add('hidden');
+            updateMyShiftsButtonState();
+            updateUserList();
+            updateCalendarHighlights();
+        });
+    });
+
+    // Clear handler
+    const clearItem = dropdown.querySelector('[data-action="clear"]');
+    if (clearItem) {
+        clearItem.addEventListener('click', () => {
+            myShiftsUserId = null;
+            myShiftsActive = false;
+            selectedUserId = null;
+            localStorage.removeItem('myShiftsUserId');
+            dropdown.classList.add('hidden');
+            updateMyShiftsButtonState();
+            updateUserList();
+            updateCalendarHighlights();
+        });
+    }
+}
+
+function updateMyShiftsButtonState() {
+    const desktopBtn = document.getElementById('myShiftsBtn');
+    const mobileBtn = document.getElementById('mobileMyShiftsBtn');
+
+    [desktopBtn, mobileBtn].forEach(btn => {
+        if (!btn) return;
+        if (myShiftsActive && selectedUserId === myShiftsUserId) {
+            btn.classList.add('my-shifts-active');
+        } else {
+            btn.classList.remove('my-shifts-active');
+        }
+    });
+}
+
+function validateMyShiftsUser() {
+    if (myShiftsUserId && staticData?.users) {
+        const userExists = staticData.users.find(u => u.id === myShiftsUserId && u.active);
+        if (!userExists) {
+            myShiftsUserId = null;
+            myShiftsActive = false;
+            localStorage.removeItem('myShiftsUserId');
+        }
+    }
+}
+
+function autoActivateMyShifts() {
+    validateMyShiftsUser();
+    if (myShiftsUserId) {
+        myShiftsActive = true;
+        selectedUserId = myShiftsUserId;
+        updateMyShiftsButtonState();
+        updateUserList();
+        updateCalendarHighlights();
+    }
+}
+
+// ========== End My Shifts Feature ==========
 
 // Lock management helper functions
 function isShiftLocked(lockedTimestamp) {
@@ -213,8 +414,7 @@ function refreshButtonStates() {
     
     const manageUsersButton = document.getElementById('manageUsers');
     const mobileManageUsersButton = document.getElementById('mobileManageUsers');
-    const exportButton = document.getElementById('exportCalendar');
-    
+
     // Handle manage users buttons
     if (manageUsersButton) {
         if (isBackoffice) {
@@ -225,7 +425,7 @@ function refreshButtonStates() {
             manageUsersButton.style.visibility = 'hidden';
         }
     }
-    
+
     if (mobileManageUsersButton) {
         if (isBackoffice) {
             mobileManageUsersButton.style.display = 'block';
@@ -235,25 +435,7 @@ function refreshButtonStates() {
             mobileManageUsersButton.style.visibility = 'hidden';
         }
     }
-    
-    // Handle export button visibility based on view mode and user role
-    if (exportButton) {
-        if (isMobileView) {
-            // Mobile view: hide for backoffice, show for others
-            if (isBackoffice) {
-                exportButton.style.setProperty('display', 'none', 'important');
-                exportButton.style.setProperty('visibility', 'hidden', 'important');
-            } else {
-                exportButton.style.setProperty('display', 'flex', 'important');
-                exportButton.style.setProperty('visibility', 'visible', 'important');
-            }
-        } else {
-            // Desktop view: show for everyone
-            exportButton.style.setProperty('display', 'block', 'important');
-            exportButton.style.setProperty('visibility', 'visible', 'important');
-        }
-    }
-    
+
 }
 
 // In script.js
@@ -275,7 +457,6 @@ function setupUI() {
     const mobileUserInfoElement = document.getElementById('mobileUserInfo');
     const topNavbar = document.querySelector('.top-navbar');
     const userListPanel = document.querySelector('.user-list-panel');
-    const exportButton = document.getElementById('exportCalendar');
     const freezeToggleBtn = document.getElementById('freezeToggleBtn');
     const navbarAuth = document.querySelector('.navbar-auth');
     
@@ -376,24 +557,6 @@ function setupUI() {
         mobileManageUsersButton.style.display = 'block';
       } else {
         mobileManageUsersButton.style.display = 'none';
-      }
-    }
-    
-    // Handle export button visibility based on view mode and user role
-    if (exportButton) {
-      if (isMobileView) {
-        // Mobile view: hide for backoffice, show for others
-        if (isBackoffice) {
-          exportButton.style.setProperty('display', 'none', 'important');
-          exportButton.style.setProperty('visibility', 'hidden', 'important');
-        } else {
-          exportButton.style.setProperty('display', 'flex', 'important');
-          exportButton.style.setProperty('visibility', 'visible', 'important');
-        }
-      } else {
-        // Desktop view: show for everyone
-        exportButton.style.setProperty('display', 'block', 'important');
-        exportButton.style.setProperty('visibility', 'visible', 'important');
       }
     }
     
@@ -1818,6 +1981,8 @@ async function initializeApp() {
         setupEventListeners();
         MonthYearPicker.init();
         setupMobileMenu();
+        initMyShiftsButton();
+        autoActivateMyShifts();
         updateUserList();
         initializeDeleteConfirmation();
         updateCurrentDayDisplay();
@@ -1854,8 +2019,6 @@ async function initializeApp() {
             const currentUser = AuthManager.getCurrentUser();
             const isBackoffice = isAuthenticated && currentUser && currentUser.role === 'Backoffice';
             const isMobileView = window.innerWidth <= 768;
-            const exportButton = document.getElementById('exportCalendar');
-            
         };
         
         if (typeof SchreibdienstFeature !== 'undefined') {
@@ -2476,8 +2639,11 @@ function setupEventListeners() {
         }
     });
 
-    // Export Modal
-    document.getElementById('exportCalendar').addEventListener('click', showExportModal);
+    // Export Modal (moved to sidebar)
+    const sidebarExportBtn = document.getElementById('sidebarExportCalendar');
+    if (sidebarExportBtn) {
+        sidebarExportBtn.addEventListener('click', showExportModal);
+    }
     
     // User management modal (navbar version - may not exist)
     const manageUsersBtn = document.getElementById('manageUsers');
@@ -2931,7 +3097,7 @@ function setupMobileMenu() {
     
     // Mobile menu specific buttons
     const mobileManageUsersButton = document.getElementById('mobileManageUsers');
-    const mobileExportCalendarButton = document.getElementById('mobileExportCalendar');
+    const mobileMyShiftsButton = document.getElementById('mobileMyShiftsBtn');
     const mobileAuthButton = document.getElementById('mobileAuthButton');
     const mobileUserInfo = document.getElementById('mobileUserInfo');
   
@@ -3029,13 +3195,7 @@ function setupMobileMenu() {
       });
     }
     
-    if (mobileExportCalendarButton) {
-      mobileExportCalendarButton.addEventListener('click', () => {
-        // Show export modal
-        showExportModal();
-        closeSidebar(); // Close the sidebar after action
-      });
-    }
+    // My Shifts button is handled by initMyShiftsButton()
     
     if (mobileAuthButton) {
       mobileAuthButton.addEventListener('click', () => {
@@ -3189,6 +3349,9 @@ function updateUserList() {
                 } else {
                     selectedUserId = user.id;
                 }
+                // Sync My Shifts button state
+                myShiftsActive = (selectedUserId === myShiftsUserId);
+                updateMyShiftsButtonState();
                 updateUserList(); // Update highlighting in user list
                 updateCalendarHighlights();
             });
