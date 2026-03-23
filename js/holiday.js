@@ -456,11 +456,11 @@ async function loadHolidays() {
                         <div class="holiday-date-row">
                             <div class="holiday-date-group">
                                 <label class="holiday-date-label" for="holiday-start">Startdatum</label>
-                                <input type="text" id="holiday-start" class="holiday-date-input" placeholder="dd.mm.yyyy" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+                                <input type="date" id="holiday-start" class="holiday-date-input">
                             </div>
                             <div class="holiday-date-group">
                                 <label class="holiday-date-label" for="holiday-end">Enddatum</label>
-                                <input type="text" id="holiday-end" class="holiday-date-input" placeholder="dd.mm.yyyy" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+                                <input type="date" id="holiday-end" class="holiday-date-input">
                             </div>
                         </div>
                         <button class="holiday-add-btn">Ferien hinzufügen</button>
@@ -632,11 +632,9 @@ async function loadHolidays() {
             updateHolidayList();
             updateHolidayStripes();
             
-            // Clear inputs and reset to text type for placeholder
+            // Clear inputs
             startInput.value = '';
-            startInput.type = 'text';
             endInput.value = '';
-            endInput.type = 'text';
 
             console.log('Holiday added successfully:', createdHoliday);
         } catch (error) {
@@ -702,11 +700,11 @@ async function loadHolidays() {
             userNameEl.textContent = user.name;
         }
         
-        // Clear form and reset to text type for placeholder
+        // Clear form
         const startInput = document.getElementById('holiday-start');
         const endInput = document.getElementById('holiday-end');
-        if (startInput) { startInput.value = ''; startInput.type = 'text'; }
-        if (endInput) { endInput.value = ''; endInput.type = 'text'; }
+        if (startInput) startInput.value = '';
+        if (endInput) endInput.value = '';
         
         // Update holiday list
         updateHolidayList();
