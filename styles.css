@@ -359,7 +359,7 @@ body.frozen-state {
     gap: 10px;
     column-gap: 20px;
     background: var(--background-primary);
-    padding: 40px;
+    padding: 60px 40px;
     border-radius: 20px;
     outline: 0px solid #ff5252;
     outline-offset: 8px;
@@ -368,6 +368,15 @@ body.frozen-state {
 .empty-day {
     min-height: 60px;
     visibility: hidden;
+}
+
+/* Weekday labels above first occurrence of each weekday */
+.weekday-label {
+    color: #838080;
+    font-size: 13px;
+    position: absolute;
+    top: -22px;
+    left: 0;
 }
 
 /* Day Card Styles */
@@ -1641,10 +1650,10 @@ body.frozen-state {
         width: 100%;
         max-width: 100%;
         font-size: 14px;
-        gap: 15px;
+        gap: 0px;
         grid-template-columns: repeat(5, minmax(50px, 1fr));
         margin-top: 0px;
-        padding: 40px 16px;
+        padding: 60px 16px;
         border-radius: 15px;
         column-gap: 15px;
         outline: none;

@@ -1922,10 +1922,26 @@ function renderCalendar() {
         calendar.appendChild(emptyDay);
     }
 
+    // Track which weekdays have received their label (1=Mon..5=Fri)
+    const weekdayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'];
+    const labeledWeekdays = new Set();
+
     // Create day cards (skipping weekends)
     for (let day = 1; day <= daysInMonth; day++) {
         if (!isWeekend(currentYear, currentMonth, day)) {
             const dayCard = createDayCard(day);
+
+            // Add weekday label on first occurrence of each weekday
+            const jsDay = new Date(currentYear, currentMonth - 1, day).getDay(); // 0=Sun..6=Sat
+            const weekdayIndex = jsDay - 1; // 0=Mon..4=Fri
+            if (weekdayIndex >= 0 && weekdayIndex <= 4 && !labeledWeekdays.has(weekdayIndex)) {
+                labeledWeekdays.add(weekdayIndex);
+                const label = document.createElement('span');
+                label.className = 'weekday-label';
+                label.textContent = weekdayNames[weekdayIndex];
+                dayCard.appendChild(label);
+            }
+
             calendar.appendChild(dayCard);
             ensureScheduleDataExists(day);
             updateDayCard(day);
