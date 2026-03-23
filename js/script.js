@@ -3410,20 +3410,22 @@ function initializeDeleteConfirmation() {
             container.classList.remove('active');
             setTimeout(() => {
                 container.style.display = 'none';
+                container.classList.add('hidden');
             }, 300);
         });
     }
-    
+
     // Confirm button handler
     if (confirmBtn) {
         confirmBtn.addEventListener('click', () => {
             if (pendingDeleteUserId) {
                 performUserDeletion(pendingDeleteUserId);
-                
+
                 // Hide confirmation
                 container.classList.remove('active');
                 setTimeout(() => {
                     container.style.display = 'none';
+                    container.classList.add('hidden');
                 }, 300);
             }
         });
@@ -4071,8 +4073,15 @@ function updateUserTable() {
         row.className = `role-${userRole.toLowerCase()}`;
         
         row.innerHTML = `
-            <td class="user-name-cell">${user.name}</td>
-            <td class="role-cell">${userRole}</td>
+            <td class="user-name-cell">
+                <input type="text" class="user-name-input" value="${user.name.replace(/"/g, '&quot;')}" data-original="${user.name.replace(/"/g, '&quot;')}">
+            </td>
+            <td class="role-cell">
+                <select class="user-role-select">
+                    <option value="Freiwillige" ${userRole === 'Freiwillige' ? 'selected' : ''}>Freiwillige</option>
+                    <option value="Backoffice" ${userRole === 'Backoffice' ? 'selected' : ''}>Backoffice</option>
+                </select>
+            </td>
             <td class="flags-cell">
                 <div class="flag-select">
                     <div class="flag-select-value">
@@ -4098,14 +4107,42 @@ function updateUserTable() {
                 </div>
             </td>
             <td class="actions-cell">
-                <button class="button-delete" id="delete-user-${user.id}">Delete</button>
+                <button class="button-delete" id="delete-user-${user.id}">Löschen</button>
             </td>
         `;
         
         tbody.appendChild(row);
         
-        // Event handler setup code (same as before)
-        
+        // Name edit handler
+        const nameInput = row.querySelector('.user-name-input');
+        if (nameInput) {
+            const saveName = async () => {
+                const newName = nameInput.value.trim();
+                const originalName = nameInput.dataset.original;
+                if (newName && newName !== originalName) {
+                    await updateUserProperty(user.id, 'name', newName);
+                    nameInput.dataset.original = newName;
+                    updateUserList();
+                } else if (!newName) {
+                    nameInput.value = originalName;
+                }
+            };
+            nameInput.addEventListener('blur', saveName);
+            nameInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { e.preventDefault(); nameInput.blur(); }
+                if (e.key === 'Escape') { nameInput.value = nameInput.dataset.original; nameInput.blur(); }
+            });
+        }
+
+        // Role change handler
+        const roleSelect = row.querySelector('.user-role-select');
+        if (roleSelect) {
+            roleSelect.addEventListener('change', async (e) => {
+                await updateUserProperty(user.id, 'role', e.target.value);
+                updateUserList();
+            });
+        }
+
         // Starter checkbox handler
         const starterCheckbox = row.querySelector('.user-starter');
         if (starterCheckbox) {
@@ -4189,9 +4226,9 @@ function showDeleteConfirmation(userId) {
     
     // Show the confirmation dialog
     if (confirmationContainer) {
+        confirmationContainer.classList.remove('hidden');
         confirmationContainer.style.display = 'block';
-        
-        // Add fade-in animation
+
         setTimeout(() => {
             confirmationContainer.classList.add('active');
         }, 10);

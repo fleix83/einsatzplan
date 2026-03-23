@@ -800,11 +800,11 @@ body.frozen-state {
 
 .modal-content {
     background: var(--bg-white);
-    width: 80%;
-    max-width: 600px;
-    margin: 110px auto;
-    padding: 20px;
-    border-radius: 8px;
+    width: 90%;
+    max-width: 780px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 12px;
 }
 
 /* Button Styles */
@@ -1328,12 +1328,12 @@ body.frozen-state {
 .modal-content {
     background: #ffffff;
     width: 90%;
-    max-width: 600px;
-    margin: 110px auto;
-    border-radius: 8px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    max-width: 780px;
+    margin: 80px auto;
+    padding: 0;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    animation: modalAppear 0.3s ease;
 }
 
 @keyframes modalAppear {
@@ -1346,13 +1346,12 @@ body.frozen-state {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    background: linear-gradient(to right, #f5f5f5, #f0f0f0);
-    border-bottom: 1px solid #eaeaea;
+    padding: 28px 32px 20px;
+    background: none;
 }
 
 .modal-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin: 0;
     color: #333;
     font-weight: 600;
@@ -1363,8 +1362,7 @@ body.frozen-state {
     border: none;
     font-size: 1.8rem;
     cursor: pointer;
-    color: #888;
-    transition: color 0.2s;
+    color: #aaa;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1375,14 +1373,12 @@ body.frozen-state {
 
 .modal-close-button:hover {
     color: #333;
-    background: rgba(0, 0, 0, 0.05);
 }
 
 /* User add section */
 .user-add-section {
-    padding: 20px;
-    background: #fcfcfc;
-    border-bottom: 1px solid #eaeaea;
+    padding: 0 32px 24px;
+    background: none;
 }
 
 .user-form {
@@ -1394,27 +1390,24 @@ body.frozen-state {
 #newUserName {
     flex: 2;
     padding: 10px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
     border-radius: 6px;
     font-size: 14px;
-    transition: border-color 0.2s;
 }
 
 #newUserName:focus {
-    border-color: var(--primary-color);
+    border-color: #ccc;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(23, 96, 255, 0.1);
 }
 
 #newUserRole {
     flex: 1;
     padding: 10px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
     border-radius: 6px;
     font-size: 14px;
     background-color: #fff;
     cursor: pointer;
-    transition: border-color 0.2s;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -1426,14 +1419,13 @@ body.frozen-state {
 }
 
 #newUserRole:focus {
-    border-color: var(--primary-color);
+    border-color: #ccc;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(23, 96, 255, 0.1);
 }
 
 /* Button styles */
 .button-primary {
-    background: #2196F3; /* Consider var(--primary-color) */
+    background: #333;
     color: white;
     border: none;
     border-radius: 6px;
@@ -1441,14 +1433,13 @@ body.frozen-state {
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s;
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
 .button-primary:hover {
-    background: #1976D2; /* Consider var(--primary-dark) */
+    background: #222;
 }
 
 .button-icon {
@@ -1458,8 +1449,8 @@ body.frozen-state {
 
 /* User table container */
 .user-table-container {
-    padding: 20px;
-    max-height: 400px;
+    padding: 0 32px 28px;
+    max-height: 480px;
     overflow-y: auto;
 }
 
@@ -1467,30 +1458,28 @@ body.frozen-state {
 .user-table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .user-table thead {
-    background: #f7f7f7;
     position: sticky;
     top: 0;
     z-index: 10;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background: #fff;
 }
 
 .user-table th {
     text-align: left;
-    padding: 12px 15px;
-    font-weight: 600;
-    color: #555;
-    font-size: 14px;
+    padding: 12px 18px;
+    font-weight: 500;
+    color: #999;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #eee;
 }
 
 .user-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee;
+    padding: 10px 18px;
     vertical-align: middle;
 }
 
@@ -1499,20 +1488,41 @@ body.frozen-state {
 }
 
 .user-table tr:hover {
-    background-color: #f9f9f9;
+    background-color: #fafafa;
 }
 
 .name-column {
-    width: 40%;
+    width: 30%;
 }
 
 .role-column {
-    width: 35%;
+    width: 22%;
+}
+
+.flags-column {
+    width: 30%;
 }
 
 .actions-column {
-    width: 25%;
+    width: 18%;
     text-align: right;
+}
+
+/* Editable name input in user table */
+.user-name-input {
+    width: 100%;
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-family: inherit;
+    border-radius: 4px;
+}
+
+.user-name-input:focus {
+    border-color: transparent;
+    background: #fff;
+    outline: none;
 }
 
 /* Role dropdown in table */
@@ -1542,18 +1552,41 @@ body.frozen-state {
 
 /* Delete button */
 .button-delete {
-    background: #ff5454;
-    color: white;
+    background: none;
+    color: #e53935;
     border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
+    padding: 6px 0;
     font-size: 13px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    opacity: 0.5;
 }
 
 .button-delete:hover {
-    background: #e53935;
+    opacity: 1;
+}
+
+/* Role select in user table */
+.user-role-select {
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 6px 8px;
+    padding-right: 24px;
+    font-size: 14px;
+    font-family: inherit;
+    border-radius: 4px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3e%3cpath d='M1 1l4 4 4-4' fill='none' stroke='%23333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 10px;
+}
+
+.user-role-select:focus {
+    background-color: #fff;
+    outline: none;
 }
 
 /* Role colors for visual identity */
@@ -1920,12 +1953,10 @@ body.frozen-state {
     }
 
     .modal-content {
-        .modal-content {
         width: 100%;
         height: 100%;
         margin: 40px auto;
         padding: 40px 0px;
-    }
     }
 
     .user-form {
@@ -2208,23 +2239,17 @@ body.frozen-state {
 }
 
 .flag-select-value {
-    padding: 6px 10px;
-    border: 1px solid #ddd;
+    padding: 6px 8px;
+    padding-right: 24px;
+    border: 1px solid transparent;
     border-radius: 4px;
     font-size: 14px;
-    background: white;
+    background: transparent;
     position: relative;
-    min-width: 120px;
-}
-
-.flag-select-value::after {
-    content: '▼';
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 10px;
-    color: #666;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3e%3cpath d='M1 1l4 4 4-4' fill='none' stroke='%23333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 10px;
 }
 
 .flag-dropdown {
@@ -2234,11 +2259,11 @@ body.frozen-state {
     left: 0;
     right: 0;
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 8px;
     margin-top: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    padding: 4px 0;
 }
 
 .flag-select.active .flag-dropdown {
@@ -2248,15 +2273,14 @@ body.frozen-state {
 .flag-option {
     display: flex;
     align-items: center;
-    padding: 8px 10px;
+    padding: 8px 12px;
     font-size: 14px;
     color: #333;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
 .flag-option:hover {
-    background-color: #f5f5f5;
+    background-color: #fafafa;
 }
 
 .flag-option input[type="checkbox"] {
@@ -2439,36 +2463,36 @@ body.frozen-state {
     width: 80%;
     max-width: 320px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     z-index: 102;
     overflow: hidden;
 }
 
 .delete-confirmation-header {
-    padding: 15px 20px;
-    background: #f7f7f7;
-    border-bottom: 1px solid #eee;
+    padding: 20px 24px 0;
+    background: none;
 }
 
 .delete-confirmation-header h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 16px;
     color: #333;
+    font-weight: 600;
 }
 
 .delete-confirmation-body {
-    padding: 20px;
+    padding: 12px 24px 20px;
     line-height: 1.5;
-    color: #555;
+    color: #888;
+    font-size: 14px;
 }
 
 .delete-confirmation-actions {
     display: flex;
     justify-content: flex-end;
-    padding: 15px 20px;
-    background: #f9f9f9;
-    border-top: 1px solid #eee;
+    padding: 16px 24px;
+    background: none;
     gap: 10px;
 }
 
@@ -6103,9 +6127,16 @@ body.frozen-state {
     font-weight: 600;
 }
 
+.role-backoffice .user-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .role-backoffice .user-name-cell::before {
     content: "👑";
-    margin-right: 5px;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
 /* Error message styling */
