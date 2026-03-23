@@ -18,6 +18,10 @@
     box-sizing: border-box;
 }
 
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
 
 /* Variables */
 :root {
@@ -47,9 +51,6 @@
 
 /* Global Layout */
 body {
-    font-family: 'Open Sans', serif;
-    font-family: 'Nunito Sans', serif;
-    font-family: 'Cabin', serif;
     font-family: "DIN Next Rounded LT W01 Regular";
     max-width: 1400px;
     margin: 0 auto;
@@ -438,17 +439,6 @@ body.frozen-state {
     transition: background-color 0.2s ease, box-shadow 0.6s ease;
 }
 
-/* Subtle hover effect for all shifts - DISABLED to allow proper hover colors */
-/* 
-.shift-left:hover, .shift-right:hover,
-.shift-left.red:hover, .shift-right.red:hover,
-.shift-left.orange:hover, .shift-right.orange:hover,
-.shift-left.green:hover, .shift-right.green:hover,
-.shift-left.schreibdienst-single:hover, .shift-right.schreibdienst-single:hover {
-    box-shadow: inset -90px -87px 87px -3px  rgba(0, 0, 0, 0.012) !important;
-}
-*/
-
 .shift-label {
     position: absolute;
     font-size: 18px;
@@ -635,14 +625,6 @@ body.frozen-state {
     display: none;
 }
 
-/* Keep holiday stripes visible during hover/selection - commented out problematic rules */
-/* .shift-left.highlight-selected .holiday-stripe,
-.shift-right.highlight-selected .holiday-stripe,
-.shift-left.highlight-hover .holiday-stripe,
-.shift-right.highlight-hover .holiday-stripe {
-    display: none;
-} */
-
 /* Keep the original rule for backward compatibility */
 .day-card.all-shifts-dimmed .holiday-stripe {
     display: none;
@@ -772,17 +754,6 @@ body.frozen-state {
     flex-direction: column;
     gap: 10px;
     width: 100%;
-}
-
-.user-item {
-    display: flex;
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: var(--background-primary);
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 37px;
-    box-sizing: border-box;
 }
 
 .user-item:hover {
@@ -1014,16 +985,6 @@ body.frozen-state {
     display: flex;
     flex-direction: column;
     gap: 5px;
-}
-
-.holiday-user {
-    color: white;
-    background: #3a6d99;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 14px;
-    text-align: center;
-    min-width: 80px;
 }
 
 .hover-custom-event-item {
@@ -4766,38 +4727,6 @@ body.frozen-state {
     margin-right: 4px;
     color: var(--primary-color);
 }
-
-/* .button-export,
-.button-secondary,
-.button-freeze {
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-} */
-
-/* .button-export:hover,
-.button-secondary:hover,
-.button-freeze:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-} */
-
-/* .button-export:active,
-.button-secondary:active,
-.button-freeze:active {
-    transform: translateY(1px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-} */
 
 .button-export {
     color: #333;

@@ -206,7 +206,6 @@ function getUrlParams() {
 
 // Function to refresh UI button states
 function refreshButtonStates() {
-    console.log('refreshButtonStates: Forcing button visibility refresh');
     const isAuthenticated = AuthManager.isAuthenticated();
     const currentUser = AuthManager.getCurrentUser();
     const isBackoffice = isAuthenticated && currentUser && currentUser.role === 'Backoffice';
@@ -255,15 +254,6 @@ function refreshButtonStates() {
         }
     }
     
-    console.log('refreshButtonStates: Completed', {
-        isAuthenticated,
-        currentUser: currentUser ? currentUser.name : 'none',
-        role: currentUser ? currentUser.role : 'none',
-        isBackoffice,
-        isMobileView,
-        manageUsersVisible: manageUsersButton ? manageUsersButton.style.display : 'not found',
-        exportButtonVisible: exportButton ? exportButton.style.display : 'not found'
-    });
 }
 
 // In script.js
@@ -354,10 +344,8 @@ function setupUI() {
         // CUSTOM EVENTS BUTTON - Force create for backoffice users
         if (typeof CustomEventsFeature !== 'undefined' && 
             typeof CustomEventsFeature.addCustomEventButton === 'function') {
-            console.log('Calling addCustomEventButton from setupUI');
             CustomEventsFeature.addCustomEventButton();
         } else {
-            console.log('CustomEventsFeature not available or missing addCustomEventButton function');
             // Fallback: Add the button directly
             addCustomEventButtonDirectly();
         }
@@ -373,21 +361,12 @@ function setupUI() {
     if (manageUsersButton) {
       // Only show to authenticated Backoffice users
       // Hide for all other cases (unauthenticated, Freiwillige, etc.)
-      console.log('setupUI: Managing user button visibility', {
-        isAuthenticated,
-        currentUser: currentUser ? currentUser.name : 'none',
-        role: currentUser ? currentUser.role : 'none',
-        isBackoffice
-      });
-      
       if (isBackoffice) {
         manageUsersButton.style.display = 'block';
         manageUsersButton.style.visibility = 'visible';
-        console.log('setupUI: Showing manage users button for backoffice user');
       } else {
         manageUsersButton.style.display = 'none';
         manageUsersButton.style.visibility = 'hidden';
-        console.log('setupUI: Hiding manage users button for non-backoffice user');
       }
     }
     
@@ -407,17 +386,14 @@ function setupUI() {
         if (isBackoffice) {
           exportButton.style.setProperty('display', 'none', 'important');
           exportButton.style.setProperty('visibility', 'hidden', 'important');
-          console.log('setupUI: Hiding export button for backoffice user in mobile view');
         } else {
           exportButton.style.setProperty('display', 'flex', 'important');
           exportButton.style.setProperty('visibility', 'visible', 'important');
-          console.log('setupUI: Showing export button for non-backoffice user in mobile view');
         }
       } else {
         // Desktop view: show for everyone
         exportButton.style.setProperty('display', 'block', 'important');
         exportButton.style.setProperty('visibility', 'visible', 'important');
-        console.log('setupUI: Showing export button in desktop view');
       }
     }
     
@@ -425,10 +401,8 @@ function setupUI() {
     if (isMobileView && freezeToggleBtn) {
       if (isBackoffice) {
         freezeToggleBtn.style.display = 'flex';
-        console.log('setupUI: Showing freeze button for backoffice user in mobile view');
       } else {
         freezeToggleBtn.style.display = 'none';
-        console.log('setupUI: Hiding freeze button for non-backoffice user in mobile view');
       }
     }
     
@@ -497,7 +471,6 @@ function setupUI() {
                 if (typeof CustomEventsFeature !== 'undefined') {
                     if (typeof CustomEventsFeature.init === 'function' && 
                         typeof CustomEventsFeature.openCustomEventModal !== 'function') {
-                        console.log('Initializing CustomEventsFeature on demand');
                         await CustomEventsFeature.init();
                     }
                     
@@ -525,7 +498,6 @@ function setupUI() {
             navbarControls.appendChild(eventBtn);
         }
         
-        console.log('Custom event button added directly in setupUI');
     }
 }
    
@@ -588,7 +560,6 @@ function updateUrlParams() {
 
 // Function to navigate months using chevron buttons
 function navigateMonth(direction) {
-    console.log('navigateMonth called with direction:', direction, 'current:', { currentMonth, currentYear });
 
     if (direction === 'prev') {
         currentMonth--;
@@ -608,7 +579,6 @@ function navigateMonth(direction) {
     if (currentYear < 2025) currentYear = 2025;
     if (currentYear > 2030) currentYear = 2030;
 
-    console.log('After navigation:', { currentMonth, currentYear });
 
     // Update the display
     updateDateDisplay();
@@ -620,7 +590,6 @@ function navigateMonth(direction) {
 
 // Function to update the date display text
 function updateDateDisplay() {
-    console.log('updateDateDisplay called');
     const monthNames = GermanDateFormatter ?
         GermanDateFormatter.months :
         ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
@@ -628,10 +597,8 @@ function updateDateDisplay() {
 
     const displayText = monthNames[currentMonth - 1] + ' ' + currentYear;
     const monthYearText = document.getElementById('monthYearText');
-    console.log('monthYearText element:', monthYearText, 'displayText:', displayText);
     if (monthYearText) {
         monthYearText.textContent = displayText;
-        console.log('Updated display to:', displayText);
     } else {
         console.warn('monthYearText element not found!');
     }
@@ -643,7 +610,6 @@ const MonthYearPicker = {
     isVisible: false,
 
     init() {
-        console.log('MonthYearPicker.init() called');
         const monthGrid = document.getElementById('monthGrid');
         const pickerYearPrev = document.getElementById('pickerYearPrev');
         const pickerYearNext = document.getElementById('pickerYearNext');
@@ -708,11 +674,9 @@ const MonthYearPicker = {
             });
         }
 
-        console.log('MonthYearPicker initialized with', monthNames.length, 'months');
     },
 
     show() {
-        console.log('MonthYearPicker.show() called');
         const picker = document.getElementById('monthYearPicker');
         if (!picker) {
             console.warn('Picker element not found');
@@ -737,11 +701,9 @@ const MonthYearPicker = {
         }, 10);
 
         this.isVisible = true;
-        console.log('Picker displayed');
     },
 
     hide() {
-        console.log('MonthYearPicker.hide() called');
         const picker = document.getElementById('monthYearPicker');
         if (!picker) return;
 
@@ -757,7 +719,6 @@ const MonthYearPicker = {
     },
 
     async selectMonth(month) {
-        console.log('MonthYearPicker.selectMonth() called with month:', month);
 
         // Update global state
         currentMonth = month;
@@ -784,11 +745,9 @@ const MonthYearPicker = {
         // Hide picker
         this.hide();
 
-        console.log('Calendar updated to:', currentMonth, currentYear);
     },
 
     navigateYear(direction) {
-        console.log('MonthYearPicker.navigateYear() called with direction:', direction);
 
         if (direction === 'prev' && this.pickerYear > 2025) {
             this.pickerYear--;
@@ -813,11 +772,9 @@ const MonthYearPicker = {
             nextBtn.disabled = this.pickerYear >= 2030;
         }
 
-        console.log('Picker year changed to:', this.pickerYear);
     },
 
     updateMonthGrid() {
-        console.log('MonthYearPicker.updateMonthGrid() called');
         const monthButtons = document.querySelectorAll('.month-btn');
 
         monthButtons.forEach(btn => {
@@ -862,14 +819,12 @@ const MonthYearPicker = {
 
         picker.style.left = `${left}px`;
 
-        console.log('Picker positioned at:', { top: picker.style.top, left: picker.style.left });
     }
 };
 
 // Initialize data from API instead of localStorage
 async function initializeData() {
     try {
-        console.log('Daten von API laden');
         
         // Create skeleton data structure
         staticData = {
@@ -903,7 +858,6 @@ async function initializeData() {
             // Just continue with empty schedule
         }
         
-        console.log('Daten erfolgreich von API geladen');
     } catch (error) {
         console.error('Fehler beim Laden der Daten von API:', error);
         // Create default data if API fails
@@ -914,7 +868,6 @@ async function initializeData() {
 // Function to load users from API
 async function loadUsers() {
     try {
-        console.log('Benutzer von API laden');
         
         // Make request without requiring auth
         const response = await fetch('api/users.php');
@@ -934,55 +887,12 @@ async function loadUsers() {
         
         // Normalize user IDs to strings to ensure consistent type matching
         staticData.users = users.map(u => ({ ...u, id: String(u.id) }));
-        console.log('Benutzer geladen:', users.length, '(IDs normalized to strings)');
     } catch (error) {
         console.error('Fehler beim Laden der Benutzer:', error);
         throw error;
     }
 }
 
-
-// Function to load schedule data for a specific month
-async function loadScheduleData(year, month) {
-    try {
-        console.log(`Planungsdaten für ${year}-${month} laden`);
-        
-        // Make request without requiring auth
-        const response = await fetch(`api/shifts.php?year=${year}&month=${month}`);
-        
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(`Fehler beim Laden der Planungsdaten: ${response.statusText || errorData.error || 'Unbekannter Fehler'}`);
-        }
-        
-        const data = await response.json();
-        
-        // Initialize structure if needed
-        if (!staticData.schedules[year]) staticData.schedules[year] = {};
-        staticData.schedules[year][month] = {};
-        
-        // Check if we have a valid array
-        if (!Array.isArray(data)) {
-            console.warn('Unerwartetes Antwortformat von der Schicht-API:', data);
-            return;
-        }
-        
-        // Format the data from API to match our expected structure
-        data.forEach(shift => {
-            // Rest of your existing code
-        });
-        
-        console.log(`${data.length} Schichten für ${year}-${month} geladen`);
-    } catch (error) {
-        console.error('Fehler beim Laden der Planungsdaten:', error);
-        
-        // Initialize with empty data on error
-        if (!staticData.schedules[year]) staticData.schedules[year] = {};
-        staticData.schedules[year][month] = {};
-        
-        throw error;
-    }
-}
 
 // Function to load schedule data for a specific month
 async function loadScheduleData(year, month) {
@@ -1055,7 +965,6 @@ async function loadScheduleData(year, month) {
             }
         });
         
-        console.log(`Planungsdaten für ${year}-${month} geladen`);
     } catch (error) {
         console.error('Fehler beim Laden der Planungsdaten:', error);
         throw error;
@@ -1065,7 +974,6 @@ async function loadScheduleData(year, month) {
 // Replace saveData with API-specific save function
 // This function is no longer needed as we'll save directly when changes are made
 function saveData() {
-    console.log('saveData() ist jetzt ein No-op - Daten werden direkt in der Datenbank gespeichert');
     // No longer saving to localStorage
 }
 
@@ -1272,10 +1180,6 @@ async function addUser(name, role, email, password) {
 // Function to delete a user (after confirmation)
 async function performUserDeletion(userId) {
     try {
-        console.log(`DEBUG: Starting user deletion for ID: ${userId}`);
-        console.log(`DEBUG: Current auth status:`, AuthManager.isAuthenticated());
-        console.log(`DEBUG: Current user:`, AuthManager.getCurrentUser());
-        console.log(`DEBUG: Current token:`, AuthManager.getToken());
         
         // First, call the API to delete the user from the database
         // Add token to URL for server compatibility
@@ -1288,8 +1192,6 @@ async function performUserDeletion(userId) {
             }
         });
         
-        console.log(`DEBUG: Response status: ${response.status}`);
-        console.log(`DEBUG: Response headers:`, response.headers);
         
         // Check if the API call was successful
         if (!response.ok) {
@@ -1298,7 +1200,6 @@ async function performUserDeletion(userId) {
             throw new Error(errorData.error || `Fehler beim Löschen des Benutzers (${response.status})`);
         }
         
-        console.log(`API-Löschung erfolgreich für Benutzer ${userId}`);
         
         // Find user index in local data
         const userIndex = staticData.users.findIndex(u => u.id === userId);
@@ -1355,7 +1256,6 @@ async function performUserDeletion(userId) {
 // Function to update user flags
 async function updateUserProperty(userId, property, value) {
     try {
-        console.log(`Benutzer ${userId} aktualisieren, setze ${property} auf ${value}`);
         
         // Convert JavaScript camelCase to API snake_case for property names
         const apiPropertyMap = {
@@ -1371,7 +1271,6 @@ async function updateUserProperty(userId, property, value) {
         const apiProperty = apiPropertyMap[property] || property;
         updateData[apiProperty] = value;
         
-        console.log('API-Update-Payload:', updateData);
         
         // Check if we're authenticated
         if (!AuthManager.isAuthenticated()) {
@@ -1391,7 +1290,6 @@ async function updateUserProperty(userId, property, value) {
             body: JSON.stringify(updateData)
         });
         
-        console.log('API-Antwort-Status:', response.status);
         
         if (!response.ok) {
             const errorData = await response.json();
@@ -1408,11 +1306,9 @@ async function updateUserProperty(userId, property, value) {
                 staticData.users[userIndex][property] = value;
             }
             
-            console.log(`Lokale Daten für Benutzer ${userId} aktualisiert:`, staticData.users[userIndex]);
             
             // If this is a flag change that affects colors or display, update all day cards
             if (property === 'isStarter' || property === 'isSchreibdienst' || property === 'isSpecialist') {
-                console.log(`Flag ${property} auf ${staticData.users[userIndex][property]} geändert, alle Tageskarten werden aktualisiert...`);
                 
                 // Force immediate refresh of all day cards
                 refreshAllDayCards();
@@ -1482,7 +1378,6 @@ function refreshAllDayCards() {
             }
         });
         
-        console.log(`Alle Tageskarten aktualisiert mit erzwungenem Neuzeichnen`);
     }
 }
 
@@ -1555,7 +1450,6 @@ async function ensureScheduleDataExists(day) {
 // Update shift when user selection changes
 async function updateShift(day, shift, position, userId, note, forceEdit = false) {
     try {
-        console.log(`Updating shift: day=${day}, shift=${shift}, position=${position}, userId=${userId}, force=${forceEdit}`);
 
         // Format the date to YYYY-MM-DD
         const date = new Date(Date.UTC(currentYear, currentMonth - 1, day, 12, 0, 0));
@@ -1617,7 +1511,6 @@ async function updateShift(day, shift, position, userId, note, forceEdit = false
         // Don't show notification for automatic updates (only when user clicks "Speichern")
         await refreshShiftUI(day, false);
 
-        console.log(`Updated shift ${shift} position ${position+1} for ${formattedDate} to user ${userId}`);
         return true; // Return true to indicate success
     } catch (error) {
         console.error('Error updating shift:', error);
@@ -1630,15 +1523,11 @@ async function updateShift(day, shift, position, userId, note, forceEdit = false
 // Function to refresh all UI elements after shift changes
 async function refreshShiftUI(day, showNotification = true) {
     try {
-        console.log(`Refreshing UI for day ${day}`);
         
         // Check if user data needs reloading (if it's missing or empty)
         if (!staticData.users || staticData.users.length === 0) {
-            console.log('User data missing or empty, reloading...');
             await loadUsers();
-            console.log(`User data reloaded, total users: ${staticData.users.length}`);
         } else {
-            console.log(`User data already loaded, ${staticData.users.length} users available`);
         }
         
         // Update the specific day card (colors and styling)
@@ -1659,7 +1548,6 @@ async function refreshShiftUI(day, showNotification = true) {
                 const dayData = staticData.schedules[currentYear][currentMonth][day];
                 
                 if (dayData && shiftLeft && shiftRight) {
-                    console.log(`Re-rendering names for day ${day}`, dayData);
                     
                     // Re-render names for both shifts
                     renderUserNamesInShifts(shiftLeft, dayData.E1, 'E1');
@@ -1672,7 +1560,6 @@ async function refreshShiftUI(day, showNotification = true) {
         setTimeout(() => {
             const hoverPanel = document.getElementById('hoverInfoPanel');
             if (hoverPanel && hoverPanel.classList.contains('visible')) {
-                console.log(`Refreshing hover info for day ${day}`);
                 // Force complete rebuild of hover info
                 updateHoverInfo(day, true);
             }
@@ -1691,7 +1578,6 @@ async function refreshShiftUI(day, showNotification = true) {
             calendar.offsetHeight;
         }
         
-        console.log(`UI refresh completed for day ${day}`);
         
         // Show success notification only when explicitly requested (e.g., user clicks "Speichern")
         if (showNotification) {
@@ -1781,7 +1667,6 @@ async function updateCalendar() {
         
         // Also load holiday data if that module is active
         if (typeof HolidayFeature !== 'undefined' && typeof HolidayFeature.loadHolidays === 'function') {
-            console.log('🏖️ Loading holidays from updateCalendar');
             await HolidayFeature.loadHolidays();
         } else {
             console.warn('🏖️ HolidayFeature not available or loadHolidays function missing');
@@ -1789,7 +1674,6 @@ async function updateCalendar() {
 
         // Add this line after loading holiday data:
         if (typeof CustomEventsFeature !== 'undefined' && typeof CustomEventsFeature.loadCustomEvents === 'function') {
-            console.log("Loading custom events during calendar update");
             await CustomEventsFeature.loadCustomEvents();
             
             // After loading, make sure indicators are updated
@@ -1883,88 +1767,6 @@ function renderCalendar() {
     updateUrlParams();
 }
 
-// Separate function for rendering calendar (extracted from your original updateCalendar function)
-function renderCalendar() {
-    const calendar = document.getElementById('calendar');
-    
-    if (!calendar) {
-        console.error('Calendar element not found in renderCalendar');
-        return;
-    }
-    
-    calendar.innerHTML = '';
-    
-    const monthTitle = document.getElementById('monthTitle');
-    if (monthTitle) {
-        // Force correct month title format here
-        monthTitle.textContent = GermanDateFormatter.formatMonthYear(new Date(currentYear, currentMonth - 1, 1));
-        console.log('Month title set correctly to:', monthTitle.textContent);
-    }
-
-    calendar.innerHTML = '';
-    
-    monthTitle.textContent = GermanDateFormatter.formatMonthYear(new Date(currentYear, currentMonth - 1, 1));
-    monthTitle.textContent = `${getMonthName(currentMonth)} ${currentYear}`;
-    
-    const today = new Date();
-    const todayDate = today.getDate();
-    const todayMonth = today.getMonth() + 1;
-    const todayYear = today.getFullYear();
-
-    const dayNumber = document.getElementById('dayNumber');
-    const dayName = document.getElementById('dayName');
-
-    // Show current day if we're viewing the current month/year
-    if (dayNumber && dayName) {
-        if (todayMonth === currentMonth && todayYear === currentYear) {
-            dayNumber.textContent = todayDate;
-            dayName.textContent = getDayName(currentYear, currentMonth, todayDate);
-        } else {
-            dayNumber.textContent = '1';
-            dayName.textContent = getDayName(currentYear, currentMonth, 1);
-        }
-    }
-
-    const daysInMonth = getDaysInMonth(currentYear, currentMonth);
-    
-    // Find first visible day (first non-weekend day)
-    const firstVisibleDay = getFirstVisibleDay(currentYear, currentMonth);
-    
-    // Get weekday of first visible day (1 = Monday, 2 = Tuesday, ..., 5 = Friday)
-    const firstVisibleDayWeekday = new Date(currentYear, currentMonth - 1, firstVisibleDay).getDay();
-    
-    // Calculate empty cells needed (weekday position - 1)
-    // Convert Sunday (0) to 5 and Saturday (6) to 4 if needed
-    let weekdayPosition = firstVisibleDayWeekday;
-    if (weekdayPosition === 0) weekdayPosition = 5;      // Sunday -> Friday
-    if (weekdayPosition === 6) weekdayPosition = 4;      // Saturday -> Thursday
-    
-    const emptyCount = weekdayPosition - 1;
-    
-    // Add empty cells
-    for (let i = 0; i < emptyCount; i++) {
-        const emptyDay = document.createElement('div');
-        emptyDay.className = 'empty-day';
-        calendar.appendChild(emptyDay);
-    }
-
-    // Create day cards (skipping weekends)
-    for (let day = 1; day <= daysInMonth; day++) {
-        if (!isWeekend(currentYear, currentMonth, day)) {
-            const dayCard = createDayCard(day);
-            calendar.appendChild(dayCard);
-            ensureScheduleDataExists(day);
-            updateDayCard(day);
-        }
-    }
-
-    updateUserList();
-    updateCalendarHighlights();
-    highlightCurrentDay();
-    
-    // Update URL to match current view
-    updateUrlParams();
-}
 
 // Initialize application with API data
 async function initializeApp() {
@@ -2001,7 +1803,6 @@ async function initializeApp() {
         
         // Force holiday stripe update after initial calendar load
         if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
-            console.log('🏖️ Force updating holiday stripes after initial calendar load');
             setTimeout(() => {
                 HolidayFeature.updateHolidayStripes();
             }, 500); // Small delay to ensure DOM is fully rendered
@@ -2026,24 +1827,19 @@ async function initializeApp() {
         
         // Initialize modules if they exist
         if (typeof HolidayFeature !== 'undefined') {
-            console.log('🏖️ Initializing HolidayFeature');
             await HolidayFeature.init();
-            console.log('🏖️ HolidayFeature initialized');
         } else {
             console.warn('🏖️ HolidayFeature not found during initialization');
         }
 
         // Initialize Specialist Events Feature
         if (typeof SpecialistEventsFeature !== 'undefined') {
-            console.log('[SPECIALIST] Initializing SpecialistEventsFeature');
             await SpecialistEventsFeature.init();
-            console.log('[SPECIALIST] SpecialistEventsFeature initialized');
         } else {
             console.warn('[SPECIALIST] SpecialistEventsFeature not found during initialization');
         }
 
         // Force another setupUI call to ensure button visibility is correct
-        console.log('initializeApp: Calling setupUI again to ensure proper button visibility');
         setupUI();
         
         // Also call refreshButtonStates to be absolutely sure
@@ -2060,20 +1856,6 @@ async function initializeApp() {
             const isMobileView = window.innerWidth <= 768;
             const exportButton = document.getElementById('exportCalendar');
             
-            console.log('DEBUG BUTTON STATES:', {
-                isAuthenticated,
-                currentUser: currentUser ? currentUser.name : 'none',
-                role: currentUser ? currentUser.role : 'none',
-                isBackoffice,
-                isMobileView,
-                windowWidth: window.innerWidth,
-                exportButton: exportButton ? {
-                    display: exportButton.style.display,
-                    visibility: exportButton.style.visibility,
-                    computedDisplay: window.getComputedStyle(exportButton).display,
-                    computedVisibility: window.getComputedStyle(exportButton).visibility
-                } : 'not found'
-            });
         };
         
         if (typeof SchreibdienstFeature !== 'undefined') {
@@ -2345,28 +2127,6 @@ function addFreezeButton() {
     
     // Update button state
     updateFreezeButton();
-}
-
-// Update freeze button appearance - only change the icon, no text
-function updateFreezeButton() {
-    const freezeBtn = document.getElementById('freezeToggleBtn');
-    if (!freezeBtn) return;
-    
-    // Add brief animation when state changes
-    freezeBtn.classList.add('state-changing');
-    setTimeout(() => {
-        freezeBtn.classList.remove('state-changing');
-    }, 500);
-    
-    if (isCalendarFrozen) {
-        // Frozen state - ONLY the icon, no text
-        freezeBtn.innerHTML = '<span class="button-icon">🔒</span>';
-        freezeBtn.classList.add('frozen');
-    } else {
-        // Unfrozen state - ONLY the icon, no text
-        freezeBtn.innerHTML = '<span class="button-icon">🔓</span>';
-        freezeBtn.classList.remove('frozen');
-    }
 }
 
 // Update freeze button text and appearance
@@ -2650,11 +2410,9 @@ function setupEventListeners() {
     const prevMonthBtn = document.getElementById('prevMonthBtn');
     const nextMonthBtn = document.getElementById('nextMonthBtn');
 
-    console.log('Setting up date navigator buttons:', { prevMonthBtn, nextMonthBtn });
 
     if (prevMonthBtn) {
         prevMonthBtn.addEventListener('click', async (e) => {
-            console.log('Previous month clicked');
             e.preventDefault();
             e.stopPropagation();
             navigateMonth('prev');
@@ -2670,7 +2428,6 @@ function setupEventListeners() {
 
     if (nextMonthBtn) {
         nextMonthBtn.addEventListener('click', async (e) => {
-            console.log('Next month clicked');
             e.preventDefault();
             e.stopPropagation();
             navigateMonth('next');
@@ -2908,7 +2665,6 @@ function updateAllDayCards() {
     
     // Update holiday stripes after calendar is rendered
     if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
-        console.log('🏖️ Updating holiday stripes after calendar render');
         HolidayFeature.updateHolidayStripes();
     }
 }
@@ -3285,7 +3041,6 @@ function setupMobileMenu() {
       mobileAuthButton.addEventListener('click', () => {
         // Toggle authentication state (same as main auth button)
         if (AuthManager.isAuthenticated()) {
-          console.log('Mobile logout clicked - calling logout and stopping execution');
           // Set flag immediately to prevent any further execution
           window._logoutInProgress = true;
           AuthManager.logout();
@@ -3293,7 +3048,6 @@ function setupMobileMenu() {
         } else {
           // Check if logout is in progress to prevent showLoginDialog
           if (window._logoutInProgress) {
-            console.log('Logout in progress, ignoring showLoginDialog call');
             return;
           }
           AuthManager.showLoginDialog();
@@ -4502,7 +4256,6 @@ function formatNotesWithUserNames(dayData, shiftType) {
 
 // Function to show modal for mobile devices
 function showMobileModal(day, shiftType, shiftElement) {
-    console.log('Showing mobile modal for day:', day, 'shift:', shiftType);
     
     // Hide any visible hover info panel first
     const hoverPanel = document.getElementById('hoverInfoPanel');
@@ -4634,15 +4387,6 @@ function showMobileModal(day, shiftType, shiftElement) {
                             // More robust user finding with debugging
                             const creator = staticData.users.find(u => u.id == event.userId);
                             
-                            // Debug log if user not found
-                            if (!creator) {
-                                console.log('Mobile E1: User not found for event:', {
-                                    eventUserId: event.userId,
-                                    eventUserIdType: typeof event.userId,
-                                    availableUsers: staticData.users.map(u => ({id: u.id, idType: typeof u.id, name: u.name}))
-                                });
-                            }
-                            
                             // Format time to HH.MM format
                             const timeParts = event.time.split(':');
                             const formattedTime = `${timeParts[0]}.${timeParts[1]}`;
@@ -4708,15 +4452,6 @@ function showMobileModal(day, shiftType, shiftElement) {
                         ${e2Events.map(event => {
                             // More robust user finding with debugging
                             const creator = staticData.users.find(u => u.id == event.userId);
-                            
-                            // Debug log if user not found
-                            if (!creator) {
-                                console.log('Mobile E2: User not found for event:', {
-                                    eventUserId: event.userId,
-                                    eventUserIdType: typeof event.userId,
-                                    availableUsers: staticData.users.map(u => ({id: u.id, idType: typeof u.id, name: u.name}))
-                                });
-                            }
                             
                             // Format time to HH.MM format
                             const timeParts = event.time.split(':');
@@ -4870,7 +4605,6 @@ function showMobileModal(day, shiftType, shiftElement) {
             // Store original value BEFORE calling updateShift
             const originalValue = e.target.getAttribute('data-original-value') || '';
 
-            console.log(`Mobile: Attempting to update shift: ${shift}, position: ${position}, value: ${e.target.value}`);
 
             // Make sure we have valid data
             if (!shift || isNaN(position)) {
@@ -4961,7 +4695,6 @@ function getHolidaysForDate(year, month, day) {
     
     // Check if staticData and holidays exist
     if (!staticData || !staticData.holidays || !staticData.users) {
-        console.log(`🏖️ getHolidaysForDate: Missing data - staticData: ${!!staticData}, holidays: ${!!staticData?.holidays}, users: ${!!staticData?.users}`);
         return result;
     }
     
