@@ -206,6 +206,15 @@ function autoActivateMyShifts() {
     }
 }
 
+function reapplyMyShiftsHighlight() {
+    if (myShiftsActive && myShiftsUserId) {
+        selectedUserId = myShiftsUserId;
+        updateMyShiftsButtonState();
+        updateUserList();
+        updateCalendarHighlights();
+    }
+}
+
 // ========== End My Shifts Feature ==========
 
 // Lock management helper functions
@@ -899,6 +908,7 @@ const MonthYearPicker = {
 
         // Update URL params
         updateUrlParams();
+        reapplyMyShiftsHighlight();
 
         // Update holiday stripes if available
         if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
@@ -2040,6 +2050,9 @@ async function initializeApp() {
 
         // Initialize names toggle button state and body class
         updateNamesToggleButton();
+
+        // Re-apply My Shifts highlight after all features are initialized
+        reapplyMyShiftsHighlight();
     } catch (error) {
         console.error('Error initializing application:', error);
         // Show error message to user
@@ -2581,6 +2594,7 @@ function setupEventListeners() {
             navigateMonth('prev');
             await updateCalendar();
             updateUrlParams();
+            reapplyMyShiftsHighlight();
 
             // Update holiday stripes after month change
             if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
@@ -2596,6 +2610,7 @@ function setupEventListeners() {
             navigateMonth('next');
             await updateCalendar();
             updateUrlParams();
+            reapplyMyShiftsHighlight();
 
             // Update holiday stripes after month change
             if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
@@ -2619,6 +2634,7 @@ function setupEventListeners() {
         updateDateDisplay(); // Update the display text
         await updateCalendar();
         updateUrlParams();
+        reapplyMyShiftsHighlight();
 
         // Update holiday stripes after year change
         if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
@@ -2632,6 +2648,7 @@ function setupEventListeners() {
         updateDateDisplay(); // Update the display text
         await updateCalendar();
         updateUrlParams();
+        reapplyMyShiftsHighlight();
 
         // Update holiday stripes after month change
         if (typeof HolidayFeature !== 'undefined' && HolidayFeature.updateHolidayStripes) {
@@ -3692,17 +3709,14 @@ function updateDayCard(day) {
     const shiftLeft = dayCard.querySelector('.shift-left');
     const shiftRight = dayCard.querySelector('.shift-right');
 
-    // First, remove all classes except shift-left/shift-right
-    if (shiftLeft) {
-        const classes = shiftLeft.className.split(' ');
-        shiftLeft.className = 'shift-left';
-    }
-    
-    if (shiftRight) {
-        const classes = shiftRight.className.split(' ');
-        shiftRight.className = 'shift-right';
-    }
-    
+    // Preserve highlight classes across updates
+    const highlightClasses = ['highlight-hover', 'highlight-selected', 'highlight-hover-single', 'highlight-selected-single', 'dimmed'];
+    const leftHighlights = shiftLeft ? highlightClasses.filter(c => shiftLeft.classList.contains(c)) : [];
+    const rightHighlights = shiftRight ? highlightClasses.filter(c => shiftRight.classList.contains(c)) : [];
+
+    if (shiftLeft) shiftLeft.className = 'shift-left';
+    if (shiftRight) shiftRight.className = 'shift-right';
+
     // Force a browser reflow
     if (shiftLeft) shiftLeft.offsetHeight;
     if (shiftRight) shiftRight.offsetHeight;
@@ -3710,7 +3724,7 @@ function updateDayCard(day) {
     // Update E1 (left) side
     const e1Users = dayData.E1.filter(user => user !== '');
     if (shiftLeft) {
-        shiftLeft.className = 'shift-left ' + getColorClass(e1Users, 'E1');
+        shiftLeft.className = 'shift-left ' + getColorClass(e1Users, 'E1') + (leftHighlights.length ? ' ' + leftHighlights.join(' ') : '');
 
         // Add data attributes for Schreibdienst split coloring
         const e1UserObjects = e1Users.map(userId => 
@@ -3730,7 +3744,7 @@ function updateDayCard(day) {
     // Update E2 (right) side
     const e2Users = dayData.E2.filter(user => user !== '');
     if (shiftRight) {
-        shiftRight.className = 'shift-right ' + getColorClass(e2Users, 'E2');
+        shiftRight.className = 'shift-right ' + getColorClass(e2Users, 'E2') + (rightHighlights.length ? ' ' + rightHighlights.join(' ') : '');
 
         // Add data attributes for Schreibdienst split coloring
         const e2UserObjects = e2Users.map(userId => 
