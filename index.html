@@ -241,8 +241,8 @@
                 <button class="button-nav hidden" id="mobileOfficialHolidayBtn" title="Betriebsferien">
                     <span class="button-icon">🏖️</span>
                 </button>
-                <button class="button-nav" id="mobileMyShiftsBtn" title="Meine Einsätze als Standard speichern">
-                    <span class="button-icon">👤</span>
+                <button class="button-nav" id="mobileExportCalendar" title="Kalender Export">
+                    <span class="button-icon">📅</span>
                 </button>
                 <button class="button-nav" id="mobileColorCustomizeBtn" title="Farben anpassen">
                     <span class="button-icon">🎨</span>
@@ -254,12 +254,6 @@
         <div class="user-list-title">Benutzer</div>
             <div class="user-list" id="userList">
                 <!-- Users will be populated by JavaScript -->
-            </div>
-            <div class="sidebar-export">
-                <button class="button-nav" id="sidebarExportCalendar" title="Kalender Export">
-                    <span class="button-icon">📅</span>
-                    <span class="sidebar-export-label">Export</span>
-                </button>
             </div>
         </div>
 
@@ -290,6 +284,9 @@
                 <!-- Hidden selects for picker fallback -->
                 <select id="yearSelect" class="year hidden"></select>
                 <select id="monthSelect" class="hidden"></select>
+                <button class="button-nav" id="exportCalendar" title="Kalender Export">
+                    <span class="button-icon">📅</span>
+                </button>
                 <button class="button-nav" id="myShiftsBtn" title="Meine Einsätze als Standard speichern">
                     <span class="button-icon">👤</span>
                 </button>

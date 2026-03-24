@@ -13,7 +13,7 @@ let showUserNames = false; // Track if user names should be displayed in shifts
 
 function initMyShiftsButton() {
     const desktopBtn = document.getElementById('myShiftsBtn');
-    const mobileBtn = document.getElementById('mobileMyShiftsBtn');
+    const mobileBtn = null /* mobileMyShiftsBtn removed */;
 
     [desktopBtn, mobileBtn].forEach(btn => {
         if (!btn) return;
@@ -65,8 +65,7 @@ function initMyShiftsButton() {
         const dropdown = document.getElementById('myShiftsDropdown');
         if (dropdown && !dropdown.classList.contains('hidden') &&
             !dropdown.contains(e.target) &&
-            !e.target.closest('#myShiftsBtn') &&
-            !e.target.closest('#mobileMyShiftsBtn')) {
+            !e.target.closest('#myShiftsBtn')) {
             dropdown.classList.add('hidden');
         }
     });
@@ -76,8 +75,7 @@ function initMyShiftsButton() {
         const dropdown = document.getElementById('myShiftsDropdown');
         if (dropdown && !dropdown.classList.contains('hidden') &&
             !dropdown.contains(e.target) &&
-            !e.target.closest('#myShiftsBtn') &&
-            !e.target.closest('#mobileMyShiftsBtn')) {
+            !e.target.closest('#myShiftsBtn')) {
             dropdown.classList.add('hidden');
         }
     }, { passive: true });
@@ -172,7 +170,7 @@ function showMyShiftsDropdown(anchorEl) {
 
 function updateMyShiftsButtonState() {
     const desktopBtn = document.getElementById('myShiftsBtn');
-    const mobileBtn = document.getElementById('mobileMyShiftsBtn');
+    const mobileBtn = null /* mobileMyShiftsBtn removed */;
 
     [desktopBtn, mobileBtn].forEach(btn => {
         if (!btn) return;
@@ -197,7 +195,7 @@ function validateMyShiftsUser() {
 
 function autoActivateMyShifts() {
     validateMyShiftsUser();
-    if (myShiftsUserId) {
+    if (myShiftsUserId && !isBackofficeUser()) {
         myShiftsActive = true;
         selectedUserId = myShiftsUserId;
         updateMyShiftsButtonState();
@@ -445,6 +443,12 @@ function refreshButtonStates() {
         }
     }
 
+    // Hide My Shifts button for backoffice users
+    const myShiftsBtn = document.getElementById('myShiftsBtn');
+    if (myShiftsBtn) {
+        myShiftsBtn.style.display = isBackoffice ? 'none' : '';
+    }
+
 }
 
 // In script.js
@@ -569,6 +573,12 @@ function setupUI() {
       }
     }
     
+    // Hide My Shifts button for backoffice users
+    const myShiftsBtnUI = document.getElementById('myShiftsBtn');
+    if (myShiftsBtnUI) {
+        myShiftsBtnUI.style.display = isBackoffice ? 'none' : '';
+    }
+
     // Handle freeze button visibility in mobile view
     if (isMobileView && freezeToggleBtn) {
       if (isBackoffice) {
@@ -2672,10 +2682,21 @@ function setupEventListeners() {
         }
     });
 
-    // Export Modal (moved to sidebar)
-    const sidebarExportBtn = document.getElementById('sidebarExportCalendar');
-    if (sidebarExportBtn) {
-        sidebarExportBtn.addEventListener('click', showExportModal);
+    // Export Modal
+    const exportBtn = document.getElementById('exportCalendar');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', showExportModal);
+    }
+    const mobileExportBtn = document.getElementById('mobileExportCalendar');
+    if (mobileExportBtn) {
+        mobileExportBtn.addEventListener('click', () => {
+            showExportModal();
+            // Close sidebar if open
+            const userListPanel = document.querySelector('.user-list-panel');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            if (userListPanel) userListPanel.classList.remove('active');
+            if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+        });
     }
     
     // User management modal (navbar version - may not exist)
@@ -3130,7 +3151,7 @@ function setupMobileMenu() {
     
     // Mobile menu specific buttons
     const mobileManageUsersButton = document.getElementById('mobileManageUsers');
-    const mobileMyShiftsButton = document.getElementById('mobileMyShiftsBtn');
+    const mobileExportCalendarButton = document.getElementById('mobileExportCalendar');
     const mobileAuthButton = document.getElementById('mobileAuthButton');
     const mobileUserInfo = document.getElementById('mobileUserInfo');
   

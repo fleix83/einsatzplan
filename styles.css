@@ -3619,7 +3619,7 @@ body.frozen-state {
     }
 
     .backoffice-mode .navbar-controls #myShiftsBtn {
-      /* My Shifts button stays visible for all users */
+      display: none;
     }
 
     .month-title {
@@ -6227,8 +6227,8 @@ body.frozen-state {
         display: none !important;
     }
 
-    /* My Shifts button always visible */
-    .mobile-menu-buttons #mobileMyShiftsBtn {
+    /* Export button always visible in sidemenu */
+    .mobile-menu-buttons #mobileExportCalendar {
         display: flex !important;
     }
 
@@ -7361,22 +7361,3 @@ body.names-visible .specialist-event-indicator {
     transition: transform 0.15s ease;
 }
 
-/* Sidebar export button */
-.sidebar-export {
-    padding: 12px 10px;
-    border-top: 1px solid #eee;
-    flex-shrink: 0;
-}
-
-.sidebar-export .button-nav {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    justify-content: center;
-}
-
-.sidebar-export-label {
-    font-size: 13px;
-    color: #666;
-}
