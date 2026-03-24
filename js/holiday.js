@@ -456,11 +456,11 @@ async function loadHolidays() {
                         <div class="holiday-date-row">
                             <div class="holiday-date-group">
                                 <label class="holiday-date-label" for="holiday-start">Startdatum</label>
-                                <input type="date" id="holiday-start" class="holiday-date-input">
+                                <input type="date" id="holiday-start" class="holiday-date-input" autocomplete="off">
                             </div>
                             <div class="holiday-date-group">
                                 <label class="holiday-date-label" for="holiday-end">Enddatum</label>
-                                <input type="date" id="holiday-end" class="holiday-date-input">
+                                <input type="date" id="holiday-end" class="holiday-date-input" autocomplete="off">
                             </div>
                         </div>
                         <button class="holiday-add-btn">Ferien hinzufügen</button>
@@ -475,7 +475,13 @@ async function loadHolidays() {
         const container = document.createElement('div');
         container.innerHTML = modalHtml;
         document.body.appendChild(container.firstElementChild);
-        
+
+        // Ensure date inputs start empty (prevent browser autofill)
+        const startEl = document.getElementById('holiday-start');
+        const endEl = document.getElementById('holiday-end');
+        if (startEl) startEl.value = '';
+        if (endEl) endEl.value = '';
+
         // Add event listeners
         const modal = document.getElementById('holiday-modal');
         const closeBtn = modal.querySelector('.holiday-modal-close');
