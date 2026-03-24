@@ -377,6 +377,10 @@ body.frozen-state {
     position: absolute;
     top: -22px;
     left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Day Card Styles */
@@ -4780,7 +4784,7 @@ body.frozen-state {
 @media screen and (max-width: 819px) {
     .top-navbar {
         height: 56px;
-        width: 72%;
+        width: 75%;
         border-radius: 0px;
         top: 143px;
         border-radius: 40px;
