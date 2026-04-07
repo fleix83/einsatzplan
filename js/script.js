@@ -1176,9 +1176,9 @@ function initializeUserForm() {
     if (roleSelect && backofficeFields) {
         roleSelect.addEventListener('change', function() {
             if (this.value === 'Backoffice') {
-                backofficeFields.style.display = 'block';
+                backofficeFields.classList.remove('hidden');
             } else {
-                backofficeFields.style.display = 'none';
+                backofficeFields.classList.add('hidden');
                 // Clear the fields when switching back to Freiwillige
                 document.getElementById('newUserEmail').value = '';
                 document.getElementById('newUserPassword').value = '';
@@ -1343,7 +1343,7 @@ async function addUser(name, role, email, password) {
         
         // Hide Backoffice fields
         if (document.getElementById('backofficeFields')) {
-            document.getElementById('backofficeFields').style.display = 'none';
+            document.getElementById('backofficeFields').classList.add('hidden');
         }
         
         // Update UI
