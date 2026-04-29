@@ -237,7 +237,9 @@ function showLockConfirmation(userName) {
         // Set the message
         messageEl.textContent = `Dieser Einsatz ist bereits von ${userName} belegt.`;
 
-        // Show modal
+        // Show modal — remove .hidden (which carries display:none !important)
+        modal.classList.remove('hidden');
+        overlay.classList.remove('hidden');
         modal.style.display = 'block';
         overlay.style.display = 'block';
 
@@ -255,6 +257,8 @@ function showLockConfirmation(userName) {
         const cleanup = () => {
             modal.style.display = 'none';
             overlay.style.display = 'none';
+            modal.classList.add('hidden');
+            overlay.classList.add('hidden');
             yesBtn.removeEventListener('click', handleYes);
             cancelBtn.removeEventListener('click', handleCancel);
             overlay.removeEventListener('click', handleCancel);
