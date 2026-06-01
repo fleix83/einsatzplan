@@ -1041,10 +1041,10 @@ const SchreibdienstFeature = (function() {
             
             // Initialize data structure
             initializeData();
-            
-            // Load events for current month
-            await loadEvents(currentYear, currentMonth);
-            
+
+            // Schreibdienst events are already loaded by updateCalendar(), which
+            // runs before this init() during app startup. Avoid the duplicate fetch.
+
             // Add Schreibdienst event icons to day cards
             updateEventIcons();
             

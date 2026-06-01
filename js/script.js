@@ -1030,21 +1030,16 @@ async function initializeData() {
         };
         
         try {
-            // Load users from API
+            // Load users from API. The month schedule is intentionally NOT
+            // loaded here: updateCalendar() fetches it right after the URL
+            // params are applied, so loading it now would be a duplicate
+            // request (and could load the wrong month before params apply).
             await loadUsers();
         } catch (error) {
             console.error('Fehler beim Laden der Benutzer, fahre mit leerer Benutzerliste fort:', error);
             // Just continue with empty users array
         }
-        
-        try {
-            // Load current month's schedule data
-            await loadScheduleData(currentYear, currentMonth);
-        } catch (error) {
-            console.error('Fehler beim Laden der Planungsdaten, fahre mit leerem Plan fort:', error);
-            // Just continue with empty schedule
-        }
-        
+
     } catch (error) {
         console.error('Fehler beim Laden der Daten von API:', error);
         // Create default data if API fails
@@ -1844,31 +1839,52 @@ async function updateCalendar() {
     }
     
     try {
-        // Load data for the selected month
-        await loadScheduleData(currentYear, currentMonth);
-        
-        // Also load Schreibdienst events if that module is active
+        // These four data sources are independent of one another, so load
+        // them concurrently instead of serially. Each is guarded and isolated
+        // so that one failing endpoint cannot reject the whole batch.
+        const loadTasks = [];
+
+        // Schedule (shifts) data for the selected month
+        loadTasks.push(
+            loadScheduleData(currentYear, currentMonth)
+                .catch(error => console.error('Fehler beim Laden der Planungsdaten:', error))
+        );
+
+        // Schreibdienst events, if that module is active
         if (typeof SchreibdienstFeature !== 'undefined' && typeof SchreibdienstFeature.loadEvents === 'function') {
-            await SchreibdienstFeature.loadEvents(currentYear, currentMonth);
+            loadTasks.push(
+                Promise.resolve(SchreibdienstFeature.loadEvents(currentYear, currentMonth))
+                    .catch(error => console.error('Fehler beim Laden der Schreibdienst-Daten:', error))
+            );
         }
-        
-        // Also load holiday data if that module is active
+
+        // Holiday data, if that module is active
         if (typeof HolidayFeature !== 'undefined' && typeof HolidayFeature.loadHolidays === 'function') {
-            await HolidayFeature.loadHolidays();
+            loadTasks.push(
+                Promise.resolve(HolidayFeature.loadHolidays())
+                    .catch(error => console.error('Fehler beim Laden der Ferien-Daten:', error))
+            );
         } else {
             console.warn('🏖️ HolidayFeature not available or loadHolidays function missing');
         }
 
-        // Add this line after loading holiday data:
+        // Custom events, if that module is active
+        let customEventsLoaded = false;
         if (typeof CustomEventsFeature !== 'undefined' && typeof CustomEventsFeature.loadCustomEvents === 'function') {
-            await CustomEventsFeature.loadCustomEvents();
-            
-            // After loading, make sure indicators are updated
-            if (typeof CustomEventsFeature.updateCustomEventIndicators === 'function') {
-                CustomEventsFeature.updateCustomEventIndicators();
-            }
+            loadTasks.push(
+                Promise.resolve(CustomEventsFeature.loadCustomEvents())
+                    .then(() => { customEventsLoaded = true; })
+                    .catch(error => console.error('Fehler beim Laden der benutzerdefinierten Termine:', error))
+            );
         }
-        
+
+        await Promise.all(loadTasks);
+
+        // After loading, make sure custom event indicators are updated
+        if (customEventsLoaded && typeof CustomEventsFeature.updateCustomEventIndicators === 'function') {
+            CustomEventsFeature.updateCustomEventIndicators();
+        }
+
         // Now render the calendar with the loaded data
         renderCalendar();
     } catch (error) {
@@ -5085,9 +5101,8 @@ function initializeLegendTabs() {
 
 // Start the application with async loading
 document.addEventListener('DOMContentLoaded', function() {
-    // Small delay to ensure all elements are properly available
-    setTimeout(() => {
-        initializeApp();
-        initializeLegendModal();
-    }, 200);
+    // DOMContentLoaded already guarantees the parsed DOM is available,
+    // so start immediately instead of waiting on an artificial timer.
+    initializeApp();
+    initializeLegendModal();
 });

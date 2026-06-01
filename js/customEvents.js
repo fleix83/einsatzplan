@@ -1102,10 +1102,10 @@ function updateCustomEventList() {
             
             // Set up event handlers for day cards
             setupDayCardHandlers();
-            
-            // Load custom events from API
-            await loadCustomEvents();
-            
+
+            // Custom events are already loaded by updateCalendar(), which runs
+            // before this init() during app startup. Avoid the duplicate fetch.
+
             // Set up mutation observer
             setupMutationObserver();
             

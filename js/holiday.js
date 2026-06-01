@@ -764,10 +764,10 @@ async function loadHolidays() {
             
             // Initialize data structure
             initializeHolidayData();
-            
-            // Load holiday data from API
-            await loadHolidays();
-            
+
+            // Holiday data is already loaded by updateCalendar(), which runs
+            // before this init() during app startup. Avoid the duplicate fetch.
+
             // Add stripes to day cards
             updateHolidayStripes();
             
