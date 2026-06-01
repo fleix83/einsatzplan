@@ -4784,19 +4784,28 @@ body.frozen-state {
 @media screen and (max-width: 819px) {
     .top-navbar {
         height: 56px;
-        width: 75%;
-        border-radius: 0px;
+        /* Shrink-wrap the content instead of a fixed 75% width so a long
+           month name (e.g. "September 2025") can never overflow the pill,
+           while max-width keeps it inside the viewport. */
+        width: fit-content;
+        max-width: calc(100vw - 20px);
         top: 143px;
         border-radius: 40px;
         margin-left: 10px;
     }
 
     .navbar-container {
-        padding: 0 15px;
+        padding: 0 12px;
+        /* Don't force 100% width; size to the controls so the rounded
+           container always matches its content. */
+        width: fit-content;
+        max-width: 100%;
     }
 
     .navbar-controls {
-        gap: 8px;
+        gap: 6px;
+        /* Never wrap or overflow horizontally inside the pill. */
+        flex-wrap: nowrap;
     }
 
     .navbar-controls select {
