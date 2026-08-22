@@ -5,10 +5,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 
 // Load email configuration
-$emailConfig = require_once '../config/email_config.php';
+$emailConfig = require __DIR__ . '/../config/email_config.php';
 
 // PHPMailer configuration
 // For production, install PHPMailer via composer: composer require phpmailer/phpmailer
@@ -200,13 +200,14 @@ function sendEmailWithPHPMailer($email, $subject, $message) {
         if (file_exists($phpmailerPath)) {
             require_once $phpmailerPath;
         } else {
-            // Fall back to basic mail with SMTP simulation
+            error_log('Email: PHPMailer not installed (vendor/ missing) - falling back to mail(), delivery is unreliable');
             return sendEmailWithBasicSMTP($email, $subject, $message);
         }
     }
-    
+
     // If PHPMailer is still not available, use basic SMTP
     if (!class_exists('PHPMailer\PHPMailer\PHPMailer')) {
+        error_log('Email: PHPMailer class unavailable after autoload - falling back to mail(), delivery is unreliable');
         return sendEmailWithBasicSMTP($email, $subject, $message);
     }
     
@@ -235,9 +236,11 @@ function sendEmailWithPHPMailer($email, $subject, $message) {
         $mail->send();
         return true;
     } catch (PHPMailer\PHPMailer\Exception $e) {
-        error_log('PHPMailer Error: ' . $mail->ErrorInfo);
-        // Try fallback method
-        return sendEmailWithBasicSMTP($email, $subject, $message);
+        // Do NOT fall back to mail() here: on Linux hosting it ignores the SMTP
+        // settings and reports success even when nothing is delivered, hiding
+        // the real error. Fail visibly so password_reset_logs records it.
+        error_log('PHPMailer Error sending to ' . $email . ': ' . $mail->ErrorInfo);
+        return false;
     }
 }
 
@@ -266,7 +269,10 @@ function sendEmailWithBasicSMTP($email, $subject, $message) {
     ];
     
     $result = mail($email, $subject, $message, implode("\r\n", $headers));
-    
+    if (!$result) {
+        error_log('Email: mail() fallback failed for ' . $email);
+    }
+
     // Restore original settings
     ini_set('sendmail_from', $originalSendmailFrom);
     ini_set('SMTP', $originalSMTPHost);

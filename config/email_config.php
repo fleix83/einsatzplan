@@ -4,7 +4,10 @@
 
 return [
     'smtp' => [
-        'host' => 'luminelli.ch',
+        // Must be a *.metanet.ch hostname: since June 2026 the Metanet mail
+        // server presents a *.metanet.ch certificate that does not cover
+        // luminelli.ch, so TLS verification fails with the domain hostname.
+        'host' => 'hira2.metanet.ch',
         'port' => 465,
         'encryption' => 'ssl', // SSL/TLS for port 465
         'auth' => true,
