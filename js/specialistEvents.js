@@ -12,23 +12,26 @@ const SpecialistEventsFeature = (function() {
     let _currentYear = null;
     let selectedEventId = null;
 
-    // Accessor methods to ensure we always have current values
+    // Accessor methods to ensure we always have current values.
+    // Always read the live calendar view state (globals from script.js /
+    // the selectors) instead of a cached value: a stale cache made month
+    // navigation keep loading the previously viewed month.
     function getCurrentYear() {
-        if (!_currentYear) {
-            _currentYear = window.currentYear ||
-                parseInt(document.getElementById('yearSelect')?.value) ||
-                new Date().getFullYear();
+        if (typeof currentYear !== 'undefined' && currentYear) {
+            return parseInt(currentYear);
         }
-        return _currentYear;
+        return parseInt(document.getElementById('yearSelect')?.value) ||
+            _currentYear ||
+            new Date().getFullYear();
     }
 
     function getCurrentMonth() {
-        if (!_currentMonth) {
-            _currentMonth = window.currentMonth ||
-                parseInt(document.getElementById('monthSelect')?.value) ||
-                new Date().getMonth() + 1;
+        if (typeof currentMonth !== 'undefined' && currentMonth) {
+            return parseInt(currentMonth);
         }
-        return _currentMonth;
+        return parseInt(document.getElementById('monthSelect')?.value) ||
+            _currentMonth ||
+            new Date().getMonth() + 1;
     }
 
     function getCurrentDay() {
@@ -929,8 +932,10 @@ const SpecialistEventsFeature = (function() {
             // Initialize data structure
             initializeSpecialistEventsData();
 
-            // Load specialist events from API
-            await loadSpecialistEvents();
+            // Specialist events are already loaded by updateCalendar(), which
+            // runs before this init() during app startup. Avoid the duplicate
+            // fetch and only (re)draw the indicators here.
+            updateSpecialistEventIndicators();
 
             console.log('[SPECIALIST] Specialist Events Feature initialized successfully');
 
