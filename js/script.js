@@ -1869,24 +1869,32 @@ async function updateCalendar() {
         }
 
         // Custom events, if that module is active
-        let customEventsLoaded = false;
         if (typeof CustomEventsFeature !== 'undefined' && typeof CustomEventsFeature.loadCustomEvents === 'function') {
             loadTasks.push(
                 Promise.resolve(CustomEventsFeature.loadCustomEvents())
-                    .then(() => { customEventsLoaded = true; })
                     .catch(error => console.error('Fehler beim Laden der benutzerdefinierten Termine:', error))
+            );
+        }
+
+        // Specialist events, if that module is active
+        if (typeof SpecialistEventsFeature !== 'undefined' && typeof SpecialistEventsFeature.loadSpecialistEvents === 'function') {
+            loadTasks.push(
+                Promise.resolve(SpecialistEventsFeature.loadSpecialistEvents())
+                    .catch(error => console.error('Fehler beim Laden der Fachpersonen-Termine:', error))
             );
         }
 
         await Promise.all(loadTasks);
 
-        // After loading, make sure custom event indicators are updated
-        if (customEventsLoaded && typeof CustomEventsFeature.updateCustomEventIndicators === 'function') {
-            CustomEventsFeature.updateCustomEventIndicators();
-        }
-
-        // Now render the calendar with the loaded data
+        // Now render the calendar with the loaded data. Custom events are
+        // drawn by updateDayCard() during rendering; the specialist event
+        // dots are applied as an overlay afterwards, since renderCalendar()
+        // rebuilds the day cards and would wipe previously drawn dots.
         renderCalendar();
+
+        if (typeof SpecialistEventsFeature !== 'undefined' && typeof SpecialistEventsFeature.updateSpecialistEventIndicators === 'function') {
+            SpecialistEventsFeature.updateSpecialistEventIndicators();
+        }
     } catch (error) {
         console.error('Error updating calendar:', error);
         if (calendar) {
